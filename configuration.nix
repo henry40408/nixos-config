@@ -64,8 +64,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     gcc
+    gnumake
     nixos-option
-    vim
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -94,4 +94,9 @@
   # run "sudo nix-channel --update" or you will get "cannot open database" error
   # ref: https://discourse.nixos.org/t/command-not-found-unable-to-open-database/3807/8
   programs.command-not-found.enable = true;
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+  };
 }
