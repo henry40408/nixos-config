@@ -64,6 +64,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     gcc
+    gnumake
     nixos-option
     vim
   ];
