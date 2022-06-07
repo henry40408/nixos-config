@@ -58,6 +58,7 @@ in {
 
     # GUI
     tdesktop
+    jetbrains.idea-ultimate
   ];
 
   programs.firefox.enable = true;
