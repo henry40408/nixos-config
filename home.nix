@@ -103,6 +103,14 @@ in {
     sshKeys = [ "B9D979480FA655AF6FDE0459F4F330B5D80452EF" ];
   };
   services.syncthing.enable = true;
+
+  # Cursor is too tiny on HiDPI displays
+  # ref: https://github.com/NixOS/nixpkgs/issues/34603
+  home.pointerCursor = {
+    name = "Vanilla-DMZ";
+    package = pkgs.vanilla-dmz;
+    size = 64;
+  };
 }
 
 # vim: set sw=2:

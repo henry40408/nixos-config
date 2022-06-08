@@ -40,7 +40,19 @@
   services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable the Cinnamon Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.lightdm = {
+    enable = true;
+    greeters.gtk = {
+      enable = true;
+      # Cursor is too tiny on HiDPI displays
+      # ref: https://github.com/NixOS/nixpkgs/issues/34603
+      cursorTheme = {
+        name = "Vanilla-DMZ";
+        package = pkgs.vanilla-dmz;
+        size = 64;
+      };
+    };
+  };
   services.xserver.desktopManager.cinnamon.enable = true;
 
   # don't mess up with gpg-agent with SSH support
