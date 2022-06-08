@@ -63,7 +63,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    gcc
+    home-manager
     gnumake
     nixos-option
   ];
@@ -85,11 +85,22 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  fonts.fonts = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
-    noto-fonts-cjk
-    noto-fonts-emoji
-  ];
+  fonts = {
+    enableDefaultFonts = true;
+    fonts = with pkgs; [
+      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      noto-fonts-cjk
+      noto-fonts-cjk-serif
+      noto-fonts-emoji
+    ];
+    fontconfig = {
+      defaultFonts = {
+        serif = [ "Noto Serif CJK TC" ];
+        sansSerif = [ "Noto Sans CJK TC" ];
+        monospace = [ "firacode nerd font" ];
+      };
+    };
+  };
 
   # run "sudo nix-channel --update" or you will get "cannot open database" error
   # ref: https://discourse.nixos.org/t/command-not-found-unable-to-open-database/3807/8
