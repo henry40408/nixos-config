@@ -4,6 +4,8 @@
     sha256 = "102hf35j9k5q9flazs2xwda8irvddlkkgj0xq7a8643rnbfwba28";
   };
 in {
+  nixpkgs.config.allowUnfree = true;
+
   programs.home-manager.enable = true;
 
   home.file.".config/nvim/lua".recursive = true;
