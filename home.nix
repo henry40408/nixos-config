@@ -59,8 +59,9 @@ in {
     xclip
 
     # GUI
-    tdesktop
+    copyq
     jetbrains.idea-ultimate
+    tdesktop
   ];
 
   programs.firefox.enable = true;
