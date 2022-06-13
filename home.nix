@@ -84,7 +84,12 @@ in {
   };
 
   programs.bat.enable = true;
-  programs.gh.enable = true;
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+    };
+  };
   programs.neovim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [
