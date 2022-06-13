@@ -122,4 +122,12 @@
     enable = true;
     defaultEditor = true;
   };
+
+  # Setting `/sys/module/hid_apple/parameters/fnmode` to `0` at boot? 
+  # ref: https://discourse.nixos.org/t/setting-sys-module-hid-apple-parameters-fnmode-to-0-at-boot/15570/3
+  boot.extraModprobeConfig = ''
+    options hid_apple fnmode=0
+  '';
 }
+
+# vim: ts=2 sw=2:
