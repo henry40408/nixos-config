@@ -19,6 +19,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.loader.grub.configurationLimit = 10;
+  boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
 
