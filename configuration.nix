@@ -20,6 +20,7 @@
 
   boot.loader.grub.configurationLimit = 10;
   boot.loader.grub.useOSProber = true;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_4_19;
 
   networking.hostName = "nixos"; # Define your hostname.
 
