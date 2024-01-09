@@ -83,8 +83,8 @@
   programs.ripgrep.enable = true;
   programs.zsh = {
     enable = true;
-    initExtra = (builtins.readFile ./zshrc.extra);
-    initExtraFirst = (builtins.readFile ./zshrc.extraFirst);
+    initExtra = (builtins.readFile ./zshrc.extra.zsh);
+    initExtraFirst = (builtins.readFile ./zshrc.extraFirst.zsh);
     oh-my-zsh = {
       enable = true;
       plugins = ["common-aliases" "git" "gpg-agent"];
