@@ -56,13 +56,12 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.11";
 
-  programs.ripgrep.enable = true;
-  programs.neovim.enable = true;
+  home.file.".p10k.zsh".text = (builtins.readFile ./p10k.zsh);
   home.sessionVariables = {
     EDITOR = "nvim";
   };
+
   programs.atuin.enable = true;
-  programs.gpg.enable = true;
   programs.gh = {
     enable = true;
     settings = {
@@ -71,9 +70,7 @@
   };
   programs.git = {
     enable = true;
-    delta = {
-      enable = true;
-    };
+    delta = { enable = true; };
     signing = {
       key = "2316687+henry40408@users.noreply.github.com";
       signByDefault = true;
@@ -81,10 +78,13 @@
     userName = "Heng-Yi Wu";
     userEmail = "2316687+henry40408@users.noreply.github.com";
   };
+  programs.gpg.enable = true;
+  programs.neovim.enable = true;
+  programs.ripgrep.enable = true;
   programs.zsh = {
     enable = true;
-    initExtraFirst = (builtins.readFile ./zshrc.extraFirst);
     initExtra = (builtins.readFile ./zshrc.extra);
+    initExtraFirst = (builtins.readFile ./zshrc.extraFirst);
     oh-my-zsh = {
       enable = true;
       plugins = ["common-aliases" "git" "gpg-agent"];
@@ -112,7 +112,6 @@
     ];
     syntaxHighlighting = { enable = true; };
   };
-  home.file.".p10k.zsh".text = (builtins.readFile ./p10k.zsh);
 
   services.gpg-agent = {
     enable = true;
