@@ -83,12 +83,23 @@
   };
   programs.zsh = {
     enable = true;
+    initExtraFirst = (builtins.readFile ./zshrc.extraFirst);
     initExtra = (builtins.readFile ./zshrc.extra);
     oh-my-zsh = {
       enable = true;
       plugins = ["common-aliases" "git" "gpg-agent"];
     };
     plugins = [
+      {
+        name = "powerlevel10k";
+        src = pkgs.fetchFromGitHub {
+          owner = "romkatv";
+          repo = "powerlevel10k";
+          rev = "v1.18.0";
+          sha256 = "sha256-IiMYGefF+p4bUueO/9/mJ4mHMyJYiq+67GgNdGJ6Eew=";
+        };
+	file = "powerlevel10k.zsh-theme";
+      }
       {
         name = "zsh-secrets";
         src = pkgs.fetchFromGitHub {
@@ -101,6 +112,7 @@
     ];
     syntaxHighlighting = { enable = true; };
   };
+  home.file.".p10k.zsh".text = (builtins.readFile ./p10k.zsh);
 
   services.gpg-agent = {
     enable = true;

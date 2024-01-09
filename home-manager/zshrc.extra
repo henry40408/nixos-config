@@ -1,3 +1,6 @@
+reload() {
+    exec zsh
+}
 decrypt() {
     eval "$(secrets decrypt environment)"
 }
