@@ -8,6 +8,9 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # NixOS WSL
+    nixos-wsl.url = "github:nix-community/nixos-wsl/2311.5.3";
   };
 
   outputs = {
@@ -21,17 +24,22 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
+      # FIXME hardware-configuration.nix is missing to avoid accidental commit
+      vm = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
-        modules = [./nixos/configuration.nix];
+        modules = [./hosts/vm/configuration.nix];
+      };
+      wsl = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+	modules = [./hosts/wsl/configuration.nix];
       };
     };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      "nixos@nixos" = home-manager.lib.homeManagerConfiguration {
+      "nixos@all" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
