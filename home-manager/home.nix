@@ -81,6 +81,43 @@
   programs.gpg.enable = true;
   programs.neovim.enable = true;
   programs.ripgrep.enable = true;
+  programs.tmux = {
+    enable = true;
+    extraConfig = (builtins.readFile ./tmux.extra.conf);
+    plugins = with pkgs; [
+      {
+        plugin = tmuxPlugins.battery;
+        extraConfig = ''
+        set -g @batt_remain_short true
+        '';
+      }
+      {
+        plugin = tmuxPlugins.continuum;
+        extraConfig = ''
+        set -g @continuum-restore 'on'
+        '';
+      }
+      tmuxPlugins.dracula
+      tmuxPlugins.fingers
+      tmuxPlugins.pain-control
+      {
+        plugin = tmuxPlugins.prefix-highlight;
+        extraConfig = ''
+        set -g @prefix_highlight_bg 'lightgreen'
+        set -g @prefix_highlight_empty_prompt '    '
+        set -g @prefix_highlight_fg 'black'
+        '';
+      }
+      tmuxPlugins.resurrect
+      tmuxPlugins.sensible
+      {
+        plugin = tmuxPlugins.yank;
+        extraConfig = ''
+        set -g @yank_selection_mouse 'clipboard'
+        '';
+      }
+    ];
+  };
   programs.zsh = {
     enable = true;
     initExtra = (builtins.readFile ./zshrc.extra.zsh);
@@ -120,3 +157,5 @@
   };
   services.syncthing.enable = true;
 }
+
+# vim: ts=2 sw=2 expandtab:
