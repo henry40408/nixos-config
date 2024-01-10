@@ -1,7 +1,7 @@
-.PHONY: build wsl/dry-build wsl/switch
+.PHONY: build switch os/dry-build os/switch
 
-HM_DEPS = home-manager/home.nix home-manager/zshrc.extra.zsh home-manager/zshrc.extraFirst.zsh
-WSL_DEPS = hosts/wsl/configuration.nix
+HM_DEPS = home-manager/*.nix home-manager/*.zsh
+NIXOS_DEPS = hosts/*/configuration.nix
 
 touch:
 	touch $(HM_DEPS) $(WSL_DEPS)
@@ -22,15 +22,14 @@ tmp/.hm-switch: $(HM_DEPS)
 
 # Hosts
 
-## WSL
+os/dry-build: tmp/.dry-build
 
-wsl/dry-build: tmp/.wsl-dry-build
-wsl/switch: tmp/.wsl-switch
+os/switch: tmp/.switch
 
-tmp/.wsl-dry-build: $(WSL_DEPS)
-	sudo nixos-rebuild dry-build --flake .#wsl --impure
-	touch tmp/.wsl-dry-build
+tmp/.dry-build: $(NIXOS_DEPS)
+	bash scripts/dry-run.sh
+	touch tmp/.dry-build
 
-tmp/.wsl-switch: $(WSL_DEPS)
-	sudo nixos-rebuild switch --flake .#wsl --impure
-	touch tmp/.wsl-switch
+tmp/.switch: $(NIXOS_DEPS)
+	bash scripts/switch.sh
+	touch tmp/.switch
