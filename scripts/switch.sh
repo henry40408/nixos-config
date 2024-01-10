@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -eo pipefail
 
 if [[ -n "$WSL_DISTRO_NAME" ]]; then
   flake=".#wsl"
