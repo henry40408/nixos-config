@@ -45,7 +45,7 @@
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  home.packages = with pkgs; [ gnumake ];
+  home.packages = with pkgs; [ fd gnumake ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
