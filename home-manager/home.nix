@@ -91,32 +91,22 @@
   programs.ripgrep.enable = true;
   programs.tmux = {
     enable = true;
+    baseIndex = 1;
+    clock24 = true;
+    historyLimit = 1000;
+    keyMode = "vi";
+    mouse = true;
     extraConfig = (builtins.readFile ./tmux.extra.conf);
     plugins = with pkgs; [
-      {
-        plugin = tmuxPlugins.battery;
-        extraConfig = ''
-        set -g @batt_remain_short true
-        '';
-      }
+      tmuxPlugins.resurrect # before continuum
       {
         plugin = tmuxPlugins.continuum;
         extraConfig = ''
         set -g @continuum-restore 'on'
         '';
       }
-      tmuxPlugins.dracula
       tmuxPlugins.fingers
       tmuxPlugins.pain-control
-      {
-        plugin = tmuxPlugins.prefix-highlight;
-        extraConfig = ''
-        set -g @prefix_highlight_bg 'lightgreen'
-        set -g @prefix_highlight_empty_prompt '    '
-        set -g @prefix_highlight_fg 'black'
-        '';
-      }
-      tmuxPlugins.resurrect
       tmuxPlugins.sensible
       {
         plugin = tmuxPlugins.yank;
@@ -124,7 +114,16 @@
         set -g @yank_selection_mouse 'clipboard'
         '';
       }
+      {
+        plugin = tmuxPlugins.dracula;
+        extraConfig = ''
+        set -g @dracula-plugins "attached-clients battery network weather"
+        set -g @dracula-show-fahrenheit false
+        set -g @dracula-show-location false
+        '';
+      }
     ];
+    terminal = "screen-256color";
   };
   programs.zsh = {
     enable = true;
