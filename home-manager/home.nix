@@ -45,7 +45,17 @@
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  home.packages = with pkgs; [ fd gnumake gping procs ];
+  home.packages = with pkgs; [
+    fd
+    gcc
+    gnumake
+    gping
+    lua-language-server
+    procs
+    stylua
+    unzip
+    wget
+  ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
@@ -57,9 +67,6 @@
   home.stateVersion = "23.11";
 
   home.file.".p10k.zsh".text = (builtins.readFile ./p10k.zsh);
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
 
   programs.atuin.enable = true;
   programs.bat.enable = true;
@@ -87,7 +94,19 @@
   };
   programs.gpg.enable = true;
   programs.lsd.enable = true;
-  programs.neovim.enable = true;
+  programs.lazygit.enable = true;
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    extraLuaConfig = (builtins.readFile ./neovim/extraConfig.lua);
+    extraPackages = with pkgs; [  ];
+    plugins = with pkgs.vimPlugins; [ lazy-nvim ];
+    withNodeJs = true;
+    withPython3 = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+  };
   programs.ripgrep.enable = true;
   programs.tmux = {
     enable = true;
@@ -225,6 +244,11 @@
     pinentryFlavor = "curses";
   };
   services.syncthing.enable = true;
+
+  xdg.configFile."nvim/lua" = {
+    recursive = true;
+    source = ./neovim/lua;
+  };
 }
 
 # vim: ts=2 sw=2 expandtab:
