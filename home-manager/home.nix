@@ -56,7 +56,7 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.11";
 
-  home.file.".p10k.zsh".text = (builtins.readFile ./p10k.zsh);
+  home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
 
   programs.atuin.enable = true;
   programs.bat.enable = true;
@@ -88,7 +88,7 @@
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-    extraLuaConfig = (builtins.readFile ./neovim/extraConfig.lua);
+    extraLuaConfig = (builtins.readFile ./neovim/extra.lua);
     extraPackages = with pkgs; [
       lua-language-server
       rust-analyzer
@@ -113,7 +113,7 @@
     historyLimit = 1000;
     keyMode = "vi";
     mouse = true;
-    extraConfig = (builtins.readFile ./tmux.extra.conf);
+    extraConfig = (builtins.readFile ./tmux/extra.conf);
     plugins = with pkgs; [
       tmuxPlugins.resurrect # before continuum
       {
@@ -145,8 +145,8 @@
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
-    initExtra = (builtins.readFile ./zshrc.extra.zsh);
-    initExtraFirst = (builtins.readFile ./zshrc.extraFirst.zsh);
+    initExtra = (builtins.readFile ./zsh/extra.zsh);
+    initExtraFirst = (builtins.readFile ./zsh/extra-first.zsh);
     oh-my-zsh = {
       enable = true;
       plugins = [

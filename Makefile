@@ -1,7 +1,7 @@
 .PHONY: build switch os/dry-build os/switch
 
-HM_DEPS = home-manager/*.nix home-manager/*.zsh home-manager/*.conf home-manager/neovim/*.lua home-manager/neovim/lua/plugins/*.lua
-NIXOS_DEPS = hosts/*/configuration.nix
+HM_DEPS = $(shell find home-manager -name '*.conf' -or -name '*.lua' -or -name '*.nix' -or -name '*.zsh')
+NIXOS_DEPS = $(shell find hosts -name '*.nix')
 
 touch:
 	touch $(HM_DEPS) $(WSL_DEPS)
