@@ -24,7 +24,3 @@ require("lazy").setup({
     },
   },
 })
-
-require("mason").setup({
-  PATH = "append",
-})

@@ -1,6 +1,6 @@
 .PHONY: build switch os/dry-build os/switch
 
-HM_DEPS = home-manager/*.nix home-manager/*.zsh home-manager/*.conf home-manager/*/*.lua
+HM_DEPS = home-manager/*.nix home-manager/*.zsh home-manager/*.conf home-manager/neovim/*.lua home-manager/neovim/lua/plugins/*.lua
 NIXOS_DEPS = hosts/*/configuration.nix
 
 touch:

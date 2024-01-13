@@ -45,17 +45,7 @@
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  home.packages = with pkgs; [
-    fd
-    gcc
-    gnumake
-    gping
-    lua-language-server
-    procs
-    stylua
-    unzip
-    wget
-  ];
+  home.packages = with pkgs; [ fd gcc gnumake gping procs ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
@@ -99,7 +89,15 @@
     enable = true;
     defaultEditor = true;
     extraLuaConfig = (builtins.readFile ./neovim/extraConfig.lua);
-    extraPackages = with pkgs; [  ];
+    extraPackages = with pkgs; [
+      lua-language-server
+      rust-analyzer
+      stylua
+      taplo
+      tree-sitter
+      unzip
+      wget
+    ];
     plugins = with pkgs.vimPlugins; [ lazy-nvim ];
     withNodeJs = true;
     withPython3 = true;
