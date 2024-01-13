@@ -2,9 +2,13 @@
 
 HM_DEPS = $(shell find home-manager -name '*.conf' -or -name '*.lua' -or -name '*.nix' -or -name '*.zsh')
 NIXOS_DEPS = $(shell find hosts -name '*.nix')
+NIX_FILES = $(shell find -name '*.nix')
 
 touch:
 	touch $(HM_DEPS) $(WSL_DEPS)
+
+fmt:
+	nixpkgs-fmt $(NIX_FILES)
 
 # Home manager
 

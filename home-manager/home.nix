@@ -1,11 +1,10 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
+{ inputs
+, lib
+, config
+, pkgs
+, ...
 }: {
   # You can import other home-manager modules here
   imports = [
@@ -45,7 +44,15 @@
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  home.packages = with pkgs; [ fd gcc gnumake gping procs ];
+  home.packages = with pkgs; [
+    fd
+    gcc
+    gnumake
+    gping
+    nixpkgs-fmt
+    procs
+    rustup
+  ];
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
@@ -91,6 +98,7 @@
     extraLuaConfig = (builtins.readFile ./neovim/extra.lua);
     extraPackages = with pkgs; [
       lua-language-server
+      nixpkgs-fmt
       rust-analyzer
       stylua
       taplo
@@ -119,7 +127,7 @@
       {
         plugin = tmuxPlugins.continuum;
         extraConfig = ''
-        set -g @continuum-restore 'on'
+          set -g @continuum-restore 'on'
         '';
       }
       tmuxPlugins.fingers
@@ -128,15 +136,15 @@
       {
         plugin = tmuxPlugins.yank;
         extraConfig = ''
-        set -g @yank_selection_mouse 'clipboard'
+          set -g @yank_selection_mouse 'clipboard'
         '';
       }
       {
         plugin = tmuxPlugins.dracula;
         extraConfig = ''
-        set -g @dracula-plugins "attached-clients battery network weather"
-        set -g @dracula-show-fahrenheit false
-        set -g @dracula-show-location false
+          set -g @dracula-plugins "attached-clients battery network weather"
+          set -g @dracula-show-fahrenheit false
+          set -g @dracula-show-location false
         '';
       }
     ];
