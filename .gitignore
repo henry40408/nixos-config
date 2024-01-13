@@ -1,0 +1,4 @@
+hosts/*/hardware-configuration.nix
+result
+tmp/*
+!tmp/.keep
