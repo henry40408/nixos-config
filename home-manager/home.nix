@@ -52,6 +52,7 @@
     nixpkgs-fmt
     poetry
     procs
+    python3
     ruff
     ruff-lsp
     rustup
