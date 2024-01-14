@@ -50,7 +50,10 @@
     gnumake
     gping
     nixpkgs-fmt
+    poetry
     procs
+    ruff
+    ruff-lsp
     rustup
   ];
 
@@ -67,6 +70,7 @@
 
   programs.atuin.enable = true;
   programs.bat.enable = true;
+  programs.direnv.enable = true;
   programs.fzf.enable = true;
   programs.gh = {
     enable = true;
