@@ -68,6 +68,10 @@
   home.stateVersion = "23.11";
 
   home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
+  home.sessionVariables = {
+    # https://nixos.wiki/wiki/Packaging/Quirks_and_Caveats#ImportError:_libstdc.2B.2B.so.6:_cannot_open_shared_object_file:_No_such_file
+    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib/";
+  };
 
   programs.atuin.enable = true;
   programs.bat.enable = true;
