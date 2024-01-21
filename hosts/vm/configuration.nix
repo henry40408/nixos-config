@@ -95,4 +95,13 @@
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
+
+  services.avahi = {
+    enable = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+    };
+  };
 }
