@@ -41,6 +41,7 @@
     username = "henry";
     homeDirectory = "/Users/henry";
   };
+  home.packages = with pkgs; [ automake aria mas pkg-config xcodes ];
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
