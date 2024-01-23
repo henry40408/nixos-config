@@ -1,5 +1,5 @@
 {
-  description = "Your new nix config";
+  description = "My NixOS and home-manager configuration";
 
   inputs = {
     # Nixpkgs
@@ -28,7 +28,6 @@
       nixosConfigurations = {
         vm = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
-          # > Our main nixos configuration file <
           modules = [ ./hosts/vm/configuration.nix ];
         };
         wsl = nixpkgs.lib.nixosSystem {
@@ -43,7 +42,6 @@
         "nixos@all" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
-          # > Our main home-manager configuration file <
           modules = [ ./home-manager/linux ];
         };
         "henry@macos" = home-manager.lib.homeManagerConfiguration {
