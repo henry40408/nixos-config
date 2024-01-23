@@ -17,11 +17,11 @@ build: tmp/.hm-build
 switch: tmp/.hm-switch
 
 tmp/.hm-build: $(HM_DEPS)
-	home-manager build --flake .#nixos@all
+	bash scripts/hm-build.sh
 	touch tmp/.hm-build
 
 tmp/.hm-switch: $(HM_DEPS)
-	home-manager switch --flake .#nixos@all
+	bash scripts/hm-switch.sh
 	touch tmp/.hm-switch
 
 # Hosts
