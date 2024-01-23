@@ -6,12 +6,12 @@ parent_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")
 
 if [[ "$(uname -s)" = "Darwin" ]]; then
 	nix-instantiate --eval '<home-manager/home-manager/home-manager.nix>' \
-		--argstr confPath "$parent_dir/home-manager/macos/home.nix" \
+		--argstr confPath "$parent_dir/home-manager/macos" \
 		--argstr confAttr "" \
 		-A activationPackage.outPath
 else
 	nix-instantiate --eval '<home-manager/home-manager/home-manager.nix>' \
-		--argstr confPath "$parent_dir/home-manager/linux/home.nix" \
+		--argstr confPath "$parent_dir/home-manager/linux" \
 		--argstr confAttr "" \
 		-A activationPackage.outPath
 fi
