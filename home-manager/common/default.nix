@@ -1,49 +1,9 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 { inputs
 , lib
 , config
 , pkgs
 , ...
 }: {
-  # You can import other home-manager modules here
-  imports = [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModule
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
-  ];
-
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
-    };
-  };
-
-  home = {
-    username = "nixos";
-    homeDirectory = "/home/nixos";
-  };
-
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
   home.packages = with pkgs; [
     fd
     gcc
@@ -57,15 +17,6 @@
     ruff-lsp
     rustup
   ];
-
-  # Enable home-manager and git
-  programs.home-manager.enable = true;
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.11";
 
   home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
   home.sessionVariables = {
@@ -99,8 +50,8 @@
     userEmail = "2316687+henry40408@users.noreply.github.com";
   };
   programs.gpg.enable = true;
-  programs.lsd.enable = true;
   programs.lazygit.enable = true;
+  programs.lsd.enable = true;
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -108,6 +59,8 @@
     extraPackages = with pkgs; [
       lua-language-server
       nixpkgs-fmt
+      pyright
+      rnix-lsp
       rust-analyzer
       stylua
       taplo
@@ -121,43 +74,6 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-  };
-  programs.ripgrep.enable = true;
-  programs.tmux = {
-    enable = true;
-    baseIndex = 1;
-    clock24 = true;
-    historyLimit = 1000;
-    keyMode = "vi";
-    mouse = true;
-    extraConfig = (builtins.readFile ./tmux/extra.conf);
-    plugins = with pkgs; [
-      tmuxPlugins.resurrect # before continuum
-      {
-        plugin = tmuxPlugins.continuum;
-        extraConfig = ''
-          set -g @continuum-restore 'on'
-        '';
-      }
-      tmuxPlugins.fingers
-      tmuxPlugins.pain-control
-      tmuxPlugins.sensible
-      {
-        plugin = tmuxPlugins.yank;
-        extraConfig = ''
-          set -g @yank_selection_mouse 'clipboard'
-        '';
-      }
-      {
-        plugin = tmuxPlugins.dracula;
-        extraConfig = ''
-          set -g @dracula-plugins "attached-clients battery network weather"
-          set -g @dracula-show-fahrenheit false
-          set -g @dracula-show-location false
-        '';
-      }
-    ];
-    terminal = "screen-256color";
   };
   programs.zsh = {
     enable = true;
@@ -251,19 +167,47 @@
     };
     syntaxHighlighting = { enable = true; };
   };
-  programs.zoxide.enable = true;
-
-  services.gpg-agent = {
+  programs.ripgrep.enable = true;
+  programs.tmux = {
     enable = true;
-    enableSshSupport = true;
-    pinentryFlavor = "curses";
+    baseIndex = 1;
+    clock24 = true;
+    historyLimit = 1000;
+    keyMode = "vi";
+    mouse = true;
+    extraConfig = (builtins.readFile ./tmux/extra.conf);
+    plugins = with pkgs; [
+      tmuxPlugins.resurrect # before continuum
+      {
+        plugin = tmuxPlugins.continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+        '';
+      }
+      tmuxPlugins.fingers
+      tmuxPlugins.pain-control
+      tmuxPlugins.sensible
+      {
+        plugin = tmuxPlugins.yank;
+        extraConfig = ''
+          set -g @yank_selection_mouse 'clipboard'
+        '';
+      }
+      {
+        plugin = tmuxPlugins.dracula;
+        extraConfig = ''
+          set -g @dracula-plugins "attached-clients battery network weather"
+          set -g @dracula-show-fahrenheit false
+          set -g @dracula-show-location false
+        '';
+      }
+    ];
+    terminal = "screen-256color";
   };
-  services.syncthing.enable = true;
+  programs.zoxide.enable = true;
 
   xdg.configFile."nvim/lua" = {
     recursive = true;
     source = ./neovim/lua;
   };
 }
-
-# vim: ts=2 sw=2 expandtab:

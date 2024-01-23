@@ -1,8 +1,8 @@
-.PHONY: build fmt switch touch os/dry-build os/switch
+.PHONY: dry-run fmt switch touch os/dry-build os/switch
 
 HM_DEPS = $(shell find home-manager -name '*.conf' -or -name '*.lua' -or -name '*.nix' -or -name '*.zsh')
 NIXOS_DEPS = $(shell find hosts -name '*.nix')
-NIX_FILES = $(shell find -name '*.nix')
+NIX_FILES = $(shell find . -name '*.nix')
 
 fmt:
 	nixpkgs-fmt $(NIX_FILES)
@@ -12,16 +12,16 @@ touch:
 
 # Home manager
 
-build: tmp/.hm-build
+dry-run: tmp/.hm-dry-run
 
 switch: tmp/.hm-switch
 
-tmp/.hm-build: $(HM_DEPS)
-	home-manager build --flake .#nixos@all
-	touch tmp/.hm-build
+tmp/.hm-dry-run: $(HM_DEPS)
+	bash scripts/hm-dry-run.sh
+	touch tmp/.hm-dry-run
 
 tmp/.hm-switch: $(HM_DEPS)
-	home-manager switch --flake .#nixos@all
+	bash scripts/hm-switch.sh
 	touch tmp/.hm-switch
 
 # Hosts

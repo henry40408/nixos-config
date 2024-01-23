@@ -104,4 +104,5 @@
       workstation = true;
     };
   };
+  time.timeZone = "Asia/Taipei";
 }
