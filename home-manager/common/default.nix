@@ -19,6 +19,7 @@
   ];
 
   home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
+  home.file."Develop/.envrc".text = (builtins.readFile ./envrc);
   home.sessionVariables = {
     # https://nixos.wiki/wiki/Packaging/Quirks_and_Caveats#ImportError:_libstdc.2B.2B.so.6:_cannot_open_shared_object_file:_No_such_file
     LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib/";
@@ -76,7 +77,12 @@
     vimAlias = true;
     vimdiffAlias = true;
   };
-  programs.password-store.enable = true;
+  programs.password-store = {
+    enable = true;
+    settings = {
+      PASSWORD_STORE_DIR = "$HOME/.password-store";
+    };
+  };
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
@@ -149,15 +155,6 @@
           repo = "zsh-completions";
           rev = "20f3cd5";
           sha256 = "sha256-f+FXQIks4nUFabL04fgdgwOI6WTPq6mqZ/+Jvne2CRM=";
-        };
-      }
-      {
-        name = "zsh-secrets";
-        src = pkgs.fetchFromGitHub {
-          owner = "chuwy";
-          repo = "zsh-secrets";
-          rev = "1d01c9d";
-          sha256 = "sha256-gyHQxxjE36n+yxtT5xQp0gcD0eTgts3i0IMXGt0TCQI=";
         };
       }
     ];
