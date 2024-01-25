@@ -26,6 +26,7 @@
 
   programs.atuin.enable = true;
   programs.bat.enable = true;
+  programs.command-not-found.enable = true;
   programs.direnv.enable = true;
   programs.fzf.enable = true;
   programs.gh = {
