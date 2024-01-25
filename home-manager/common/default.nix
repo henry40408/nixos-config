@@ -76,6 +76,7 @@
     vimAlias = true;
     vimdiffAlias = true;
   };
+  programs.password-store.enable = true;
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
