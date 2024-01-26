@@ -195,8 +195,10 @@
       {
         plugin = tmuxPlugins.dracula;
         extraConfig = ''
-          set -g @dracula-plugins "attached-clients battery network weather"
+          set -g @dracula-military-time true
+          set -g @dracula-plugins "battery network weather time"
           set -g @dracula-show-fahrenheit false
+          set -g @dracula-show-flags true
           set -g @dracula-show-location false
         '';
       }
