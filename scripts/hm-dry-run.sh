@@ -5,15 +5,9 @@ set -eo pipefail
 parent_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")
 
 if [[ "$(uname -s)" = "Darwin" ]]; then
-	nix-instantiate --eval '<home-manager/home-manager/home-manager.nix>' \
-		--argstr confPath "$parent_dir/home-manager/macos" \
-		--argstr confAttr "" \
-		-A activationPackage.outPath
+	home-manager build --dry-run --flake '.#henry@macos'
 else
-	nix-instantiate --eval '<home-manager/home-manager/home-manager.nix>' \
-		--argstr confPath "$parent_dir/home-manager/linux" \
-		--argstr confAttr "" \
-		-A activationPackage.outPath
+	home-manager build --dry-run --flake '.#nixos@all'
 fi
 
 # vim: set ts=2 sw=2 expandtab:
