@@ -40,4 +40,6 @@
     # Deduplicate and optimize nix store
     auto-optimise-store = true;
   };
+
+  time.timeZone = "Asia/Taipei";
 }
