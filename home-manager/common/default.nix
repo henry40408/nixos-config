@@ -16,6 +16,7 @@
     ruff
     ruff-lsp
     rustup
+    xh
   ];
 
   home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
