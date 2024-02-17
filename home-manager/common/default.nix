@@ -9,6 +9,7 @@
     gcc
     gnumake
     gping
+    hugo
     nixpkgs-fmt
     poetry
     procs
