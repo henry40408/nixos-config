@@ -7,6 +7,7 @@
   home.packages = with pkgs; [
     fd
     gcc
+    git-extras
     gnumake
     gping
     hugo
