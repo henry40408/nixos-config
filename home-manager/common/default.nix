@@ -18,6 +18,7 @@
     ruff
     ruff-lsp
     rustup
+    spacer
     xh
   ];
 
