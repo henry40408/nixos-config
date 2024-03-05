@@ -29,7 +29,13 @@
     LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib/";
   };
 
-  programs.atuin.enable = true;
+  programs.atuin = {
+    enable = true;
+    settings = {
+      inline_height = 10;
+      style = "compact";
+    };
+  };
   programs.bat.enable = true;
   programs.command-not-found.enable = true;
   programs.direnv.enable = true;
