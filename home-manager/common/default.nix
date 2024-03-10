@@ -105,6 +105,8 @@
         "command-not-found"
         "common-aliases"
         "direnv"
+        "docker"
+        "docker-compose"
         "fzf"
         "gem"
         "git"
