@@ -27,13 +27,6 @@
   # NOTE error: Neither nixpkgs.hostPlatform nor the legacy option nixpkgs.system has been set.
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  environment.systemPackages = with pkgs; [ gnumake ];
-
-  programs.git.enable = true;
-
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-
   nix.settings = {
     # Enable flakes and new 'nix' command
     experimental-features = "nix-command flakes";
@@ -42,4 +35,14 @@
   };
 
   time.timeZone = "Asia/Taipei";
+
+  environment.systemPackages = with pkgs; [ gnumake ];
+
+  programs.git.enable = true;
+  programs.zsh.enable = true;
+
+  users.defaultUserShell = pkgs.zsh;
+  users.users.nixos = { extraGroups = [ "docker" ]; };
+
+  virtualisation.docker.enable = true;
 }
