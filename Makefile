@@ -1,8 +1,8 @@
 .PHONY: dry-run fmt switch touch os/dry-build os/switch
 
 HM_DEPS = $(shell find home-manager -name '*.conf' -or -name '*.lua' -or -name '*.nix' -or -name '*.zsh')
-NIXOS_DEPS = $(shell find hosts -name '*.nix')
-NIX_FILES = $(shell find . -name '*.nix')
+NIXOS_DEPS = $(shell find hosts -name '*.nix' -or -name '*.lock')
+NIX_FILES = $(shell find . -name '*.nix' -or -name '*.lock')
 
 fmt:
 	nixpkgs-fmt $(NIX_FILES)
