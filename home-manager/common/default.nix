@@ -72,7 +72,6 @@
       lua-language-server
       nixpkgs-fmt
       pyright
-      rnix-lsp
       rust-analyzer
       stylua
       taplo
