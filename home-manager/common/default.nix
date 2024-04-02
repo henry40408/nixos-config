@@ -48,12 +48,7 @@
   };
   programs.git = {
     enable = true;
-    delta = {
-      enable = true;
-      options = {
-        side-by-side = true;
-      };
-    };
+    difftastic.enable = true;
     signing = {
       key = "2316687+henry40408@users.noreply.github.com";
       signByDefault = true;
