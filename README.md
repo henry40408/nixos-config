@@ -1,5 +1,10 @@
 # nixos-config
 
+[![Casual Maintenance Intended](https://casuallymaintained.tech/badge.svg)](https://casuallymaintained.tech/)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/henry40408/nixos-config/.github%2Fworkflows%2Fworkflow.yaml)
+![GitHub](https://img.shields.io/github/license/henry40408/nixos-config)
+![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/henry40408/nixos-config)
+
 ## Description
 
 This repository, maintained by henry40408, features configurations managed with Nix Flakes. It is organized into "home-manager" and "hosts" directories for home-manager and NixOS configurations, respectively. The project is based on the template provided by [Misterio77's nix-starter-configs](https://github.com/Misterio77/nix-starter-configs) and is designed for both WSL and VM environments.
