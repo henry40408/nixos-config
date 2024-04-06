@@ -1,0 +1,15 @@
+on: [pull_request, push]
+
+name: CI
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: cachix/install-nix-action@v26
+        with:
+          nix_path: nixpkgs=channel:nixos-23.11
+      - uses: DeterminateSystems/magic-nix-cache-action@v4
+      - uses: DeterminateSystems/flake-checker-action@v5
+      - run: nix build .#nixosConfigurations.vm.config.system.build.toplevel
