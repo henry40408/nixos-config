@@ -1,5 +1,11 @@
 return {
   {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {},
+    },
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       if type(opts.ensure_installed) == "table" then
