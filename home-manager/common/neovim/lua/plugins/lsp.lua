@@ -23,6 +23,16 @@ return {
         lua_ls = { mason = false },
         pyright = { mason = false },
         ruff_lsp = { mason = false },
+        nil_ls = {
+          mason = false,
+          settings = {
+            ["nil"] = {
+              formatting = {
+                command = { "nixpkgs-fmt" },
+              },
+            },
+          },
+        },
         rust_analyzer = { mason = false },
         taplo = { mason = false },
       },
