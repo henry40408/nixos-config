@@ -44,10 +44,10 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home-manager/linux ];
         };
-        "henry@macos" = home-manager.lib.homeManagerConfiguration {
+        "henry@darwin" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-darwin; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./home-manager/macos ];
+          modules = [ ./home-manager/darwin ];
         };
       };
     };

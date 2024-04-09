@@ -70,6 +70,7 @@
     extraLuaConfig = (builtins.readFile ./neovim/extra.lua);
     extraPackages = with pkgs; [
       lua-language-server
+      nil
       nixpkgs-fmt
       pyright
       rust-analyzer
