@@ -3,7 +3,7 @@
 set -eo pipefail
 
 if [[ "$(uname -s)" = "Darwin" ]]; then
-	flake=".#henry@macos"
+	flake=".#henry@darwin"
 else
 	flake=".#nixos@all"
 fi
