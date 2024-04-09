@@ -18,7 +18,19 @@ git clone https://github.com/henry40408/nixos-config.git
 cd nixos-config
 ```
 
+To ensure that the NixOS configuration is evaluable, also known as a dry run:
+
+```bash
+make os/dry-run
+```
+
 To deploy the NixOS configuration:
+
+(Recommended) Automatically apply the configuration based on the detected environment:
+
+```bash
+make os/switch
+```
 
 For WSL:
 
@@ -34,15 +46,23 @@ Ensure the VM boots with UEFI and has three partitions labeled "boot", "nixos", 
 sudo nixos-rebuild switch --flake .#vm
 ```
 
+To ensure that the Home Manager configuration is evaluable, also known as a dry run:
+
+```bash
+make dry-run
+```
+
 To apply the home-manager configuration:
 
 ```bash
 home-manager switch --flake .#nixos@all
+# or
+make switch
 ```
 
 ## Usage
 
-The "home-manager" directory contains user-level settings, and the "hosts" directory includes system-level configurations for different NixOS hosts. Customize by editing these files. The Flake.nix file orchestrates their integration and management.
+The "home-manager" directory contains user-level settings, and the "hosts" directory includes system-level configurations for different NixOS hosts. Customize by editing these files. The Flake.nix file orchestrates their integration and management. For more details, please refer to [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Contributing
 

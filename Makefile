@@ -1,4 +1,4 @@
-.PHONY: dry-run fmt switch touch os/dry-build os/switch
+.PHONY: dry-run fmt switch touch os/dry-run os/switch
 
 HM_DEPS = $(shell find home-manager -name '*.conf' -or -name '*.lua' -or -name '*.nix' -or -name '*.zsh')
 NIX_FILES = $(shell find . -name '*.nix')
@@ -26,13 +26,13 @@ tmp/.hm-switch: $(HM_DEPS)
 
 # Hosts
 
-os/dry-build: tmp/.dry-build
+os/dry-run: tmp/.dry-run
 
 os/switch: tmp/.switch
 
-tmp/.dry-build: $(NIXOS_DEPS)
+tmp/.dry-run: $(NIXOS_DEPS)
 	bash scripts/dry-run.sh
-	touch tmp/.dry-build
+	touch tmp/.dry-run
 
 tmp/.switch: $(NIXOS_DEPS)
 	bash scripts/switch.sh
