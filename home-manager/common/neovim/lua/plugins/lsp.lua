@@ -34,6 +34,7 @@ return {
           },
         },
         rust_analyzer = { mason = false },
+        volar = { mason = false },
         taplo = { mason = false },
       },
     },

@@ -72,6 +72,7 @@
       lua-language-server
       nil
       nixpkgs-fmt
+      nodePackages.volar
       pyright
       rust-analyzer
       stylua
