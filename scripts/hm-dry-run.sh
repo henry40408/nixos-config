@@ -5,7 +5,7 @@ set -eo pipefail
 parent_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")
 
 if [[ "$(uname -s)" = "Darwin" ]]; then
-	home-manager build --dry-run --flake '.#henry@macos'
+	home-manager build --dry-run --flake '.#henry@darwin'
 else
 	home-manager build --dry-run --flake '.#nixos@all'
 fi
