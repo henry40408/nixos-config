@@ -1,12 +1,14 @@
 tap "beeftornado/rmtree"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
+tap "xcodesorg/made"
 brew "mackup"
 cask "font-jetbrains-mono-nerd-font"
 cask "iterm2"
 cask "raycast"
 cask "setapp"
 cask "syncthing"
+cask "telegram"
 cask "vivaldi"
 mas "Amphetamine", id: 937984704
 mas "Hidden Bar", id: 1452453066
