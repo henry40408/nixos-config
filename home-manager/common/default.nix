@@ -195,7 +195,7 @@
           set -g @continuum-restore 'on'
         '';
       }
-      tmuxPlugins.fingers
+      tmuxPlugins.tmux-thumbs
       tmuxPlugins.pain-control
       tmuxPlugins.sensible
       {
