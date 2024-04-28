@@ -71,6 +71,7 @@
       lua-language-server
       nil
       nixpkgs-fmt
+      nodePackages.typescript-language-server
       nodePackages.volar
       pyright
       rust-analyzer
