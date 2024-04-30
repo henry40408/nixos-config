@@ -5,3 +5,5 @@
 -- ref: https://github.com/LazyVim/LazyVim/issues/1319
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldmethod = "expr"
+
+vim.opt.relativenumber = false
