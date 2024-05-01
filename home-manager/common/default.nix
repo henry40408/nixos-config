@@ -1,7 +1,4 @@
-{ inputs
-, lib
-, config
-, pkgs
+{ pkgs
 , ...
 }: {
   home.packages = with pkgs; [
@@ -33,6 +30,7 @@
     settings = {
       inline_height = 10;
       style = "compact";
+      update_check = false;
     };
   };
   programs.bat.enable = true;
