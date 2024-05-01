@@ -66,19 +66,26 @@
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-    extraLuaConfig = (builtins.readFile ./neovim/extra.lua);
     extraPackages = with pkgs; [
+      dockerfile-language-server-nodejs
+      fish
+      hadolint
       lua-language-server
+      markdownlint-cli
+      marksman
       nil
       nixpkgs-fmt
+      nodePackages.prettier
       nodePackages.typescript-language-server
       nodePackages.volar
       pyright
       rust-analyzer
+      shfmt
       stylua
       taplo
       tree-sitter
       unzip
+      vscode-langservers-extracted
       wget
     ];
     plugins = with pkgs.vimPlugins; [ lazy-nvim ];
@@ -220,8 +227,8 @@
   };
   programs.zoxide.enable = true;
 
-  xdg.configFile."nvim/lua" = {
+  xdg.configFile."nvim" = {
     recursive = true;
-    source = ./neovim/lua;
+    source = ./neovim;
   };
 }

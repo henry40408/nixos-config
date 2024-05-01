@@ -15,7 +15,6 @@ Common configuration shared between Darwin and Linux.
 
 - Due to [a known issue](https://github.com/williamboman/mason.nvim/issues/428), `ensure_installed` is cleared, and as a result, no language servers will be automatically installed by mason.nvim.
 - "nixpkgs-fmt" is enabled as the formatter for "nil_ls".
-- `fzf` is built with `telescope-fzf-native.nvim` when `telescope` is installed.
 
 ## home-manager/common/tmux
 
