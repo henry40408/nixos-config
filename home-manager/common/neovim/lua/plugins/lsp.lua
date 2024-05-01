@@ -8,21 +8,18 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
-      if type(opts.ensure_installed) == "table" then
-        vim.list_extend(opts.ensure_installed, {
-          "csv",
-          "nix",
-        })
-      end
+      vim.list_extend(opts.ensure_installed, { "csv", "nix" })
     end,
   },
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        docker_compose_language_service = { mason = false },
+        dockerls = { mason = false },
+        jsonls = { mason = false },
         lua_ls = { mason = false },
-        pyright = { mason = false },
-        ruff_lsp = { mason = false },
+        marksman = { mason = false },
         nil_ls = {
           mason = false,
           settings = {
@@ -33,6 +30,8 @@ return {
             },
           },
         },
+        pyright = { mason = false },
+        ruff = { mason = false },
         rust_analyzer = { mason = false },
         taplo = { mason = false },
         tsserver = { mason = false },
