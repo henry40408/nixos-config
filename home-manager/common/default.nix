@@ -16,6 +16,10 @@
     rustup
     spacer
     xh
+    zsh-autopair
+    zsh-completions
+    zsh-powerlevel10k
+    zsh-you-should-use
   ];
 
   home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
@@ -102,8 +106,16 @@
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
-    initExtra = (builtins.readFile ./zsh/extra.zsh);
-    initExtraFirst = (builtins.readFile ./zsh/extra-first.zsh);
+    initExtraFirst = ''
+      source $HOME/.p10k.zsh
+      ${builtins.readFile ./zsh/instant-prompt.zsh}
+    '';
+    initExtra = ''
+      source ${pkgs.zsh-autopair}/share/zsh/zsh-autopair/autopair.zsh
+      source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      ${builtins.readFile ./zsh/extra.zsh}
+    '';
     oh-my-zsh = {
       enable = true;
       plugins = [
@@ -128,54 +140,6 @@
         "ruby"
       ];
     };
-    plugins = [
-      {
-        name = "fzf-tab";
-        src = pkgs.fetchFromGitHub {
-          owner = "Aloxaf";
-          repo = "fzf-tab";
-          rev = "e85f76a";
-          sha256 = "sha256-Qf9AZ2DjO9QUyEF7QG8JtlBHjwHfINOJkrMfu7pipns=";
-        };
-      }
-      {
-        name = "powerlevel10k";
-        src = pkgs.fetchFromGitHub {
-          owner = "romkatv";
-          repo = "powerlevel10k";
-          rev = "v1.18.0";
-          sha256 = "sha256-IiMYGefF+p4bUueO/9/mJ4mHMyJYiq+67GgNdGJ6Eew=";
-        };
-        file = "powerlevel10k.zsh-theme";
-      }
-      {
-        name = "you-should-use";
-        src = pkgs.fetchFromGitHub {
-          owner = "MichaelAquilina";
-          repo = "zsh-you-should-use";
-          rev = "773ae5f";
-          sha256 = "sha256-g4Fw0TwyajZnWQ8fvJvobyt98nRgg08uxK6yNEABo8Y=";
-        };
-      }
-      {
-        name = "zsh-autopair";
-        src = pkgs.fetchFromGitHub {
-          owner = "hlissner";
-          repo = "zsh-autopair";
-          rev = "9d003fc";
-          sha256 = "sha256-hwZDbVo50kObLQxCa/wOZImjlH4ZaUI5W5eWs/2RnWg=";
-        };
-      }
-      {
-        name = "zsh-completions";
-        src = pkgs.fetchFromGitHub {
-          owner = "zsh-users";
-          repo = "zsh-completions";
-          rev = "20f3cd5";
-          sha256 = "sha256-f+FXQIks4nUFabL04fgdgwOI6WTPq6mqZ/+Jvne2CRM=";
-        };
-      }
-    ];
     shellAliases = {
       cat = "bat";
       ls = "lsd";
