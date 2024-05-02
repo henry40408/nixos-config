@@ -1,39 +1,48 @@
-.PHONY: dry-run fmt switch touch os/dry-run os/switch
+.PHONY: dry-run fmt os/dry-run os/switch switch
 
-HM_DEPS = $(shell find home-manager -name '*.conf' -or -name '*.lua' -or -name '*.nix' -or -name '*.zsh')
-NIX_FILES = $(shell find . -name '*.nix')
-NIXOS_DEPS = $(shell find hosts -name '*.nix' -or -name '*.lock')
+NIX_FILES := $(shell find . -name '*.nix')
+UNAME := $(shell uname)
+WSL_DISTRO := $(strip $(WSL_DISTRO_NAME))
 
 fmt:
 	nixpkgs-fmt $(NIX_FILES)
 
-touch:
-	touch $(HM_DEPS) $(WSL_DEPS)
-
 # Home manager
 
-dry-run: tmp/.hm-dry-run
+dry-run:
+ifeq ($(UNAME), Darwin)
+	# Darwin
+	home-manager build --dry-run --flake '.#henry@darwin'
+else
+	# WSL & VM
+	home-manager build --dry-run --flake '.#nixos@all'
+endif
 
-switch: tmp/.hm-switch
+switch:
+ifeq ($(UNAME), Darwin)
+	# Darwin
+	home-manager switch --flake '.#henry@darwin'
+else
+	# WSL & VM
+	home-manager switch --flake '.#nixos@all'
+endif
 
-tmp/.hm-dry-run: $(HM_DEPS)
-	bash scripts/hm-dry-run.sh
-	touch tmp/.hm-dry-run
+# NixOS
 
-tmp/.hm-switch: $(HM_DEPS)
-	bash scripts/hm-switch.sh
-	touch tmp/.hm-switch
+os/dry-run:
+ifdef WSL_DISTRO
+	sudo nixos-rebuild dry-build --flake ".#wsl" --impure
+else ifeq ($(UNAME), Darwin)
+	$(info Darwin is not supported)
+else ifeq ($(UNAME), Linux)
+	sudo nixos-rebuild dry-build --flake ".#vm" --impure
+endif
 
-# Hosts
-
-os/dry-run: tmp/.dry-run
-
-os/switch: tmp/.switch
-
-tmp/.dry-run: $(NIXOS_DEPS)
-	bash scripts/dry-run.sh
-	touch tmp/.dry-run
-
-tmp/.switch: $(NIXOS_DEPS)
-	bash scripts/switch.sh
-	touch tmp/.switch
+os/switch:
+ifdef WSL_DISTRO
+	sudo nixos-rebuild switch --flake ".#wsl" --impure
+else ifeq ($(UNAME), Darwin)
+	$(info Darwin is not supported)
+else ifeq ($(UNAME), Linux)
+	sudo nixos-rebuild switch --flake ".#vm" --impure
+endif

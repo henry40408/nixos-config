@@ -12,4 +12,5 @@ jobs:
           nix_path: nixpkgs=channel:nixos-23.11
       - uses: DeterminateSystems/magic-nix-cache-action@v4
       - uses: DeterminateSystems/flake-checker-action@v5
+      # https://discourse.nixos.org/t/how-to-do-a-flake-build-in-non-nixos-system/10450/7
       - run: nix build .#nixosConfigurations.vm.config.system.build.toplevel
