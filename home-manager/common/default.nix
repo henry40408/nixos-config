@@ -18,6 +18,7 @@
     xh
     zsh-autopair
     zsh-completions
+    zsh-fzf-tab
     zsh-powerlevel10k
     zsh-you-should-use
   ];
@@ -112,6 +113,8 @@
     '';
     initExtra = ''
       source ${pkgs.zsh-autopair}/share/zsh/zsh-autopair/autopair.zsh
+      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.zsh
+      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
       source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       ${builtins.readFile ./zsh/extra.zsh}
