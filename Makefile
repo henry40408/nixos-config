@@ -1,4 +1,4 @@
-.PHONY: dry-run fmt os/dry-run os/switch switch
+.PHONY: dry-run fmt os/dry-run os/switch switch update
 
 NIX_FILES := $(shell find . -name '*.nix')
 UNAME := $(shell uname)
@@ -6,6 +6,9 @@ WSL_DISTRO := $(strip $(WSL_DISTRO_NAME))
 
 fmt:
 	nixpkgs-fmt $(NIX_FILES)
+
+update:
+	nix flake update
 
 # Home manager
 
