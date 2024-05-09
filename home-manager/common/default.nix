@@ -3,6 +3,7 @@
 }: {
   home.packages = with pkgs; [
     fd
+    fnm
     git-extras
     gnumake
     gping
@@ -190,10 +191,18 @@
     ];
     terminal = "screen-256color";
   };
+  programs.zellij.enable = true;
   programs.zoxide.enable = true;
 
   xdg.configFile."nvim" = {
     recursive = true;
     source = ./neovim;
+  };
+  xdg.configFile."zellij/config.kdl" = {
+    source = ./zellij/config.kdl;
+  };
+  xdg.configFile."zellij/layouts" = {
+    recursive = true;
+    source = ./zellij/layouts;
   };
 }
