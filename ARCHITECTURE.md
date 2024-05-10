@@ -1,7 +1,6 @@
 # Architecture
 
-- Hardware: A MacBook Pro with an Intel CPU
-  and a Windows PC that runs a WSL (Windows Subsystem for Linux) environment.
+- Hardware: A MacBook Pro with an Intel CPU and a Windows PC that runs a WSL (Windows Subsystem for Linux) environment.
 - This configuration is derived from the standard version of [Misterio77/nix-starter-configs](https://github.com/Misterio77/nix-starter-configs/tree/972935c1b35d8b92476e26b0e63a044d191d49c3/standard).
 
 ## home-manager
@@ -14,16 +13,13 @@ Common configuration shared between Darwin and Linux.
 
 ## home-manager/common/neovim
 
-- Due to [a known issue](https://github.com/williamboman/mason.nvim/issues/428),
-  `ensure_installed` is cleared, and as a result,
-  no language servers will be automatically installed by mason.nvim.
+- Due to [a known issue](https://github.com/williamboman/mason.nvim/issues/428), `ensure_installed` is cleared, and as a result, no language servers will be automatically installed by mason.nvim.
 - "nixpkgs-fmt" is enabled as the formatter for "nil_ls".
 
 ## home-manager/common/zellij
 
-- A terminal workspace with batteries included
-- The default keybindings of zellij dramatically conflict with lazyvim,
-  so I changed the prefix to change mode from "Ctrl" to "Alt".
+- A terminal workspace with batteries included.
+- The default keybindings of zellij dramatically conflict with lazyvim, so I changed the prefix to change mode from "Ctrl" to "Alt".
 
 ## home-manager/common/zsh
 
@@ -34,10 +30,8 @@ The configuration is divided into two files: `extra-first.zsh` and `extra.zsh`:
 
 ## home-manager/common/envrc
 
-- Credentials are stored in the [pass](https://www.passwordstore.org) store,
-  synchronized with [syncthing](https://syncthing.net).
-- Once the current directory is changed to `$HOME/Develop`,
-  credentials are automatically injected into the environment variables.
+- Credentials are stored in the [pass](https://www.passwordstore.org) store, synchronized with [syncthing](https://syncthing.net).
+- Once the current directory is changed to `$HOME/Develop`, credentials are automatically injected into the environment variables.
 
 ## home-manager/darwin
 

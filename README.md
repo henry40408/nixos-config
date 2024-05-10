@@ -3,7 +3,6 @@
 [![Casual Maintenance Intended](https://casuallymaintained.tech/badge.svg)](https://casuallymaintained.tech/)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/henry40408/nixos-config/.github%2Fworkflows%2Fworkflow.yaml)
 ![GitHub](https://img.shields.io/github/license/henry40408/nixos-config)
-![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/henry40408/nixos-config)
 
 ## Description
 
