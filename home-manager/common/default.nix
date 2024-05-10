@@ -153,44 +153,6 @@
     syntaxHighlighting = { enable = true; };
   };
   programs.ripgrep.enable = true;
-  programs.tmux = {
-    enable = true;
-    baseIndex = 1;
-    clock24 = true;
-    historyLimit = 1000;
-    keyMode = "vi";
-    mouse = true;
-    extraConfig = (builtins.readFile ./tmux/extra.conf);
-    plugins = with pkgs; [
-      tmuxPlugins.resurrect # before continuum
-      {
-        plugin = tmuxPlugins.continuum;
-        extraConfig = ''
-          set -g @continuum-restore 'on'
-        '';
-      }
-      tmuxPlugins.tmux-thumbs
-      tmuxPlugins.pain-control
-      tmuxPlugins.sensible
-      {
-        plugin = tmuxPlugins.yank;
-        extraConfig = ''
-          set -g @yank_selection_mouse 'clipboard'
-        '';
-      }
-      {
-        plugin = tmuxPlugins.dracula;
-        extraConfig = ''
-          set -g @dracula-military-time true
-          set -g @dracula-plugins "battery network weather time"
-          set -g @dracula-show-fahrenheit false
-          set -g @dracula-show-flags true
-          set -g @dracula-show-location false
-        '';
-      }
-    ];
-    terminal = "screen-256color";
-  };
   programs.zellij.enable = true;
   programs.zoxide.enable = true;
 
