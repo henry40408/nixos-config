@@ -17,6 +17,7 @@ return {
       servers = {
         docker_compose_language_service = { mason = false },
         dockerls = { mason = false },
+        eslint = { mason = false },
         jsonls = { mason = false },
         lua_ls = { mason = false },
         marksman = { mason = false },
