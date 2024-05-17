@@ -19,7 +19,7 @@ Common configuration shared between Darwin and Linux.
 ## home-manager/common/zellij
 
 - A terminal workspace with batteries included.
-- The default keybindings of zellij dramatically conflict with lazyvim, so I changed the prefix to change mode from "Ctrl" to "Alt".
+- The default keybindings of zellij dramatically conflict with vim, so I changed the prefix to change mode from "Ctrl" to "Alt".
 
 ## home-manager/common/zsh
 
