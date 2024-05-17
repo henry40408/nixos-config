@@ -81,7 +81,6 @@
       hadolint
       lua-language-server
       markdownlint-cli
-      marksman
       nil
       nixpkgs-fmt
       nodePackages.prettier
