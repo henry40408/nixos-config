@@ -39,7 +39,12 @@
       update_check = false;
     };
   };
-  programs.bat.enable = true;
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "base16";
+    };
+  };
   programs.command-not-found.enable = true;
   programs.direnv.enable = true;
   programs.fzf.enable = true;
