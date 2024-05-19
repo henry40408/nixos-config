@@ -59,6 +59,31 @@ return {
           command = { "nixpkgs-fmt" },
         },
       },
+      -- https://github.com/AstroNvim/astrocommunity/blob/c64ad78e1253be3c664e0df9868ed433e420e39e/lua/astrocommunity/pack/rust/init.lua#L22-L41
+      rust_analyzer = {
+        settings = {
+          ["rust-analyzer"] = {
+            check = {
+              command = "clippy",
+            },
+            assist = {
+              importEnforceGranularity = true,
+              importPrefix = "crate",
+            },
+            completion = {
+              postfix = {
+                enable = false,
+              },
+            },
+            inlayHints = {
+              lifetimeElisionHints = {
+                enable = true,
+                useParameterNames = true,
+              },
+            },
+          },
+        },
+      }
     },
     -- customize how language servers are attached
     handlers = {
