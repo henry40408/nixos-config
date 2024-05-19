@@ -64,6 +64,7 @@ return {
         -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
         -- NOTE: old habit from LazyVim
         ["<C-_>"] = { '<Cmd>execute v:count . "ToggleTerm"<CR>', desc = "Toggle terminal" },
+        ["<Esc>"] = { '<Cmd>noh<CR><Esc>', desc = "Escape and Clear hlsearch" },
       },
       i = {
         -- NOTE: old habit from LazyVim
