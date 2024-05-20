@@ -24,7 +24,7 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 
-  # NOTE error: Neither nixpkgs.hostPlatform nor the legacy option nixpkgs.system has been set.
+  # NOTE: error: Neither nixpkgs.hostPlatform nor the legacy option nixpkgs.system has been set.
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   nix.settings = {

@@ -1,8 +1,6 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{ inputs
-, lib
-, config
+{ outputs
 , pkgs
 , ...
 }: {
@@ -27,6 +25,7 @@
       #     patches = [ ./change-hello-to-hi.patch ];
       #   });
       # })
+      outputs.overlays.unstable-packages
     ];
     # Configure your nixpkgs instance
     config = {
