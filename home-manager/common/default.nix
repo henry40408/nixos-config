@@ -97,6 +97,7 @@
       vscode-langservers-extracted
       wget
     ];
+    package = pkgs.unstable.neovim-unwrapped;
     plugins = with pkgs.vimPlugins; [ lazy-nvim ];
     withNodeJs = true;
     withPython3 = true;

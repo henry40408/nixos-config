@@ -5,6 +5,10 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
+    # Nixpkgs unstable
+    # pull request: https://github.com/NixOS/nixpkgs/pull/311047
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/817c3eccc985907e3cf8137232aa9a9715f695c8";
+
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -23,6 +27,9 @@
       inherit (self) outputs;
     in
     {
+      # Your custom packages and modifications, exported as overlays
+      overlays = import ./overlays { inherit inputs; };
+
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
