@@ -27,6 +27,7 @@ return {
         },
         pyright = { mason = false },
         ruff = { mason = false },
+        ruff_lsp = { mason = false },
         rust_analyzer = { mason = false },
         taplo = { mason = false },
         tsserver = { mason = false },
