@@ -8,6 +8,8 @@
     gnumake
     gping
     hugo
+    jless
+    jq
     nixpkgs-fmt
     poetry
     procs
