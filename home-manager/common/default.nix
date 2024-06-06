@@ -171,8 +171,4 @@
   xdg.configFile."zellij/config.kdl" = {
     source = ./zellij/config.kdl;
   };
-  xdg.configFile."zellij/layouts" = {
-    recursive = true;
-    source = ./zellij/layouts;
-  };
 }
