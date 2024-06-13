@@ -51,8 +51,13 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home-manager/linux ];
         };
-        "henry@darwin" = home-manager.lib.homeManagerConfiguration {
+        "henry@darwin-legacy" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-darwin; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home-manager/darwin ];
+        };
+        "henry@darwin" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home-manager/darwin ];
         };
