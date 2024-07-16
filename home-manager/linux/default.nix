@@ -60,7 +60,7 @@
     defaultCacheTtl = 86400; # 1 day
     enableSshSupport = true;
     maxCacheTtl = 604800; # 1 week
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentry-curses;
   };
   services.syncthing.enable = true;
 }
