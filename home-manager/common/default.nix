@@ -115,7 +115,9 @@
   };
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion = {
+      enable = true;
+    };
     initExtraFirst = ''
       source $HOME/.p10k.zsh
       ${builtins.readFile ./zsh/instant-prompt.zsh}
