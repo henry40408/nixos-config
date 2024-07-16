@@ -48,7 +48,10 @@
     };
   };
   programs.command-not-found.enable = true;
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
   programs.fzf.enable = true;
   programs.gh = {
     enable = true;
