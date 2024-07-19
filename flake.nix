@@ -3,18 +3,18 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Nixpkgs unstable
     # pull request: https://github.com/NixOS/nixpkgs/pull/311047
     nixpkgs-unstable.url = "github:nixos/nixpkgs/817c3eccc985907e3cf8137232aa9a9715f695c8";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # NixOS WSL
-    nixos-wsl.url = "github:nix-community/nixos-wsl/2311.5.3";
+    nixos-wsl.url = "github:nix-community/nixos-wsl/2405.5.4";
   };
 
   outputs =

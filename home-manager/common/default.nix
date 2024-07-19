@@ -48,7 +48,10 @@
     };
   };
   programs.command-not-found.enable = true;
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
   programs.fzf.enable = true;
   programs.gh = {
     enable = true;
@@ -115,7 +118,9 @@
   };
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion = {
+      enable = true;
+    };
     initExtraFirst = ''
       source $HOME/.p10k.zsh
       ${builtins.readFile ./zsh/instant-prompt.zsh}

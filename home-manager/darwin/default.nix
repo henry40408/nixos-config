@@ -52,7 +52,7 @@
   systemd.user.startServices = "sd-switch";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.11";
+  home.stateVersion = "24.05";
 
   home.file."Brewfile".text = (builtins.readFile ./Brewfile);
   home.file."Brewfile.lock.json".text = (builtins.readFile ./Brewfile.lock.json);
