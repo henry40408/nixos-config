@@ -77,39 +77,6 @@
   programs.gpg.enable = true;
   programs.lazygit.enable = true;
   programs.lsd.enable = true;
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    extraPackages = with pkgs; [
-      dockerfile-language-server-nodejs
-      fish
-      hadolint
-      lua-language-server
-      markdownlint-cli
-      marksman
-      nil
-      nixpkgs-fmt
-      nodePackages.prettier
-      nodePackages.typescript-language-server
-      nodePackages.volar
-      pyright
-      rust-analyzer
-      shfmt
-      stylua
-      taplo
-      tree-sitter
-      unzip
-      vscode-langservers-extracted
-      wget
-    ];
-    package = pkgs.unstable.neovim-unwrapped;
-    plugins = with pkgs.vimPlugins; [ lazy-nvim ];
-    withNodeJs = true;
-    withPython3 = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-  };
   programs.password-store = {
     enable = true;
     settings = {
@@ -169,10 +136,6 @@
   programs.zellij.enable = true;
   programs.zoxide.enable = true;
 
-  xdg.configFile."nvim" = {
-    recursive = true;
-    source = ./neovim;
-  };
   xdg.configFile."zellij/config.kdl" = {
     source = ./zellij/config.kdl;
   };
