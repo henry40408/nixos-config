@@ -6,7 +6,7 @@ ARCH := $(shell uname -m)
 WSL_DISTRO := $(strip $(WSL_DISTRO_NAME))
 
 fmt:
-	nixpkgs-fmt $(NIX_FILES)
+	nixfmt $(NIX_FILES)
 
 update:
 	nix flake update
