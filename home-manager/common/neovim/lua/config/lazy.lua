@@ -10,7 +10,12 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins", version = "v12.27.0" },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins", version = "v12.38.2" },
+    -- https://github.com/LazyVim/LazyVim/discussions/1972#discussion-5826338 [[
+    { "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
+    { "williamboman/mason.nvim", enabled = false },
+    { "williamboman/mason-lspconfig.nvim", enabled = false },
+    -- ]]
     { import = "lazyvim.plugins.extras.formatting.prettier" },
     -- import/override with your plugins
     { import = "plugins" },

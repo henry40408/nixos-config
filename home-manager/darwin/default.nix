@@ -1,9 +1,6 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{ outputs
-, pkgs
-, ...
-}: {
+{ outputs, pkgs, ... }: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -55,7 +52,8 @@
   home.stateVersion = "24.05";
 
   home.file."Brewfile".text = (builtins.readFile ./Brewfile);
-  home.file."Brewfile.lock.json".text = (builtins.readFile ./Brewfile.lock.json);
+  home.file."Brewfile.lock.json".text =
+    (builtins.readFile ./Brewfile.lock.json);
 }
 
 # vim: ts=2 sw=2 expandtab:
