@@ -17,6 +17,7 @@ require("lazy").setup({
     { "williamboman/mason-lspconfig.nvim", enabled = false },
     -- ]]
     { import = "lazyvim.plugins.extras.formatting.prettier" },
+    { import = "lazyvim.plugins.extras.coding.mini-surround" },
     -- import/override with your plugins
     { import = "plugins" },
   },
