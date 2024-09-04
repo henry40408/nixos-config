@@ -6,6 +6,7 @@ return {
         cssls = {},
         docker_compose_language_service = {},
         dockerls = {},
+        emmet_language_server = {},
         eslint = {},
         jsonls = {},
         lua_ls = {},

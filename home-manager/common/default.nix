@@ -74,6 +74,7 @@
     defaultEditor = true;
     extraPackages = with pkgs; [
       dockerfile-language-server-nodejs
+      emmet-language-server
       fish
       hadolint
       lua-language-server
