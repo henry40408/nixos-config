@@ -76,6 +76,7 @@
       dockerfile-language-server-nodejs
       emmet-language-server
       fish
+      gopls
       hadolint
       lua-language-server
       markdownlint-cli

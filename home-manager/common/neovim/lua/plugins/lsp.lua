@@ -8,6 +8,7 @@ return {
         dockerls = {},
         emmet_language_server = {},
         eslint = {},
+        gopls = {},
         jsonls = {},
         lua_ls = {},
         marksman = {},
