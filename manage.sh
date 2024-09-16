@@ -28,8 +28,16 @@ action_dry_run() {
       exit 1
     fi
   else
-    # WSL & VM
-    home-manager build --dry-run --flake '.#nixos@all'
+    if [[ $ARCH == "aarch64" ]]; then
+      # WSL & VM (arm64)
+      home-manager build --dry-run --flake '.#nixos@linux-aarch64'
+    elif [[ $ARCH == "x86_64" ]]; then
+      # WSL & VM (x86_64)
+      home-manager build --dry-run --flake '.#nixos@linux-x86_64'
+    else
+      echo "Unsupported architecture" >&2
+      exit 1
+    fi
   fi
 }
 
@@ -46,8 +54,16 @@ action_switch() {
       exit 1
     fi
   else
-    # WSL & VM
-    home-manager switch --flake '.#nixos@all'
+    if [[ $ARCH == "aarch64" ]]; then
+      # WSL & VM (arm64)
+      home-manager switch --flake '.#nixos@linux-aarch64'
+    elif [[ $ARCH == "x86_64" ]]; then
+      # WSL & VM (x86_64)
+      home-manager switch --flake '.#nixos@linux-x86_64'
+    else
+      echo "Unsupported architecture" >&2
+      exit 1
+    fi
   fi
 }
 
