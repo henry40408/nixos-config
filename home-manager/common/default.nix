@@ -8,7 +8,7 @@
     hugo
     jless
     jq
-    nixfmt
+    nixfmt-rfc-style
     poetry
     procs
     python3
