@@ -57,6 +57,7 @@
   networking.hostName = "nixos";
 
   boot.loader.systemd-boot.enable = true;
+  boot.kernelParams = [ "nomodeset" ];
 
   users.users = {
     nixos = {
@@ -97,5 +98,6 @@
       workstation = true;
     };
   };
+  services.qemuGuest.enable = true;
   time.timeZone = "Asia/Taipei";
 }
