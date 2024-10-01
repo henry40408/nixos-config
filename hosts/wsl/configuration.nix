@@ -5,7 +5,12 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -42,7 +47,9 @@
   programs.zsh.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
-  users.users.nixos = { extraGroups = [ "docker" ]; };
+  users.users.nixos = {
+    extraGroups = [ "docker" ];
+  };
 
   virtualisation.docker.enable = true;
 }

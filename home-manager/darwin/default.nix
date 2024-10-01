@@ -1,6 +1,7 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{ outputs, pkgs, ... }: {
+{ outputs, pkgs, ... }:
+{
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -37,7 +38,12 @@
     username = "henry";
     homeDirectory = "/Users/henry";
   };
-  home.packages = with pkgs; [ automake aria mas pkg-config ];
+  home.packages = with pkgs; [
+    automake
+    aria
+    mas
+    pkg-config
+  ];
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
@@ -52,8 +58,7 @@
   home.stateVersion = "24.05";
 
   home.file."Brewfile".text = (builtins.readFile ./Brewfile);
-  home.file."Brewfile.lock.json".text =
-    (builtins.readFile ./Brewfile.lock.json);
+  home.file."Brewfile.lock.json".text = (builtins.readFile ./Brewfile.lock.json);
 }
 
 # vim: ts=2 sw=2 expandtab:

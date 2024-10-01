@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     fd
     fnm
@@ -41,7 +42,9 @@
   };
   programs.bat = {
     enable = true;
-    config = { theme = "base16"; };
+    config = {
+      theme = "base16";
+    };
   };
   programs.command-not-found.enable = true;
   programs.direnv = {
@@ -51,13 +54,17 @@
   programs.fzf.enable = true;
   programs.gh = {
     enable = true;
-    settings = { git_protocol = "ssh"; };
+    settings = {
+      git_protocol = "ssh";
+    };
   };
   programs.git = {
     enable = true;
     delta = {
       enable = true;
-      options = { side-by-side = true; };
+      options = {
+        side-by-side = true;
+      };
     };
     signing = {
       key = "2316687+henry40408@users.noreply.github.com";
@@ -106,11 +113,15 @@
   };
   programs.password-store = {
     enable = true;
-    settings = { PASSWORD_STORE_DIR = "$HOME/.password-store"; };
+    settings = {
+      PASSWORD_STORE_DIR = "$HOME/.password-store";
+    };
   };
   programs.zsh = {
     enable = true;
-    autosuggestion = { enable = true; };
+    autosuggestion = {
+      enable = true;
+    };
     initExtraFirst = ''
       source $HOME/.p10k.zsh
       ${builtins.readFile ./zsh/instant-prompt.zsh}
@@ -153,7 +164,9 @@
       ping = "gping";
       ps = "procs";
     };
-    syntaxHighlighting = { enable = true; };
+    syntaxHighlighting = {
+      enable = true;
+    };
   };
   programs.ripgrep.enable = true;
   programs.zellij.enable = true;
@@ -163,5 +176,7 @@
     recursive = true;
     source = ./neovim;
   };
-  xdg.configFile."zellij/config.kdl" = { source = ./zellij/config.kdl; };
+  xdg.configFile."zellij/config.kdl" = {
+    source = ./zellij/config.kdl;
+  };
 }
