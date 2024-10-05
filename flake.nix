@@ -6,8 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Nixpkgs unstable
-    # pull request: https://github.com/NixOS/nixpkgs/pull/311047
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/817c3eccc985907e3cf8137232aa9a9715f695c8";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/91fb48da7554115400cc6b7a1bfa603e5cfefdb7";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-24.05";

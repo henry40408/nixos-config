@@ -6,16 +6,8 @@
     git-extras
     gnumake
     gping
-    hugo
-    jless
-    jq
     nixfmt-rfc-style
-    poetry
     procs
-    python3
-    ruff
-    ruff-lsp
-    rustup
     spacer
     xh
     zsh-autopair
