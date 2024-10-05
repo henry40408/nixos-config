@@ -18,8 +18,9 @@ return {
         ruff_lsp = {},
         rust_analyzer = {},
         taplo = {},
-        tsserver = {},
-        volar = {},
+        volar = {
+          filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
+        },
       },
     },
   },

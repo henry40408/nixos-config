@@ -88,7 +88,6 @@
       nil
       nixpkgs-fmt
       nodePackages.prettier
-      nodePackages.typescript-language-server
       nodePackages.volar
       pyright
       rust-analyzer
