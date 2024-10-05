@@ -66,6 +66,11 @@
         side-by-side = true;
       };
     };
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
+    };
     signing = {
       key = "2316687+henry40408@users.noreply.github.com";
       signByDefault = true;
