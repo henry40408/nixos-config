@@ -14,6 +14,12 @@
 
     # NixOS WSL
     nixos-wsl.url = "github:nix-community/nixos-wsl/2405.5.4";
+
+    # nixvim
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -21,6 +27,7 @@
       self,
       nixpkgs,
       home-manager,
+      nixvim,
       ...
     }@inputs:
     let

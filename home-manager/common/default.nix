@@ -73,6 +73,9 @@
   programs.gpg.enable = true;
   programs.lazygit.enable = true;
   programs.lsd.enable = true;
+  programs.nixvim = {
+    enable = true;
+  };
   programs.password-store = {
     enable = true;
     settings = {
