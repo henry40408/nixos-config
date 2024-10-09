@@ -76,33 +76,7 @@
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-    extraPackages = with pkgs; [
-      dockerfile-language-server-nodejs
-      emmet-language-server
-      fish
-      gopls
-      hadolint
-      lua-language-server
-      markdownlint-cli
-      marksman
-      nil
-      nixpkgs-fmt
-      nodePackages.prettier
-      nodePackages.volar
-      pyright
-      rust-analyzer
-      shfmt
-      stylua
-      taplo
-      tree-sitter
-      unzip
-      vscode-langservers-extracted
-      wget
-    ];
     package = pkgs.unstable.neovim-unwrapped;
-    plugins = with pkgs.vimPlugins; [ lazy-nvim ];
-    withNodeJs = true;
-    withPython3 = true;
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
@@ -168,10 +142,6 @@
   programs.zellij.enable = true;
   programs.zoxide.enable = true;
 
-  xdg.configFile."nvim" = {
-    recursive = true;
-    source = ./neovim;
-  };
   xdg.configFile."zellij/config.kdl" = {
     source = ./zellij/config.kdl;
   };
