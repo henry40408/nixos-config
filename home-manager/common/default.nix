@@ -77,32 +77,21 @@
     enable = true;
     defaultEditor = true;
     extraPackages = with pkgs; [
-      dockerfile-language-server-nodejs
-      emmet-language-server
-      fish
+      # stable
       gopls
-      hadolint
       lua-language-server
-      markdownlint-cli
-      marksman
-      nil
-      nixpkgs-fmt
-      nodePackages.prettier
-      nodePackages.volar
-      pyright
       rust-analyzer
-      shfmt
+      nil
+      prettierd
       stylua
-      taplo
-      tree-sitter
-      unzip
       vscode-langservers-extracted
-      wget
+
+      # unstable
+      unstable.vue-language-server
     ];
     package = pkgs.unstable.neovim-unwrapped;
-    plugins = with pkgs.vimPlugins; [ lazy-nvim ];
-    withNodeJs = true;
     withPython3 = true;
+    withNodeJs = true;
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
