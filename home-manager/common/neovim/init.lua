@@ -29,6 +29,7 @@ vim.g.mapleader = " "
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.expandtab = true
+vim.opt.sessionoptions = "buffers"
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 -- ]]
@@ -146,25 +147,13 @@ local spec = {
     "tinted-theming/base16-vim",
     commit = "dfc1d89",
     priority = 100, -- it's recommended to set this to a high number for colorschemes
+    config = function()
+      vim.opt.termguicolors = true
+      vim.cmd([[colorscheme base16-irblack]])
+    end,
   },
   -- icon provider
   { "nvim-tree/nvim-web-devicons", commit = "56f17de" },
-  -- status line, bottom
-  {
-    "nvim-lualine/lualine.nvim",
-    commit = "b431d22",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      options = {
-        -- prefer ASCII [[
-        section_separators = "",
-        component_separators = "",
-        -- ]]
-      },
-    },
-  },
-  -- buffer line, top
-  { "akinsho/bufferline.nvim", commit = "0b2fd86", opts = {} },
   -- lua development
   { "Bilal2453/luvit-meta", commit = "ce76f6f" },
   {
@@ -177,8 +166,6 @@ local spec = {
       },
     },
   },
-  -- comments
-  { "folke/ts-comments.nvim", commit = "98d7d4d", event = "VeryLazy", opts = {} },
   -- todo comments
   {
     "folke/todo-comments.nvim",
@@ -261,7 +248,28 @@ local spec = {
     config = config_cmp,
   },
   -- ]]
-  -- library of independent Lua modules
+  -- library of independent Lua modules [[
+  {
+    "echasnovski/mini.nvim",
+    commit = "a535342",
+    lazy = false,
+    config = function()
+      local starter = require("mini.starter")
+      starter.setup({
+        evaluate_single = true,
+        items = {
+          starter.sections.builtin_actions(),
+          starter.sections.recent_files(3, false),
+          starter.sections.recent_files(3, true),
+        },
+        content_hooks = {
+          starter.gen_hook.adding_bullet(),
+          starter.gen_hook.indexing("all", { "Builtin actions" }),
+          starter.gen_hook.padding(3, 2),
+        },
+      })
+    end,
+  },
   {
     "echasnovski/mini.nvim",
     commit = "a535342",
@@ -269,9 +277,34 @@ local spec = {
       -- general
       require("mini.basics").setup({})
       require("mini.bracketed").setup({})
+      require("mini.extra").setup({})
+      require("mini.files").setup({})
+
       require("mini.pick").setup({})
+      -- manually link highlight groups
+      -- https://github.com/folke/tokyonight.nvim/blob/2c85fad417170d4572ead7bf9fdd706057bd73d7/extras/vim/colors/tokyonight-day.vim
+      vim.api.nvim_set_hl(0, "MiniPickBorder", { link = "FloatBorder" })
+      vim.api.nvim_set_hl(0, "MiniPickIconDirectory", { link = "Directory" })
+      vim.api.nvim_set_hl(0, "MiniPickMatchCurrent", { link = "CursorLine" })
+      vim.api.nvim_set_hl(0, "MiniPickMatchMarked", { link = "Visual" })
+      vim.api.nvim_set_hl(0, "MiniPickNormal", { link = "NormalFloat" })
+      vim.api.nvim_set_hl(0, "MiniPickNormal", { link = "Normal" })
+      vim.api.nvim_set_hl(0, "MiniPickPreviewLine", { link = "CursorLine" })
+      vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", { link = "IncSearch" })
+
+      -- ui
+      require("mini.bufremove").setup({})
+      require("mini.notify").setup({})
+      require("mini.statusline").setup({})
+      require("mini.tabline").setup({})
+
       -- editing
       require("mini.ai").setup({})
+      require("mini.comment").setup({})
+      require("mini.cursorword").setup({})
+      require("mini.diff").setup({})
+      require("mini.indentscope").setup({})
+      require("mini.move").setup({})
       require("mini.operators").setup({})
       require("mini.pairs").setup({})
       require("mini.surround").setup({
@@ -294,6 +327,7 @@ local spec = {
       { "<leader>sg", "<cmd>Pick grep_live<cr>", desc = "Live grep" },
     },
   },
+  -- ]]
   -- navigate
   {
     "folke/flash.nvim",
@@ -333,9 +367,6 @@ local spec = {
       },
     },
   },
-  -- language server protocol progress [[
-  { "j-hui/fidget.nvim", commit = "d855eed", opts = {} },
-  -- ]]
   -- explorer [[
   { "nvim-lua/plenary.nvim", commit = "2d9b061" },
   { "MunifTanjim/nui.nvim", commit = "b58e2bf" },
@@ -360,87 +391,15 @@ local spec = {
     },
   },
   -- ]]
-  -- gitsigns
+  -- terminal
   {
-    "lewis6991/gitsigns.nvim",
-    commit = "8639036",
+    "akinsho/toggleterm.nvim",
+    commit = "137d06f",
     opts = {
-      signs = {
-        add = { text = " +" },
-        change = { text = " ~" },
-        delete = { text = " _" },
-        topdelete = { text = " ‾" },
-        changedelete = { text = " ~" },
-        untracked = { text = " ┆" },
-      },
-      signs_staged = {
-        add = { text = "S+" },
-        change = { text = "S~" },
-        delete = { text = "S_" },
-        topdelete = { text = "S‾" },
-        changedelete = { text = "S~" },
-        untracked = { text = "S┆" },
-      },
-      -- https://github.com/LazyVim/LazyVim/blob/13a4a84e3485a36e64055365665a45dc82b6bf71/lua/lazyvim/plugins/editor.lua
-      on_attach = function(buffer)
-        local gs = package.loaded.gitsigns
-
-        local function map(mode, l, r, desc) vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc }) end
-
-        map("n", "]h", function()
-          if vim.wo.diff then
-            vim.cmd.normal({ "]c", bang = true })
-          else
-            gs.nav_hunk("next")
-          end
-        end, "Next Hunk")
-        map("n", "[h", function()
-          if vim.wo.diff then
-            vim.cmd.normal({ "[c", bang = true })
-          else
-            gs.nav_hunk("prev")
-          end
-        end, "Prev Hunk")
-        map("n", "]H", function() gs.nav_hunk("last") end, "Last Hunk")
-        map("n", "[H", function() gs.nav_hunk("first") end, "First Hunk")
-        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-        map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
-        map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
-        map("n", "<leader>ghB", function() gs.blame() end, "Blame Buffer")
-        map("n", "<leader>ghd", gs.diffthis, "Diff This")
-        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
-        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
-      end,
+      direction = "horizontal",
+      open_mapping = [[<c-\>]],
     },
   },
-  -- indent guidelines
-  { "lukas-reineke/indent-blankline.nvim", commit = "e7a4442", main = "ibl", opts = {} },
-  -- replace UI for messages, cmdline, and popup menu [[
-  { "rcarriga/nvim-notify", commit = "fbef5d3" },
-  {
-    "folke/noice.nvim",
-    commit = "df448c6",
-    dependencies = { "rcarriga/nvim-notify" },
-    opts = {
-      lsp = {
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-        },
-      },
-      presets = {
-        bottom_search = true,
-        command_palette = true,
-        lsp_doc_border = false,
-      },
-    },
-  },
-  -- ]]
   -- keymaps
   {
     "folke/which-key.nvim",
@@ -486,67 +445,16 @@ local spec = {
 
 require("lazy").setup({ spec = spec })
 
--- appearance options [[
-vim.opt.termguicolors = true
-vim.cmd([[colorscheme base16-irblack]])
-
-vim.api.nvim_set_hl(0, "MiniPickBorder", { link = "FloatBorder" })
-vim.api.nvim_set_hl(0, "MiniPickIconDirectory", { link = "Directory" })
-vim.api.nvim_set_hl(0, "MiniPickMatchCurrent", { link = "CursorLine" })
-vim.api.nvim_set_hl(0, "MiniPickMatchMarked", { link = "Visual" })
-vim.api.nvim_set_hl(0, "MiniPickNormal", { link = "NormalFloat" })
-vim.api.nvim_set_hl(0, "MiniPickNormal", { link = "Normal" })
-vim.api.nvim_set_hl(0, "MiniPickPreviewLine", { link = "CursorLine" })
-vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", { link = "IncSearch" })
--- ]]
-
 -- https://github.com/LazyVim/LazyVim/blob/13a4a84e3485a36e64055365665a45dc82b6bf71/lua/lazyvim/config/keymaps.lua
 -- keymaps [[
-
 -- buffers
--- https://github.com/LazyVim/LazyVim/blob/13a4a84e3485a36e64055365665a45dc82b6bf71/lua/lazyvim/util/ui.lua#L228
-local function bufremove(buf)
-  buf = buf or 0
-  buf = buf == 0 and vim.api.nvim_get_current_buf() or buf
-
-  if vim.bo.modified then
-    local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
-    if choice == 0 or choice == 3 then -- 0 for <Esc>/<C-c> and 3 for Cancel
-      return
-    end
-    if choice == 1 then -- Yes
-      vim.cmd.write()
-    end
-  end
-
-  for _, win in ipairs(vim.fn.win_findbuf(buf)) do
-    vim.api.nvim_win_call(win, function()
-      if not vim.api.nvim_win_is_valid(win) or vim.api.nvim_win_get_buf(win) ~= buf then return end
-      -- Try using alternate buffer
-      local alt = vim.fn.bufnr("#")
-      if alt ~= buf and vim.fn.buflisted(alt) == 1 then
-        vim.api.nvim_win_set_buf(win, alt)
-        return
-      end
-
-      -- Try using previous buffer
-      local has_previous = pcall(vim.cmd, "bprevious")
-      if has_previous and buf ~= vim.api.nvim_win_get_buf(win) then return end
-
-      -- Create new listed buffer
-      local new_buf = vim.api.nvim_create_buf(true, false)
-      vim.api.nvim_win_set_buf(win, new_buf)
-    end)
-  end
-  if vim.api.nvim_buf_is_valid(buf) then pcall(vim.cmd, "bdelete! " .. buf) end
-end
 vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 vim.keymap.set("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-vim.keymap.set("n", "<leader>bd", bufremove, { desc = "Delete Buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
 vim.keymap.set("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 -- clear search with <esc>
