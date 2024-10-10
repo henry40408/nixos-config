@@ -13,8 +13,7 @@ Common configuration shared between Darwin and Linux.
 
 ## home-manager/common/neovim
 
-- Due to [a known issue](https://github.com/williamboman/mason.nvim/issues/428), `ensure_installed` is cleared, and as a result, no language servers will be automatically installed by mason.nvim.
-- "nixpkgs-fmt" is enabled as the formatter for "nil_ls".
+I've encountered version lock issues with both LazyVim and NixVim. Neither solution locks every package to a specific commit, making upgrades unpredictable. While I enjoy living on the edge, I dislike when my LSP stops working just as I find the motivation to work on my side projects.
 
 ## home-manager/common/zellij
 
