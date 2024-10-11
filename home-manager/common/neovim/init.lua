@@ -252,8 +252,15 @@ local spec = {
   {
     "echasnovski/mini.nvim",
     commit = "a535342",
-    lazy = false,
+    lazy = false, -- for mini.starter
     config = function()
+      -- general
+      require("mini.basics").setup({})
+      require("mini.bracketed").setup({})
+      require("mini.extra").setup({})
+      require("mini.files").setup({})
+      require("mini.pick").setup({})
+
       local starter = require("mini.starter")
       starter.setup({
         evaluate_single = true,
@@ -268,19 +275,7 @@ local spec = {
           starter.gen_hook.padding(3, 2),
         },
       })
-    end,
-  },
-  {
-    "echasnovski/mini.nvim",
-    commit = "a535342",
-    config = function()
-      -- general
-      require("mini.basics").setup({})
-      require("mini.bracketed").setup({})
-      require("mini.extra").setup({})
-      require("mini.files").setup({})
 
-      require("mini.pick").setup({})
       -- manually link highlight groups
       -- https://github.com/folke/tokyonight.nvim/blob/2c85fad417170d4572ead7bf9fdd706057bd73d7/extras/vim/colors/tokyonight-day.vim
       vim.api.nvim_set_hl(0, "MiniPickBorder", { link = "FloatBorder" })
