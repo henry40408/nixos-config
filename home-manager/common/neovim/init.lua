@@ -98,8 +98,6 @@ end)
 -- mini.nvim
 add({ source = "echasnovski/mini.nvim", checkout = "c235203", depends = { "folke/which-key.nvim" } })
 now(function()
-  local wk = require("which-key")
-
   require("mini.basics").setup({})
 
   local starter = require("mini.starter")
@@ -116,16 +114,10 @@ now(function()
       starter.gen_hook.padding(3, 2),
     },
   })
-
-  require("mini.pick").setup({})
-  wk.add({ "<leader>fb", "<cmd>Pick buffers<cr>", desc = "Buffers", mode = "n" })
-  wk.add({ "<leader>ff", "<cmd>Pick files<cr>", desc = "Find Files", mode = "n" })
-  wk.add({ "<leader>sg", "<cmd>Pick grep_live<cr>", desc = "Grep", mode = "n" })
-
-  require("mini.statusline").setup({})
-  require("mini.tabline").setup({})
 end)
 later(function()
+  local wk = require("which-key")
+
   require("mini.ai").setup({})
   require("mini.bracketed").setup({})
   require("mini.bufremove").setup({})
@@ -175,6 +167,14 @@ later(function()
   require("mini.operators").setup({})
   require("mini.pairs").setup()
 
+  require("mini.pick").setup({})
+  wk.add({ "<leader>fb", "<cmd>Pick buffers<cr>", desc = "Buffers", mode = "n" })
+  wk.add({ "<leader>ff", "<cmd>Pick files<cr>", desc = "Find Files", mode = "n" })
+  wk.add({ "<leader>sg", "<cmd>Pick grep_live<cr>", desc = "Grep", mode = "n" })
+
+  require("mini.statusline").setup({})
+  require("mini.tabline").setup({})
+
   require("mini.surround").setup({
     mappings = {
       add = "gsa",
@@ -193,7 +193,7 @@ end)
 
 -- colorscheme
 add({ source = "tinted-theming/base16-vim", checkout = "dfc1d89" })
-now(function()
+later(function()
   vim.opt.termguicolors = true
   vim.cmd([[colorscheme base16-irblack]])
   -- fix highlight groups
