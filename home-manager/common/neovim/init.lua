@@ -322,3 +322,25 @@ later(function()
   vim.keymap.set("t", "<c-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
   vim.keymap.set("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 end)
+
+-- navigate
+add({ source = "folke/flash.nvim", commit = "34c7be1" })
+later(function()
+  require("flash").setup({
+    label = {
+      rainbow = {
+        enabled = true,
+      },
+    },
+    modes = {
+      search = {
+        enabled = true,
+      },
+    },
+  })
+  vim.keymap.set({ "n", "o", "x" }, "s", function() require("flash").jump() end, { desc = "Flash" })
+  vim.keymap.set({ "n", "o", "x" }, "S", function() require("flash").treesitter() end, { desc = "Flash Treesitter" })
+  vim.keymap.set("o", "r", function() require("flash").remote() end, { desc = "Remote Flash" })
+  vim.keymap.set({ "o", "x" }, "R", function() require("flash").treesitter_search() end, { desc = "Treesitter Search" })
+  vim.keymap.set("c", "<c-s>", function() require("flash").toggle() end, { desc = "Toggle Flash Search" })
+end)
