@@ -81,7 +81,7 @@
       gopls
       lua-language-server
       rust-analyzer
-      nil
+      nixd
       prettierd
       stylua
       vscode-langservers-extracted

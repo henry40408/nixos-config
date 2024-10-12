@@ -228,6 +228,7 @@ later(function()
   local servers = {
     "gopls",
     "lua_ls",
+    "nixd",
     "rust_analyzer",
   }
   for _, lsp in ipairs(servers) do
