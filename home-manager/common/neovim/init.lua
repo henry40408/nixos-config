@@ -227,6 +227,29 @@ later(
 -- language server protocols
 add({ source = "neovim/nvim-lspconfig", commit = "d3f169f" })
 later(function()
+  local wk = require("which-key")
+
+  function on_attach()
+    local keys = {
+      { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+      { "gd", vim.lsp.buf.definition, desc = "Goto Definition" },
+      { "gr", vim.lsp.buf.references, desc = "References", nowait = true },
+      { "gI", vim.lsp.buf.implementation, desc = "Goto Implementation" },
+      { "gy", vim.lsp.buf.type_definition, desc = "Goto T[y]pe Definition" },
+      { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
+      { "K", vim.lsp.buf.hover, desc = "Hover" },
+      { "gK", vim.lsp.buf.signature_help, desc = "Signature Help" },
+      { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
+      { "<leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" } },
+      { "<leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" } },
+      { "<leader>cr", vim.lsp.buf.rename, desc = "Rename" },
+    }
+    for _index, key in ipairs(keys) do
+      wk.add(key)
+    end
+  end
+
   local lspconfig = require("lspconfig")
   local servers = {
     "gopls",
@@ -235,7 +258,7 @@ later(function()
     "rust_analyzer",
   }
   for _, lsp in ipairs(servers) do
-    lspconfig[lsp].setup({})
+    lspconfig[lsp].setup({ on_attach = on_attach })
   end
   lspconfig.volar.setup({
     filetypes = {
@@ -246,6 +269,7 @@ later(function()
       "vue",
     },
     init_options = { vue = { hybridMode = false } },
+    on_attach = on_attach,
   })
 end)
 
