@@ -229,7 +229,7 @@ add({ source = "neovim/nvim-lspconfig", commit = "d3f169f" })
 later(function()
   local wk = require("which-key")
 
-  function on_attach()
+  local function on_attach()
     local keys = {
       { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
       { "gd", vim.lsp.buf.definition, desc = "Goto Definition" },
@@ -252,6 +252,7 @@ later(function()
 
   local lspconfig = require("lspconfig")
   local servers = {
+    "eslint",
     "gopls",
     "lua_ls",
     "nixd",
