@@ -151,6 +151,9 @@ later(function()
   require("mini.diff").setup({})
   require("mini.extra").setup({})
 
+  require("mini.files").setup({})
+  wk.add({ "<leader>e", function() require("mini.files").open() end, desc = "Explorer", mode = "n" })
+
   require("mini.hipatterns").setup({
     highlighters = {
       fixme = { pattern = "FIXME", group = "MiniHipatternsFixme" },
