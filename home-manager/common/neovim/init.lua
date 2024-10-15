@@ -340,6 +340,7 @@ later(function()
   require("toggleterm").setup({
     direction = "float",
     open_mapping = [[<c-\>]],
+    float_opts = { border = "none" },
   })
   -- terminal mappings
   vim.keymap.set("t", "<esc><esc>", [[<c-\><c-n>]], { desc = "Enter Normal Mode" })
