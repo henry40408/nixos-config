@@ -23,11 +23,28 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 -- vim options
 now(function()
   vim.g.mapleader = " "
-  vim.opt.clipboard = "unnamedplus"
   vim.opt.expandtab = true
   vim.opt.sessionoptions = "buffers"
   vim.opt.shiftwidth = 2
   vim.opt.tabstop = 2
+
+  --  https://github.com/Alexis12119/nvim-config/blob/9efdf7bc943fe7f6d6dd39fdb6f070972e7c91e6/lua/core/autocommands.lua#L49-L61
+  local autocmd = vim.api.nvim_create_autocmd
+  local augroup = vim.api.nvim_create_augroup
+  local general = augroup("General", { clear = true })
+  autocmd({ "BufReadPost", "BufNewFile" }, {
+    once = true,
+    callback = function()
+      -- In wsl 2, just install xclip
+      -- Ubuntu
+      -- sudo apt install xclip
+      -- Arch linux
+      -- sudo pacman -S xclip
+      vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
+    end,
+    group = general,
+    desc = "Lazy load clipboard",
+  })
 end)
 
 -- keymap management
