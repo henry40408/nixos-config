@@ -200,6 +200,78 @@ later(
   end
 )
 
+-- completion
+add({ source = "L3MON4D3/LuaSnip", commit = "e808bee" })
+add({ source = "hrsh7th/cmp-buffer", commit = "3022dbc" })
+add({ source = "hrsh7th/cmp-cmdline", commit = "d250c63" })
+add({ source = "hrsh7th/cmp-nvim-lsp", commit = "39e2eda" })
+add({ source = "hrsh7th/cmp-path", commit = "91ff86c" })
+add({ source = "saadparwaiz1/cmp_luasnip", commit = "05a9ab2" })
+add({
+  source = "hrsh7th/nvim-cmp",
+  commit = "ae644fe",
+  depends = {
+    "L3MON4D3/LuaSnip",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-path",
+    "saadparwaiz1/cmp_luasnip",
+  },
+})
+later(function()
+  local cmp = require("cmp")
+  local luasnip = require("luasnip")
+  cmp.setup({
+    snippet = {
+      expand = function(args) require("luasnip").lsp_expand(args.body) end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<C-e>"] = cmp.mapping.abort(),
+      ["<CR>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          if luasnip.expandable() then
+            luasnip.expand()
+          else
+            cmp.confirm({
+              select = true,
+            })
+          end
+        else
+          fallback()
+        end
+      end),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.locally_jumpable(1) then
+          luasnip.jump(1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.locally_jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+    }),
+    sources = cmp.config.sources({
+      { name = "nvim_lsp" },
+      { name = "luasnip" },
+    }, {
+      { name = "buffer" },
+    }),
+  })
+end)
+
 -- language server protocols
 add({ source = "neovim/nvim-lspconfig", commit = "d3f169f" })
 later(function()
@@ -227,6 +299,7 @@ later(function()
   end
 
   local lspconfig = require("lspconfig")
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
   local servers = {
     "eslint",
     "gopls",
@@ -235,9 +308,10 @@ later(function()
     "rust_analyzer",
   }
   for _, lsp in ipairs(servers) do
-    lspconfig[lsp].setup({ on_attach = on_attach })
+    lspconfig[lsp].setup({ capabilities = capabilities, on_attach = on_attach })
   end
   lspconfig.volar.setup({
+    capabilities = capabilities,
     filetypes = {
       "javascript",
       "javascriptreact",
