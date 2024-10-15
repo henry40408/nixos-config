@@ -338,7 +338,7 @@ end)
 add({ source = "akinsho/toggleterm.nvim", commit = "137d06f" })
 later(function()
   require("toggleterm").setup({
-    direction = "horizontal",
+    direction = "float",
     open_mapping = [[<c-\>]],
   })
   -- terminal mappings
