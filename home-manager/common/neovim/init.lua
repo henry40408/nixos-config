@@ -440,3 +440,6 @@ later(function()
   vim.keymap.set({ "o", "x" }, "R", function() require("flash").treesitter_search() end, { desc = "Treesitter Search" })
   vim.keymap.set("c", "<c-s>", function() require("flash").toggle() end, { desc = "Toggle Flash Search" })
 end)
+
+-- startup time
+add({ source = "dstein64/vim-startuptime", commit = "ac2cccb" })
