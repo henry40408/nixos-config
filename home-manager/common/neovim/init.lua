@@ -23,11 +23,28 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 -- vim options
 now(function()
   vim.g.mapleader = " "
-  vim.opt.clipboard = "unnamedplus"
   vim.opt.expandtab = true
   vim.opt.sessionoptions = "buffers"
   vim.opt.shiftwidth = 2
   vim.opt.tabstop = 2
+
+  --  https://github.com/Alexis12119/nvim-config/blob/9efdf7bc943fe7f6d6dd39fdb6f070972e7c91e6/lua/core/autocommands.lua#L49-L61
+  local autocmd = vim.api.nvim_create_autocmd
+  local augroup = vim.api.nvim_create_augroup
+  local general = augroup("General", { clear = true })
+  autocmd({ "BufReadPost", "BufNewFile" }, {
+    once = true,
+    callback = function()
+      -- In wsl 2, just install xclip
+      -- Ubuntu
+      -- sudo apt install xclip
+      -- Arch linux
+      -- sudo pacman -S xclip
+      vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
+    end,
+    group = general,
+    desc = "Lazy load clipboard",
+  })
 end)
 
 -- keymap management
@@ -98,6 +115,8 @@ end)
 -- mini.nvim
 add({ source = "echasnovski/mini.nvim", checkout = "c235203", depends = { "folke/which-key.nvim" } })
 now(function()
+  local wk = require("which-key")
+
   require("mini.basics").setup({})
 
   local starter = require("mini.starter")
@@ -114,6 +133,11 @@ now(function()
       starter.gen_hook.padding(3, 2),
     },
   })
+
+  require("mini.pick").setup({})
+  wk.add({ "<leader>fb", "<cmd>Pick buffers<cr>", desc = "Buffers", mode = "n" })
+  wk.add({ "<leader>ff", "<cmd>Pick files<cr>", desc = "Find Files", mode = "n" })
+  wk.add({ "<leader>sg", "<cmd>Pick grep_live<cr>", desc = "Grep", mode = "n" })
 end)
 later(function()
   local wk = require("which-key")
@@ -122,30 +146,6 @@ later(function()
   require("mini.bracketed").setup({})
   require("mini.bufremove").setup({})
   require("mini.comment").setup({})
-
-  require("mini.completion").setup({})
-  local imap_expr = function(lhs, rhs) vim.keymap.set("i", lhs, rhs, { expr = true }) end
-  imap_expr("<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
-  imap_expr("<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
-  local keycode = vim.keycode or function(x) return vim.api.nvim_replace_termcodes(x, true, true, true) end
-  local keys = {
-    ["cr"] = keycode("<CR>"),
-    ["ctrl-y"] = keycode("<C-y>"),
-    ["ctrl-y_cr"] = keycode("<C-y><CR>"),
-  }
-  _G.cr_action = function()
-    if vim.fn.pumvisible() ~= 0 then
-      -- If popup is visible, confirm selected item or add new line otherwise
-      local item_selected = vim.fn.complete_info()["selected"] ~= -1
-      return item_selected and keys["ctrl-y"] or keys["ctrl-y_cr"]
-    else
-      -- If popup is not visible, use plain `<CR>`. You might want to customize
-      -- according to other plugins. For example, to use 'mini.pairs', replace
-      -- next line with `return require('mini.pairs').cr()`
-      return keys["cr"]
-    end
-  end
-  vim.keymap.set("i", "<CR>", "v:lua._G.cr_action()", { expr = true })
 
   require("mini.cursorword").setup({})
   require("mini.diff").setup({})
@@ -169,11 +169,6 @@ later(function()
   require("mini.notify").setup({})
   require("mini.operators").setup({})
   require("mini.pairs").setup()
-
-  require("mini.pick").setup({})
-  wk.add({ "<leader>fb", "<cmd>Pick buffers<cr>", desc = "Buffers", mode = "n" })
-  wk.add({ "<leader>ff", "<cmd>Pick files<cr>", desc = "Find Files", mode = "n" })
-  wk.add({ "<leader>sg", "<cmd>Pick grep_live<cr>", desc = "Grep", mode = "n" })
 
   require("mini.statusline").setup({})
   require("mini.tabline").setup({})
@@ -224,6 +219,93 @@ later(
   end
 )
 
+-- completion
+add({ source = "rafamadriz/friendly-snippets", commit = "de8fce9" })
+add({
+  source = "L3MON4D3/LuaSnip",
+  commit = "e808bee",
+  depends = {
+    "rafamadriz/friendly-snippets",
+  },
+})
+add({ source = "hrsh7th/cmp-buffer", commit = "3022dbc" })
+add({ source = "hrsh7th/cmp-cmdline", commit = "d250c63" })
+add({ source = "hrsh7th/cmp-nvim-lsp", commit = "39e2eda" })
+add({ source = "hrsh7th/cmp-nvim-lsp-signature-help", commit = "031e6ba" })
+add({ source = "hrsh7th/cmp-path", commit = "91ff86c" })
+add({ source = "saadparwaiz1/cmp_luasnip", commit = "05a9ab2" })
+add({
+  source = "hrsh7th/nvim-cmp",
+  commit = "ae644fe",
+  depends = {
+    "L3MON4D3/LuaSnip",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
+    "hrsh7th/cmp-path",
+    "saadparwaiz1/cmp_luasnip",
+  },
+})
+later(function()
+  -- load snippets such as vbase-3-ts-setup
+  require("luasnip.loaders.from_vscode").lazy_load()
+
+  local cmp = require("cmp")
+  local luasnip = require("luasnip")
+  cmp.setup({
+    snippet = {
+      expand = function(args) require("luasnip").lsp_expand(args.body) end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<C-e>"] = cmp.mapping.abort(),
+      ["<CR>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          if luasnip.expandable() then
+            luasnip.expand()
+          else
+            cmp.confirm({
+              select = true,
+            })
+          end
+        else
+          fallback()
+        end
+      end),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.locally_jumpable(1) then
+          luasnip.jump(1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.locally_jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+    }),
+    sources = cmp.config.sources({
+      { name = "nvim_lsp" },
+      { name = "nvim_lsp_signature_help" },
+      { name = "luasnip" },
+      { name = "path" },
+      { name = "cmdline" },
+    }, {
+      { name = "buffer", keyword_length = 3 },
+    }),
+  })
+end)
+
 -- language server protocols
 add({ source = "neovim/nvim-lspconfig", commit = "d3f169f" })
 later(function()
@@ -251,6 +333,7 @@ later(function()
   end
 
   local lspconfig = require("lspconfig")
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
   local servers = {
     "eslint",
     "gopls",
@@ -259,9 +342,10 @@ later(function()
     "rust_analyzer",
   }
   for _, lsp in ipairs(servers) do
-    lspconfig[lsp].setup({ on_attach = on_attach })
+    lspconfig[lsp].setup({ capabilities = capabilities, on_attach = on_attach })
   end
   lspconfig.volar.setup({
+    capabilities = capabilities,
     filetypes = {
       "javascript",
       "javascriptreact",
@@ -373,3 +457,6 @@ later(function()
   vim.keymap.set({ "o", "x" }, "R", function() require("flash").treesitter_search() end, { desc = "Treesitter Search" })
   vim.keymap.set("c", "<c-s>", function() require("flash").toggle() end, { desc = "Toggle Flash Search" })
 end)
+
+-- startup time
+add({ source = "dstein64/vim-startuptime", commit = "ac2cccb" })
