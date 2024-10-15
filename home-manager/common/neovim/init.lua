@@ -98,6 +98,8 @@ end)
 -- mini.nvim
 add({ source = "echasnovski/mini.nvim", checkout = "c235203", depends = { "folke/which-key.nvim" } })
 now(function()
+  local wk = require("which-key")
+
   require("mini.basics").setup({})
 
   local starter = require("mini.starter")
@@ -114,6 +116,11 @@ now(function()
       starter.gen_hook.padding(3, 2),
     },
   })
+
+  require("mini.pick").setup({})
+  wk.add({ "<leader>fb", "<cmd>Pick buffers<cr>", desc = "Buffers", mode = "n" })
+  wk.add({ "<leader>ff", "<cmd>Pick files<cr>", desc = "Find Files", mode = "n" })
+  wk.add({ "<leader>sg", "<cmd>Pick grep_live<cr>", desc = "Grep", mode = "n" })
 end)
 later(function()
   local wk = require("which-key")
@@ -145,11 +152,6 @@ later(function()
   require("mini.notify").setup({})
   require("mini.operators").setup({})
   require("mini.pairs").setup()
-
-  require("mini.pick").setup({})
-  wk.add({ "<leader>fb", "<cmd>Pick buffers<cr>", desc = "Buffers", mode = "n" })
-  wk.add({ "<leader>ff", "<cmd>Pick files<cr>", desc = "Find Files", mode = "n" })
-  wk.add({ "<leader>sg", "<cmd>Pick grep_live<cr>", desc = "Grep", mode = "n" })
 
   require("mini.statusline").setup({})
   require("mini.tabline").setup({})
