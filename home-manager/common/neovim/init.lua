@@ -201,10 +201,18 @@ later(
 )
 
 -- completion
-add({ source = "L3MON4D3/LuaSnip", commit = "e808bee" })
+add({ source = "rafamadriz/friendly-snippets", commit = "de8fce9" })
+add({
+  source = "L3MON4D3/LuaSnip",
+  commit = "e808bee",
+  depends = {
+    "rafamadriz/friendly-snippets",
+  },
+})
 add({ source = "hrsh7th/cmp-buffer", commit = "3022dbc" })
 add({ source = "hrsh7th/cmp-cmdline", commit = "d250c63" })
 add({ source = "hrsh7th/cmp-nvim-lsp", commit = "39e2eda" })
+add({ source = "hrsh7th/cmp-nvim-lsp-signature-help", commit = "031e6ba" })
 add({ source = "hrsh7th/cmp-path", commit = "91ff86c" })
 add({ source = "saadparwaiz1/cmp_luasnip", commit = "05a9ab2" })
 add({
@@ -215,11 +223,15 @@ add({
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
     "hrsh7th/cmp-path",
     "saadparwaiz1/cmp_luasnip",
   },
 })
 later(function()
+  -- load snippets such as vbase-3-ts-setup
+  require("luasnip.loaders.from_vscode").lazy_load()
+
   local cmp = require("cmp")
   local luasnip = require("luasnip")
   cmp.setup({
@@ -265,9 +277,12 @@ later(function()
     }),
     sources = cmp.config.sources({
       { name = "nvim_lsp" },
+      { name = "nvim_lsp_signature_help" },
       { name = "luasnip" },
+      { name = "path" },
+      { name = "cmdline" },
     }, {
-      { name = "buffer" },
+      { name = "buffer", keyword_length = 3 },
     }),
   })
 end)
