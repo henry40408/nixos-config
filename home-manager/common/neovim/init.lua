@@ -299,9 +299,21 @@ later(function()
       { name = "nvim_lsp_signature_help" },
       { name = "luasnip" },
       { name = "path" },
-      { name = "cmdline" },
     }, {
       { name = "buffer", keyword_length = 3 },
+    }),
+  })
+  cmp.setup.cmdline({ "/", "?" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer" },
+    },
+  })
+  cmp.setup.cmdline({ ":" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "path" },
+      { name = "cmdline" },
     }),
   })
 end)
