@@ -84,6 +84,7 @@
       nixd
       prettierd
       stylua
+      taplo
       vscode-langservers-extracted
 
       # unstable
