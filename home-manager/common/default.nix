@@ -80,9 +80,15 @@
       # stable
       gopls
       lua-language-server
-      rust-analyzer
       nixd
       prettierd
+      (python3.withPackages (ps: [
+        ps.pylsp-rope
+        ps.python-lsp-server
+        ps.rope
+        ps.yapf
+      ]))
+      rust-analyzer
       stylua
       taplo
       vscode-langservers-extracted

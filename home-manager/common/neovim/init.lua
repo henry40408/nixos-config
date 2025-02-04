@@ -1,3 +1,11 @@
+local LANGUAGE_SERVERS = {
+  "eslint",
+  "gopls",
+  "lua_ls",
+  "nixd",
+  "taplo",
+}
+
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath("data") .. "/site/"
 local mini_path = path_package .. "pack/deps/start/mini.nvim"
@@ -347,16 +355,20 @@ later(function()
 
   local lspconfig = require("lspconfig")
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
-  local servers = {
-    "eslint",
-    "gopls",
-    "lua_ls",
-    "nixd",
-    "taplo",
-  }
-  for _, lsp in ipairs(servers) do
+  for _, lsp in ipairs(LANGUAGE_SERVERS) do
     lspconfig[lsp].setup({ capabilities = capabilities, on_attach = on_attach })
   end
+  lspconfig.pylsp.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+      pylsp = {
+        plugins = {
+          rope_autoimport = { enabled = true },
+        },
+      },
+    },
+  })
   lspconfig.rust_analyzer.setup({
     capabilities = capabilities,
     on_attach = on_attach,
@@ -393,6 +405,7 @@ later(
         lua = { "stylua" },
         markdown = { "prettierd" },
         nix = { "nixfmt" },
+        python = { "yapf" },
         typescript = { "prettierd" },
         vue = { "prettierd" },
       },
@@ -448,7 +461,6 @@ later(function()
   require("toggleterm").setup({
     direction = "float",
     open_mapping = [[<c-\>]],
-    float_opts = { border = "none" },
   })
   -- terminal mappings
   vim.keymap.set("t", "<esc><esc>", [[<c-\><c-n>]], { desc = "Enter Normal Mode" })
