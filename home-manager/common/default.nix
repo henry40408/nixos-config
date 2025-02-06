@@ -78,16 +78,14 @@
     defaultEditor = true;
     extraPackages = with pkgs; [
       # stable
+      djlint
       gopls
+      isort
       lua-language-server
       nixd
       prettierd
-      (python3.withPackages (ps: [
-        ps.pylsp-rope
-        ps.python-lsp-server
-        ps.rope
-        ps.yapf
-      ]))
+      pyright
+      (python3.withPackages (ps: [ ps.yapf ]))
       rust-analyzer
       stylua
       taplo
