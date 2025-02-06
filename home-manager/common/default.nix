@@ -79,6 +79,7 @@
     extraPackages = with pkgs; [
       # stable
       djlint
+      emmet-language-server
       gopls
       isort
       lua-language-server

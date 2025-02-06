@@ -351,6 +351,23 @@ later(function()
   for _, lsp in ipairs(language_servers) do
     lspconfig[lsp].setup({ capabilities = capabilities, on_attach = on_attach })
   end
+  lspconfig.emmet_language_server.setup({
+    capabilities = capabilities,
+    filetypes = {
+      "css",
+      "eruby",
+      "html",
+      "htmldjango",
+      "javascript",
+      "javascriptreact",
+      "less",
+      "pug",
+      "sass",
+      "scss",
+      "typescriptreact",
+    },
+    on_attach = on_attach,
+  })
   lspconfig.rust_analyzer.setup({
     capabilities = capabilities,
     on_attach = on_attach,
