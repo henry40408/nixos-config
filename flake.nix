@@ -5,18 +5,17 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
+    # Nixpkgs (unstable)
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-24.11";
+
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # NixOS WSL
     nixos-wsl.url = "github:nix-community/nixos-wsl/2405.5.4";
 
     # nixvim
-    nixvim = {
-      url = "github:nix-community/nixvim/nixos-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixvim.url = "github:nix-community/nixvim/nixos-24.05";
   };
 
   outputs =
