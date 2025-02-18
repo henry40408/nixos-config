@@ -5,16 +5,18 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
-    # Nixpkgs unstable
-    # vue-language-server: 2.1.2 -> 2.1.6
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/26ddb99cfd3f8e1092057f90e42db325dad4e5a5";
-
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # NixOS WSL
     nixos-wsl.url = "github:nix-community/nixos-wsl/2405.5.4";
+
+    # nixvim
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
