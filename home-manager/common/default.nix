@@ -1,5 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
+  imports = [ ./nixvim ];
+
   home.packages = with pkgs; [
     fd
     fnm
@@ -59,9 +61,7 @@
       };
     };
     extraConfig = {
-      init = {
-        defaultBranch = "main";
-      };
+      init.defaultBranch = "main";
     };
     signing = {
       key = "2316687+henry40408@users.noreply.github.com";
@@ -73,35 +73,6 @@
   programs.gpg.enable = true;
   programs.lazygit.enable = true;
   programs.lsd.enable = true;
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    extraPackages = with pkgs; [
-      # stable
-      djlint
-      emmet-language-server
-      gopls
-      isort
-      lua-language-server
-      nixd
-      prettierd
-      pyright
-      (python3.withPackages (ps: [ ps.yapf ]))
-      rust-analyzer
-      stylua
-      taplo
-      vscode-langservers-extracted
-
-      # unstable
-      unstable.vue-language-server
-    ];
-    package = pkgs.unstable.neovim-unwrapped;
-    withPython3 = true;
-    withNodeJs = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-  };
   programs.password-store = {
     enable = true;
     settings = {
@@ -163,10 +134,6 @@
   programs.zellij.enable = true;
   programs.zoxide.enable = true;
 
-  xdg.configFile."nvim" = {
-    recursive = true;
-    source = ./neovim;
-  };
   xdg.configFile."zellij/config.kdl" = {
     source = ./zellij/config.kdl;
   };
