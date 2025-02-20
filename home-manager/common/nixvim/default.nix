@@ -23,6 +23,7 @@
       enable = true;
       colorscheme = "irblack";
     };
+    defaultEditor = true;
     plugins.which-key = {
       enable = true;
       registrations = {

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [ ./nixvim ];
 
@@ -61,9 +61,7 @@
       };
     };
     extraConfig = {
-      init = {
-        defaultBranch = "main";
-      };
+      init.defaultBranch = "main";
     };
     signing = {
       key = "2316687+henry40408@users.noreply.github.com";
