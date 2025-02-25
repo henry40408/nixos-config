@@ -63,6 +63,7 @@
       servers.pyright.enable = true;
       servers.rust-analyzer = {
         enable = true;
+        package = null; # rust-analyzer should be managed by rustup
         installCargo = false;
         installRustc = false;
       };
