@@ -3,7 +3,7 @@
   programs.nixvim = {
     plugins.mini = {
       enable = true;
-      package = pkgs.unstable.vimPlugins.mini-nvim;
+      package = pkgs.next.vimPlugins.mini-nvim;
       modules = {
         ai = { };
         basics = { };
