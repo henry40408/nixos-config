@@ -66,6 +66,11 @@
         package = null; # rust-analyzer should be managed by rustup
         installCargo = false;
         installRustc = false;
+        settings = {
+          check = {
+            command = "clippy";
+          };
+        };
       };
     };
     plugins.luasnip.enable = true;
