@@ -65,6 +65,7 @@
 
   home.file."Brewfile".text = (builtins.readFile ./Brewfile);
   home.file."Brewfile.lock.json".text = (builtins.readFile ./Brewfile.lock.json);
+  news.display = "silent";
 }
 
 # vim: ts=2 sw=2 expandtab:
