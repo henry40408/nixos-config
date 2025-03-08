@@ -62,6 +62,7 @@
       servers.nixd.enable = true;
       servers.ruff.enable = true;
       servers.pyright.enable = true;
+      servers.taplo.enable = true;
       servers.rust-analyzer = {
         enable = true;
         package = null; # rust-analyzer should be managed by rustup
