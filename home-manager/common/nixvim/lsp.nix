@@ -37,6 +37,7 @@
       formattersByFt = {
         nix = [ "nixfmt" ];
         python = [ "ruff_format" ];
+        toml = [ "taplo" ];
       };
     };
     plugins.friendly-snippets.enable = true;
