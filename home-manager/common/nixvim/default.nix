@@ -18,7 +18,6 @@
   };
   programs.nixvim = {
     enable = true;
-    package = pkgs.next.neovim-unwrapped;
     colorschemes.base16 = {
       enable = true;
       colorscheme = "irblack";
