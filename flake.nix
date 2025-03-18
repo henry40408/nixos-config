@@ -3,10 +3,10 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05-small";
 
     # Nixpkgs (next)
-    nixpkgs-next.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-next.url = "github:nixos/nixpkgs/nixos-24.11-small";
 
     # Nixpkgs (unstable)
     nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
