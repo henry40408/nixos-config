@@ -4,6 +4,7 @@
       enable = true;
       autoEnableSources = true;
       settings = {
+        # https://github.com/LazyVim/LazyVim/blob/ec5981dfb1222c3bf246d9bcaa713d5cfa486fbd/lua/lazyvim/plugins/extras/coding/nvim-cmp.lua#L38-L54
         mapping = {
           "<C-Space>" = "cmp.mapping.complete()";
           "<C-b>" = "cmp.mapping.scroll_docs(-4)";
@@ -43,6 +44,7 @@
     plugins.friendly-snippets.enable = true;
     plugins.lsp = {
       enable = true;
+      # https://github.com/LazyVim/LazyVim/blob/ec5981dfb1222c3bf246d9bcaa713d5cfa486fbd/lua/lazyvim/plugins/lsp/keymaps.lua#L16-L38
       onAttach = ''
         local opts = { buffer = bufnr }
         vim.keymap.set("n", "<leader>cl", "<cmd>LspInfo<cr>", { buffer = bufnr, desc = "Lsp Info" })
