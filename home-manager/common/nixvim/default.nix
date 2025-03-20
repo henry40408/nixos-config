@@ -25,16 +25,22 @@
     defaultEditor = true;
     plugins.which-key = {
       enable = true;
-      registrations = {
-        "<leader>c" = {
-          name = "code";
-        };
-        "<leader>f" = {
-          name = "file / find";
-        };
-        "<leader>s" = {
-          name = "search";
-        };
+      settings = {
+        specs = [
+          {
+            __unkeyed = "<leader>c";
+            name = "code";
+          }
+          {
+            __unkeyed = "<leader>f";
+            name = "file / find";
+
+          }
+          {
+            __unkeyed = "<leader>s";
+            name = "search";
+          }
+        ];
       };
     };
     extraPlugins = with pkgs.vimPlugins; [ vim-startuptime ];

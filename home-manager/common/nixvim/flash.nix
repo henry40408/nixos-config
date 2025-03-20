@@ -2,13 +2,15 @@
   programs.nixvim = {
     plugins.flash = {
       enable = true;
-      jump = {
-        nohlsearch = true;
-      };
-      label = {
-        uppercase = false;
-        rainbow = {
-          enabled = true;
+      settings = {
+        jump = {
+          nohlsearch = true;
+        };
+        label = {
+          uppercase = false;
+          rainbow = {
+            enabled = true;
+          };
         };
       };
     };

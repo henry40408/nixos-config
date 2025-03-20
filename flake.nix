@@ -3,22 +3,22 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11-small";
 
     # Nixpkgs (next)
-    nixpkgs-next.url = "github:nixos/nixpkgs/nixos-24.11-small";
+    # nixpkgs-next.url = "github:nixos/nixpkgs/nixos-25.05-small";
 
     # Nixpkgs (unstable)
     nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
 
     # NixOS WSL
     nixos-wsl.url = "github:nix-community/nixos-wsl/2405.5.4";
 
     # nixvim
-    nixvim.url = "github:nix-community/nixvim/nixos-24.05";
+    nixvim.url = "github:nix-community/nixvim/nixos-24.11";
   };
 
   outputs =

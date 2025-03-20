@@ -34,11 +34,13 @@
     };
     plugins.conform-nvim = {
       enable = true;
-      formatOnSave = { };
-      formattersByFt = {
-        nix = [ "nixfmt" ];
-        python = [ "ruff_format" ];
-        toml = [ "taplo" ];
+      settings = {
+        format_on_save = { };
+        formatters_by_ft = {
+          nix = [ "nixfmt" ];
+          python = [ "ruff_format" ];
+          toml = [ "taplo" ];
+        };
       };
     };
     plugins.friendly-snippets.enable = true;
@@ -65,7 +67,7 @@
       servers.ruff.enable = true;
       servers.pyright.enable = true;
       servers.taplo.enable = true;
-      servers.rust-analyzer = {
+      servers.rust_analyzer = {
         enable = true;
         package = null; # rust-analyzer should be managed by rustup
         installCargo = false;
@@ -81,10 +83,12 @@
     plugins.none-ls.enable = true;
     plugins.treesitter = {
       enable = true;
-      ensureInstalled = [
-        "nix"
-        "python"
-      ];
+      settings = {
+        ensure_installed = [
+          "nix"
+          "python"
+        ];
+      };
     };
   };
 }

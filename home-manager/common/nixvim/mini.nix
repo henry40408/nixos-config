@@ -1,9 +1,7 @@
-{ pkgs, ... }:
 {
   programs.nixvim = {
     plugins.mini = {
       enable = true;
-      package = pkgs.next.vimPlugins.mini-nvim;
       modules = {
         ai = { };
         basics = { };
