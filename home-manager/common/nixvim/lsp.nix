@@ -21,7 +21,6 @@
             require('luasnip').lsp_expand(args.body)
           end'';
         sources = [
-          { name = "buffer"; }
           { name = "nvim_lsp"; }
           { name = "nvim_lsp_signature_help"; }
           { name = "path"; }
@@ -29,13 +28,17 @@
             name = "luasnip";
             keywordLength = 3;
           }
+          { name = "buffer"; }
         ];
       };
     };
     plugins.conform-nvim = {
       enable = true;
       settings = {
-        format_on_save = { };
+        format_on_save = {
+          # https://github.com/nix-community/nixvim/issues/2601
+          __raw = "{}";
+        };
         formatters_by_ft = {
           nix = [ "nixfmt" ];
           python = [ "ruff_format" ];
