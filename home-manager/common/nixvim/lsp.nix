@@ -1,5 +1,7 @@
+{ pkgs, ... }:
 {
   programs.nixvim = {
+    extraPackages = with pkgs; [ nodePackages.prettier ];
     plugins.cmp = {
       enable = true;
       autoEnableSources = true;
@@ -40,9 +42,18 @@
           __raw = "{}";
         };
         formatters_by_ft = {
+          css = [ "prettier" ];
+          html = [ "prettier" ];
+          javascript = [ "prettier" ];
+          javascriptreact = [ "prettier" ];
+          json = [ "prettier" ];
+          markdown = [ "prettier" ];
           nix = [ "nixfmt" ];
           python = [ "ruff_format" ];
           toml = [ "taplo" ];
+          typescript = [ "prettier" ];
+          typescriptreact = [ "prettier" ];
+          yaml = [ "prettier" ];
         };
       };
     };
@@ -66,10 +77,14 @@
         vim.keymap.set({ "n", "v" }, "<leader>cc", vim.lsp.codelens.run, { buffer = bufnr, desc = "Run Codelens" })
         vim.keymap.set("n", "<leader>cC", vim.lsp.codelens.refresh, { buffer = bufnr, desc = "Refresh & Display Codelens" })
       '';
+      servers.denols.enable = true;
+      servers.emmet_language_server.enable = true;
+      servers.eslint.enable = true;
       servers.nixd.enable = true;
       servers.ruff.enable = true;
       servers.pyright.enable = true;
       servers.taplo.enable = true;
+      servers.ts_ls.enable = true;
       servers.rust_analyzer = {
         enable = true;
         package = null; # rust-analyzer should be managed by rustup
