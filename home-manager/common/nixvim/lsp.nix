@@ -1,7 +1,10 @@
 { pkgs, ... }:
 {
   programs.nixvim = {
-    extraPackages = with pkgs; [ nodePackages.prettier ];
+    extraPackages = with pkgs; [
+      nodePackages.prettier
+      stylua
+    ];
     plugins.cmp = {
       enable = true;
       autoEnableSources = true;
@@ -47,6 +50,7 @@
           javascript = [ "prettier" ];
           javascriptreact = [ "prettier" ];
           json = [ "prettier" ];
+          lua = [ "stylua" ];
           markdown = [ "prettier" ];
           nix = [ "nixfmt" ];
           python = [ "ruff_format" ];
