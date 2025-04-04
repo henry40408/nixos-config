@@ -54,6 +54,7 @@
           markdown = [ "prettier" ];
           nix = [ "nixfmt" ];
           python = [ "ruff_format" ];
+          rust = [ "rustfmt" ];
           toml = [ "taplo" ];
           typescript = [ "prettier" ];
           typescriptreact = [ "prettier" ];
