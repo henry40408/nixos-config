@@ -58,6 +58,7 @@
           toml = [ "taplo" ];
           typescript = [ "prettier" ];
           typescriptreact = [ "prettier" ];
+          vue = [ "prettier" ];
           yaml = [ "prettier" ];
         };
       };
@@ -101,6 +102,7 @@
           };
         };
       };
+      servers.volar.enable = true;
     };
     plugins.luasnip.enable = true;
     plugins.none-ls.enable = true;
