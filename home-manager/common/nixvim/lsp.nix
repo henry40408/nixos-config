@@ -83,7 +83,6 @@
         vim.keymap.set({ "n", "v" }, "<leader>cc", vim.lsp.codelens.run, { buffer = bufnr, desc = "Run Codelens" })
         vim.keymap.set("n", "<leader>cC", vim.lsp.codelens.refresh, { buffer = bufnr, desc = "Refresh & Display Codelens" })
       '';
-      servers.denols.enable = true;
       servers.emmet_language_server.enable = true;
       servers.eslint.enable = true;
       servers.nixd.enable = true;
