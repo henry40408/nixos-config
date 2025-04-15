@@ -13,8 +13,8 @@
         files = { };
         icons = { };
         indentscope = { };
-        operators = { };
         notify = { };
+        operators = { };
         pairs = { };
         pick = { };
         statusline = { };
@@ -33,6 +33,7 @@
         trailspace = { };
       };
     };
+    plugins.web-devicons.enable = true;
     keymaps = [
       {
         key = "<leader>fe";
