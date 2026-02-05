@@ -3,7 +3,7 @@ _UNAME := $(shell uname)
 _ARCH := $(shell uname -m)
 _WSL_DISTRO := $(WSL_DISTRO_NAME)
 
-.PHONY: all fmt update dry-run switch os/dry-run os/switch
+.PHONY: all fmt update dry-run switch os/dry-run os/switch vm/run
 
 all: fmt
 
@@ -67,4 +67,12 @@ else ifeq ($(_UNAME),Darwin)
 	$(error Darwin is not supported)
 else ifeq ($(_UNAME),Linux)
 	sudo nixos-rebuild switch --flake ".#vm"
+endif
+
+vm/run:
+ifeq ($(_UNAME),Linux)
+	nix build ".#nixosConfigurations.vm.config.system.build.vm"
+	./result/bin/run-nixos-vm
+else
+	$(error vm/run is only supported on Linux)
 endif
