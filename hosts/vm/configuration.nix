@@ -2,6 +2,7 @@
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
+  outputs,
   lib,
   config,
   pkgs,
@@ -19,7 +20,17 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+
+    # Home Manager NixOS module
+    inputs.home-manager.nixosModules.home-manager
   ];
+
+  home-manager = {
+    useGlobalPkgs = false;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs outputs; };
+    users.nixos = import ../../home-manager/linux;
+  };
 
   nixpkgs = {
     # You can add overlays here
