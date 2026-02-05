@@ -72,7 +72,7 @@ endif
 vm/run:
 ifeq ($(_UNAME),Linux)
 	nix build ".#nixosConfigurations.vm.config.system.build.vm"
-	./result/bin/run-nixos-vm
+	QEMU_NET_OPTS="hostfwd=tcp::2222-:22" ./result/bin/run-nixos-vm
 else
 	$(error vm/run is only supported on Linux)
 endif

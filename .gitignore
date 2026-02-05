@@ -1,2 +1,6 @@
 tmp/*
 !tmp/.keep
+
+# VM build artifacts
+result
+*.qcow2
