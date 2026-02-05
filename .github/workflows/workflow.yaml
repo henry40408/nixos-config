@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: cachix/install-nix-action@v30
+      - uses: cachix/install-nix-action@v31
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - uses: DeterminateSystems/flake-checker-action@v12
 
@@ -29,7 +29,7 @@ jobs:
         config: [vm, wsl]
     steps:
       - uses: actions/checkout@v6
-      - uses: cachix/install-nix-action@v30
+      - uses: cachix/install-nix-action@v31
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Build ${{ matrix.config }}
         run: nix build .#nixosConfigurations.${{ matrix.config }}.config.system.build.toplevel
@@ -43,7 +43,7 @@ jobs:
           - nixos@linux-x86_64
     steps:
       - uses: actions/checkout@v6
-      - uses: cachix/install-nix-action@v30
+      - uses: cachix/install-nix-action@v31
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Build ${{ matrix.config }}
         run: nix build .#homeConfigurations."${{ matrix.config }}".activationPackage
