@@ -18,7 +18,7 @@
         options.desc = "Symbols (Trouble)";
       }
       {
-        key = "<leader>cl";
+        key = "<leader>cL";
         action = "<cmd>Trouble lsp toggle focus=false win.position=right<cr>";
         options.desc = "LSP Definitions / references / ... (Trouble)";
       }

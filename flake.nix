@@ -15,7 +15,7 @@
     home-manager.url = "github:nix-community/home-manager/release-24.11";
 
     # NixOS WSL
-    nixos-wsl.url = "github:nix-community/nixos-wsl/2405.5.4";
+    nixos-wsl.url = "github:nix-community/nixos-wsl";
 
     # nixvim
     nixvim.url = "github:nix-community/nixvim/nixos-24.11";
@@ -51,6 +51,28 @@
           modules = [ ./hosts/wsl/configuration.nix ];
         };
       };
+
+      # Development shells
+      devShells =
+        let
+          forAllSystems = nixpkgs.lib.genAttrs [
+            "x86_64-linux"
+            "aarch64-linux"
+            "x86_64-darwin"
+            "aarch64-darwin"
+          ];
+        in
+        forAllSystems (
+          system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
+          {
+            default = pkgs.mkShell {
+              packages = [ pkgs.nixfmt-rfc-style ];
+            };
+          }
+        );
 
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'

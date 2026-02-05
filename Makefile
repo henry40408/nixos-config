@@ -53,18 +53,18 @@ endif
 
 os/dry-run:
 ifneq ($(_WSL_DISTRO),)
-	sudo nixos-rebuild dry-build --flake ".#wsl" --impure
+	sudo nixos-rebuild dry-build --flake ".#wsl"
 else ifeq ($(_UNAME),Darwin)
 	$(error Darwin is not supported)
 else ifeq ($(_UNAME),Linux)
-	sudo nixos-rebuild dry-build --flake ".#vm" --impure
+	sudo nixos-rebuild dry-build --flake ".#vm"
 endif
 
 os/switch:
 ifneq ($(_WSL_DISTRO),)
-	sudo nixos-rebuild switch --flake ".#wsl" --impure
+	sudo nixos-rebuild switch --flake ".#wsl"
 else ifeq ($(_UNAME),Darwin)
 	$(error Darwin is not supported)
 else ifeq ($(_UNAME),Linux)
-	sudo nixos-rebuild switch --flake ".#vm" --impure
+	sudo nixos-rebuild switch --flake ".#vm"
 endif
