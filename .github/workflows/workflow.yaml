@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: cachix/install-nix-action@v30
-      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
       - uses: DeterminateSystems/flake-checker-action@v12
 
       - name: Check formatting
@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: cachix/install-nix-action@v30
-      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Build ${{ matrix.config }}
         run: nix build .#nixosConfigurations.${{ matrix.config }}.config.system.build.toplevel
 
@@ -44,6 +44,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: cachix/install-nix-action@v30
-      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Build ${{ matrix.config }}
         run: nix build .#homeConfigurations."${{ matrix.config }}".activationPackage
