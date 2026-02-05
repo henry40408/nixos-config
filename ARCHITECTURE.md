@@ -95,6 +95,8 @@ The configuration includes:
 - Set zsh as the default shell.
 - Enable Avahi so the virtual machine is accessible via the \*.local domain.
 - Set Asia/Taipei as the timezone.
+- Home-manager is integrated as a NixOS module, so user configuration is applied on boot.
+- Default password `nixos` for testing (change immediately with `passwd`).
 
 ## hosts/wsl
 
@@ -112,3 +114,4 @@ Automation commands for building and deployment:
 - `make switch`: Apply home-manager configuration.
 - `make os/dry-run`: Validate NixOS system configuration.
 - `make os/switch`: Apply NixOS system configuration.
+- `make vm/run`: Build and start a QEMU VM for testing (Linux only). Allocates half of host CPU and memory, forwards SSH to port 2222.

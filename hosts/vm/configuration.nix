@@ -2,6 +2,7 @@
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
+  outputs,
   lib,
   config,
   pkgs,
@@ -19,7 +20,17 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+
+    # Home Manager NixOS module
+    inputs.home-manager.nixosModules.home-manager
   ];
+
+  home-manager = {
+    useGlobalPkgs = false;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs outputs; };
+    users.nixos = import ../../home-manager/linux;
+  };
 
   nixpkgs = {
     # You can add overlays here
@@ -70,6 +81,8 @@
   users.users = {
     nixos = {
       isNormalUser = true;
+      # Default password for VM testing. Change it immediately with `passwd`.
+      initialPassword = "nixos";
       openssh.authorizedKeys.keys = [
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC6kPv20dWCWHjJz9hF5PiBQlIgVeHIrIuh3gNJHusnWCJh/SILKEfywE6U+OosJ0ylM/BEl9BOrNlwfof0hz/l6h5xq7v3fZoUKyOvGrZ1tk9/cJx6BPNUwx4E3RBzQ0YZwQKi0C1ojJlSWQfj0ewVne4wuV0MmgaGElxRFxf4zOoE1ONX5ipJ0j/rOv56AguAr1gX/R6SgUEgsFKb/KMD28xXRk16lIGaWqqsnD1ZIO1ixocAwdFCN7ZSpGnYdmQU9r8YGdCRKWXyqQCjsU4r3Vb4QrdZq0zJtUFSS9TMRUyISFClHaRG8fyVENWEMmfTw606wQz46dRUf5VKJL2sOuwofSp3VGyIW8Yft2bW956+MLfVna7grKm9uKHlQMrMXBCz0nBywnDFASubiqpn9nUNYPXykEHJYP2pj5N9lMHpAap9AusMnEFUHPkkDWIJNRlSrRRTHC1yJWmzPCvPGUShQpYgGVvYRlNh56ORbS+2z3Mt5bn//1NFYZvWFKms8JNebIN+9N6sPDNXrTSLn464OC7LDo1t2U00Wwnw/Dm8Tt47nokscBUK8qR8JRLmXR05eCw9gD4DVzWoE4jHOaMlW16qdUzGNb8VMJRfjkF7petSNb8PCYu8VEzo6cT0c7Vgq04p9XsA7i8FZn4jnUppCtL/9U0medGeoB/6gQ=="
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBii9pFXGH+2N8VLWAxZHrVxIc6EJ7I7zKe6PRM/9bUd"
