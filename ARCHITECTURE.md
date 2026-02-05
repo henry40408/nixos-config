@@ -1,19 +1,62 @@
 # Architecture
 
-- Hardware: A MacBook Pro with an Intel CPU and a Windows PC that runs a WSL (Windows Subsystem for Linux) environment.
+- Hardware: Supports macOS (both Intel and Apple Silicon) and Linux (x86_64 and aarch64), including WSL (Windows Subsystem for Linux) environments.
 - This configuration is derived from the standard version of [Misterio77/nix-starter-configs](https://github.com/Misterio77/nix-starter-configs/tree/972935c1b35d8b92476e26b0e63a044d191d49c3/standard).
+
+## flake.nix
+
+The central configuration file that defines all inputs and outputs.
+
+### Inputs
+
+| Input | Source | Purpose |
+|-------|--------|---------|
+| `nixpkgs` | nixos/nixpkgs (24.11-small) | Main package source |
+| `nixpkgs-unstable` | nixos/nixpkgs (master) | Latest unstable packages |
+| `home-manager` | nix-community (24.11) | User environment management |
+| `nixos-wsl` | nix-community | WSL support |
+| `nixvim` | nix-community (24.11) | Neovim configuration framework |
+
+### Outputs
+
+- **nixosConfigurations**: `vm`, `wsl`
+- **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin-legacy` (x86_64), `henry@darwin` (aarch64)
+- **overlays**: `unstable-packages`
+- **devShells**: Provides `nixfmt-rfc-style` for all systems
+
+## overlays
+
+Contains `default.nix` which provides the `unstable-packages` overlay, allowing access to the latest packages via `pkgs.unstable.*`.
 
 ## home-manager
 
-Configuration for each user.
+Configuration for each user, organized by platform.
 
 ## home-manager/common
 
 Common configuration shared between Darwin and Linux.
 
+### Core packages and tools
+
+- **Shell**: Zsh with Powerlevel10k theme and Oh-my-zsh plugins
+- **Development**: Git (with GPG signing), GitHub CLI, direnv, FZF, ripgrep
+- **Terminal tools**: Atuin (shell history), bat, lsd, lazygit, zoxide
+- **Services**: GPG Agent, Syncthing
+
 ## home-manager/common/nixvim
 
-Nixvim is a configuration system that uses Nix for plugin management. It leverages `vimPlugins` from the nixpkgs distribution, ensuring that plugin versions are locked.
+NixVim is a configuration system that uses Nix for plugin management. It leverages `vimPlugins` from the nixpkgs distribution, ensuring that plugin versions are locked.
+
+### Module structure
+
+| Module | Purpose |
+|--------|---------|
+| `default.nix` | Base settings, colorscheme (irblack), which-key |
+| `lsp.nix` | LSP servers (nixd, eslint, pyright, ts_ls, volar, rust-analyzer, etc.) |
+| `ui.nix` | Diagnostics display (Trouble plugin) |
+| `mini.nix` | Mini.nvim collection (ai, basics, comment, surround, etc.) |
+| `flash.nix` | Quick navigation plugin |
+| `toggleterm.nix` | Floating terminal configuration |
 
 ## home-manager/common/zellij
 
@@ -22,10 +65,11 @@ Nixvim is a configuration system that uses Nix for plugin management. It leverag
 
 ## home-manager/common/zsh
 
-The configuration is divided into two files: `extra-first.zsh` and `extra.zsh`:
+The configuration includes:
 
-- `extra-first.zsh`: Commands to be added at the beginning of `.zshrc`.
-- `extra.zsh`: Additional commands to be appended to `.zshrc`.
+- `instant-prompt.zsh`: Powerlevel10k instant prompt for faster startup.
+- `p10k.zsh`: Powerlevel10k theme configuration.
+- `extra.zsh`: Additional commands appended to `.zshrc`.
 
 ## home-manager/common/envrc
 
@@ -34,26 +78,37 @@ The configuration is divided into two files: `extra-first.zsh` and `extra.zsh`:
 
 ## home-manager/darwin
 
-- Darwin-specific configurations.
-- Currently, it only includes lock files for [homebrew](https://brew.sh).
-- GPG agent and syncthing are installed via homebrew for the GUI.
+- Darwin-specific configurations for user `henry`.
+- Includes lock files for [homebrew](https://brew.sh) (`Brewfile`, `Brewfile.lock.json`).
+- Additional packages: automake, aria, mas, pkg-config.
 
 ## home-manager/linux
 
-- Linux-specific configurations.
+- Linux-specific configurations for user `nixos`.
 - GPG agent and syncthing are installed by home-manager.
+- Additional packages: gcc.
 
 ## hosts/vm
 
 - SSH: Inject public keys, disable root login, and disable password authentication.
+- Hardware virtualization: QEMU Guest support.
 - Set zsh as the default shell.
 - Enable Avahi so the virtual machine is accessible via the \*.local domain.
 - Set Asia/Taipei as the timezone.
 
 ## hosts/wsl
 
-- Use [NixOS-WSL](https://github.com/nix-community/NixOS-WSL/blob/aef95bdb6800a3a2af7aa7083d6df03067da6592/README.md).
+- Use [NixOS-WSL](https://github.com/nix-community/NixOS-WSL).
 - Set Asia/Taipei as the timezone.
 - Install Git and GNU Make for the Makefile of this configuration.
 - Set zsh as the default shell.
 - Install Docker and allow the normal user to use it for virtualization.
+
+## Makefile
+
+Automation commands for building and deployment:
+
+- `make dry-run`: Validate home-manager configuration.
+- `make switch`: Apply home-manager configuration.
+- `make os/dry-run`: Validate NixOS system configuration.
+- `make os/switch`: Apply NixOS system configuration.
