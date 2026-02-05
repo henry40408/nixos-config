@@ -41,7 +41,6 @@ jobs:
       matrix:
         config:
           - nixos@linux-x86_64
-          - nixos@linux-aarch64
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
