@@ -45,6 +45,18 @@ Ensure the VM boots with UEFI and has three partitions labeled "boot", "nixos", 
 sudo nixos-rebuild switch --flake .#vm
 ```
 
+To test VM configuration locally with QEMU (Linux only):
+
+```bash
+make vm/run
+```
+
+This builds and starts a VM with half of host CPU and memory, SSH forwarded to port 2222. Login credentials: `nixos` / `nixos`. Connect via SSH:
+
+```bash
+ssh -p 2222 nixos@localhost
+```
+
 To ensure that the Home Manager configuration is evaluable, also known as a dry run:
 
 ```bash
