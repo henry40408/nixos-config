@@ -6,7 +6,7 @@
 # https://github.com/nix-community/NixOS-WSL
 
 {
-  config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -14,8 +14,7 @@
 
 {
   imports = [
-    # include NixOS-WSL modules
-    <nixos-wsl/modules>
+    inputs.nixos-wsl.nixosModules.default
   ];
 
   wsl.enable = true;

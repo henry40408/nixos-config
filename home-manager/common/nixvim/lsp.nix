@@ -68,7 +68,6 @@
       enable = true;
       # https://github.com/LazyVim/LazyVim/blob/ec5981dfb1222c3bf246d9bcaa713d5cfa486fbd/lua/lazyvim/plugins/lsp/keymaps.lua#L16-L38
       onAttach = ''
-        local opts = { buffer = bufnr }
         vim.keymap.set("n", "<leader>cl", "<cmd>LspInfo<cr>", { buffer = bufnr, desc = "Lsp Info" })
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Goto Definition" })
         vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr, desc = "References", nowait = true })
