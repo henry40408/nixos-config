@@ -2,6 +2,8 @@ _NIX_FILES := $(shell find . -name '*.nix')
 _UNAME := $(shell uname)
 _ARCH := $(shell uname -m)
 _WSL_DISTRO := $(WSL_DISTRO_NAME)
+_HALF_CPUS := $(shell echo $$(( $$(nproc) / 2 )))
+_HALF_MEM := $(shell free -m | awk '/^Mem:/{print int($$2/2)}')
 
 .PHONY: all fmt update dry-run switch os/dry-run os/switch vm/run
 
@@ -72,7 +74,7 @@ endif
 vm/run:
 ifeq ($(_UNAME),Linux)
 	nix build ".#nixosConfigurations.vm.config.system.build.vm"
-	QEMU_NET_OPTS="hostfwd=tcp::2222-:22" ./result/bin/run-nixos-vm
+	QEMU_OPTS="-m $(_HALF_MEM) -smp $(_HALF_CPUS)" QEMU_NET_OPTS="hostfwd=tcp::2222-:22" ./result/bin/run-nixos-vm
 else
 	$(error vm/run is only supported on Linux)
 endif
