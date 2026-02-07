@@ -68,7 +68,7 @@
             pkgs = nixpkgs.legacyPackages.${system};
           in
           {
-            default = pkgs.mkShell {
+            default = pkgs.mkShellNoCC {
               packages = [ pkgs.nixfmt-rfc-style ];
             };
           }
