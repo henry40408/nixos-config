@@ -11,12 +11,22 @@
     nixfmt-rfc-style
     procs
     spacer
+    wl-clipboard
+    xclip
     xh
     zsh-autopair
     zsh-completions
     zsh-fzf-tab
     zsh-powerlevel10k
     zsh-you-should-use
+
+    (writeShellScriptBin "clipboard-copy" ''
+      if [ -n "$WAYLAND_DISPLAY" ]; then
+        exec ${wl-clipboard}/bin/wl-copy "$@"
+      else
+        exec ${xclip}/bin/xclip -selection clipboard "$@"
+      fi
+    '')
   ];
 
   home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
