@@ -2,8 +2,8 @@ _NIX_FILES := $(shell find . -name '*.nix')
 _UNAME := $(shell uname)
 _ARCH := $(shell uname -m)
 _WSL_DISTRO := $(WSL_DISTRO_NAME)
-_HALF_CPUS := $(shell echo $$(( $$(nproc) / 2 )))
-_HALF_MEM := $(shell free -m | awk '/^Mem:/{print int($$2/2)}')
+_HALF_CPUS = $(shell echo $$(( $$(nproc) / 2 )))
+_HALF_MEM = $(shell free -m | awk '/^Mem:/{print int($$2/2)}')
 
 .PHONY: all fmt update dry-run switch os/dry-run os/switch vm/run
 
