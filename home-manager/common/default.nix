@@ -21,7 +21,9 @@
     zsh-you-should-use
 
     (writeShellScriptBin "clipboard-copy" ''
-      if [ -n "$WAYLAND_DISPLAY" ]; then
+      if [ "$(uname)" = "Darwin" ]; then
+        exec pbcopy "$@"
+      elif [ -n "$WAYLAND_DISPLAY" ]; then
         exec ${wl-clipboard}/bin/wl-copy "$@"
       else
         exec ${xclip}/bin/xclip -selection clipboard "$@"
