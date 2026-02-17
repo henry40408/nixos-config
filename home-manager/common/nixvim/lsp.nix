@@ -2,6 +2,7 @@
 {
   programs.nixvim = {
     extraPackages = with pkgs; [
+      nodejs
       nodePackages.prettier
       stylua
     ];
