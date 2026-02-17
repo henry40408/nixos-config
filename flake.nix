@@ -30,6 +30,12 @@
     }@inputs:
     let
       inherit (self) outputs;
+      forAllSystems = nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
     in
     {
       # Your custom packages and modifications, exported as overlays
@@ -52,27 +58,23 @@
         };
       };
 
+      # Packages exposed from flake inputs
+      packages = forAllSystems (system: {
+        home-manager = home-manager.packages.${system}.home-manager;
+      });
+
       # Development shells
-      devShells =
+      devShells = forAllSystems (
+        system:
         let
-          forAllSystems = nixpkgs.lib.genAttrs [
-            "x86_64-linux"
-            "aarch64-linux"
-            "x86_64-darwin"
-            "aarch64-darwin"
-          ];
+          pkgs = nixpkgs.legacyPackages.${system};
         in
-        forAllSystems (
-          system:
-          let
-            pkgs = nixpkgs.legacyPackages.${system};
-          in
-          {
-            default = pkgs.mkShellNoCC {
-              packages = [ pkgs.nixfmt-rfc-style ];
-            };
-          }
-        );
+        {
+          default = pkgs.mkShellNoCC {
+            packages = [ pkgs.nixfmt-rfc-style ];
+          };
+        }
+      );
 
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'

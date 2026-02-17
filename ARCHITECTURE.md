@@ -21,6 +21,7 @@ The central configuration file that defines all inputs and outputs.
 
 - **nixosConfigurations**: `vm`, `wsl`
 - **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin-legacy` (x86_64), `henry@darwin` (aarch64)
+- **packages**: `home-manager` — Exposes the home-manager CLI from flake inputs, enabling `nix run '.#home-manager'` for bootstrapping without a prior installation.
 - **overlays**: `unstable-packages`
 - **devShells**: Provides `nixfmt-rfc-style` for all systems
 
@@ -110,6 +111,7 @@ The configuration includes:
 
 Automation commands for building and deployment:
 
+- `make bootstrap`: First-time home-manager setup via `nix run '.#home-manager'` (no prior installation required).
 - `make dry-run`: Validate home-manager configuration.
 - `make switch`: Apply home-manager configuration.
 - `make os/dry-run`: Validate NixOS system configuration.
