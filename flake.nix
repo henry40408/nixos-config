@@ -3,7 +3,7 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11-small";
 
     # Nixpkgs (next)
     # nixpkgs-next.url = "github:nixos/nixpkgs/nixos-25.05-small";
@@ -12,13 +12,13 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
 
     # NixOS WSL
     nixos-wsl.url = "github:nix-community/nixos-wsl";
 
     # nixvim
-    nixvim.url = "github:nix-community/nixvim/nixos-24.11";
+    nixvim.url = "github:nix-community/nixvim/nixos-25.11";
   };
 
   outputs =
