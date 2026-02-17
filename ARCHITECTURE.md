@@ -38,9 +38,10 @@ Common configuration shared between Darwin and Linux.
 
 ### Core packages and tools
 
-- **Shell**: Zsh with Powerlevel10k theme and Oh-my-zsh plugins
-- **Development**: Git (with GPG signing), GitHub CLI, direnv, FZF, ripgrep
-- **Terminal tools**: Atuin (shell history), bat, lsd, lazygit, zoxide
+- **Shell**: Zsh with Powerlevel10k theme, Oh-my-zsh plugins, zsh-autopair, zsh-fzf-tab, zsh-you-should-use
+- **Development**: Git (with GPG signing, delta for diffs), GitHub CLI, direnv, FZF, ripgrep, fd, git-extras, gnumake, fnm
+- **Terminal tools**: Atuin (shell history), bat, lsd, lazygit, zoxide, gping, procs, spacer, xh
+- **Security**: GPG, password-store
 - **Services**: GPG Agent, Syncthing
 
 ## home-manager/common/nixvim
@@ -52,9 +53,9 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 | Module | Purpose |
 |--------|---------|
 | `default.nix` | Base settings, colorscheme (irblack), which-key |
-| `lsp.nix` | LSP servers (nixd, eslint, pyright, ts_ls, vue_ls, rust-analyzer, etc.) |
+| `lsp.nix` | LSP servers (nixd, eslint, emmet_language_server, pyright, ruff, taplo, ts_ls, vue_ls, rust_analyzer), completion (nvim-cmp), formatting (conform-nvim), treesitter |
 | `ui.nix` | Diagnostics display (Trouble plugin) |
-| `mini.nix` | Mini.nvim collection (ai, basics, comment, surround, etc.) |
+| `mini.nix` | Mini.nvim collection (ai, basics, bracketed, comment, cursorword, diff, extra, files, icons, indentscope, notify, operators, pairs, pick, statusline, surround, tabline, trailspace) |
 | `flash.nix` | Quick navigation plugin |
 | `toggleterm.nix` | Floating terminal configuration |
 
