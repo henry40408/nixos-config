@@ -10,7 +10,13 @@ This repository, maintained by henry40408, features configurations managed with 
 
 ## Installation
 
-Ensure Nix with Flake support is installed. Clone this repository:
+Install Nix via the [Determinate Nix Installer](https://github.com/DeterminateSystems/nix-installer) (v3.12.2):
+
+```bash
+sh nix-installer.sh install
+```
+
+Clone this repository:
 
 ```bash
 git clone https://github.com/henry40408/nixos-config.git
