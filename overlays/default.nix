@@ -1,12 +1,5 @@
-{ inputs, ... }:
+{ ... }:
 {
-  unstable-packages = final: _prev: {
-    unstable = import inputs.nixpkgs-unstable {
-      system = final.system;
-      config.allowUnfree = true;
-    };
-  };
-
   # Workaround for https://github.com/NixOS/nixpkgs/issues/488689
   # gnulib's error() macro passes dgettext() results as format strings,
   # triggering -Werror,-Wformat-security in openat-die.c

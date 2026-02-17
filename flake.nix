@@ -5,12 +5,6 @@
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11-small";
 
-    # Nixpkgs (next)
-    # nixpkgs-next.url = "github:nixos/nixpkgs/nixos-25.05-small";
-
-    # Nixpkgs (unstable)
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
-
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-25.11";
 
@@ -39,7 +33,7 @@
     in
     {
       # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit inputs; };
+      overlays = import ./overlays { };
 
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
