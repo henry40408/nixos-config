@@ -89,7 +89,9 @@
       servers.ruff.enable = true;
       servers.pyright.enable = true;
       servers.taplo.enable = true;
-      servers.ts_ls.enable = true;
+      # ts_ls is disabled because its bundled nodejs-slim version mismatches
+      # with the nodejs in extraPackages, causing runtime conflicts.
+      # servers.ts_ls.enable = true;
       servers.rust_analyzer = {
         enable = true;
         package = null; # rust-analyzer should be managed by rustup
