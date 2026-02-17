@@ -11,23 +11,22 @@ The central configuration file that defines all inputs and outputs.
 
 | Input | Source | Purpose |
 |-------|--------|---------|
-| `nixpkgs` | nixos/nixpkgs (24.11-small) | Main package source |
-| `nixpkgs-unstable` | nixos/nixpkgs (master) | Latest unstable packages |
-| `home-manager` | nix-community (24.11) | User environment management |
+| `nixpkgs` | nixos/nixpkgs (25.11-small) | Main package source |
+| `home-manager` | nix-community (25.11) | User environment management |
 | `nixos-wsl` | nix-community | WSL support |
-| `nixvim` | nix-community (24.11) | Neovim configuration framework |
+| `nixvim` | nix-community (25.11) | Neovim configuration framework |
 
 ### Outputs
 
 - **nixosConfigurations**: `vm`, `wsl`
 - **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin-legacy` (x86_64), `henry@darwin` (aarch64)
 - **packages**: `home-manager` — Exposes the home-manager CLI from flake inputs, enabling `nix run '.#home-manager'` for bootstrapping without a prior installation.
-- **overlays**: `unstable-packages`
+- **overlays**: `fix-inetutils`
 - **devShells**: Provides `nixfmt-rfc-style` for all systems
 
 ## overlays
 
-Contains `default.nix` which provides the `unstable-packages` overlay, allowing access to the latest packages via `pkgs.unstable.*`.
+Contains `default.nix` which provides the `fix-inetutils` overlay, a workaround for inetutils build failure on Darwin (nixpkgs#488689).
 
 ## home-manager
 
@@ -53,7 +52,7 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 | Module | Purpose |
 |--------|---------|
 | `default.nix` | Base settings, colorscheme (irblack), which-key |
-| `lsp.nix` | LSP servers (nixd, eslint, pyright, ts_ls, volar, rust-analyzer, etc.) |
+| `lsp.nix` | LSP servers (nixd, eslint, pyright, ts_ls, vue_ls, rust-analyzer, etc.) |
 | `ui.nix` | Diagnostics display (Trouble plugin) |
 | `mini.nix` | Mini.nvim collection (ai, basics, comment, surround, etc.) |
 | `flash.nix` | Quick navigation plugin |
@@ -81,13 +80,13 @@ The configuration includes:
 
 - Darwin-specific configurations for user `henry`.
 - Includes lock files for [homebrew](https://brew.sh) (`Brewfile`, `Brewfile.lock.json`).
-- Additional packages: automake, aria, mas, pkg-config.
+- Additional packages: automake, mas, pkg-config.
 
 ## home-manager/linux
 
 - Linux-specific configurations for user `nixos`.
 - GPG agent and syncthing are installed by home-manager.
-- Additional packages: gcc.
+- No additional packages beyond common configuration.
 
 ## hosts/vm
 
