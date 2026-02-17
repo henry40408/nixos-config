@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [ ./nixvim ];
 
@@ -11,8 +11,6 @@
     nixfmt-rfc-style
     procs
     spacer
-    wl-clipboard
-    xclip
     xh
     zsh-autopair
     zsh-completions
@@ -20,15 +18,20 @@
     zsh-powerlevel10k
     zsh-you-should-use
 
-    (writeShellScriptBin "clipboard-copy" ''
-      if [ "$(uname)" = "Darwin" ]; then
+    (writeShellScriptBin "clipboard-copy" (
+      if stdenv.isDarwin then ''
         exec pbcopy "$@"
-      elif [ -n "$WAYLAND_DISPLAY" ]; then
-        exec ${wl-clipboard}/bin/wl-copy "$@"
-      else
-        exec ${xclip}/bin/xclip -selection clipboard "$@"
-      fi
-    '')
+      '' else ''
+        if [ -n "$WAYLAND_DISPLAY" ]; then
+          exec ${wl-clipboard}/bin/wl-copy "$@"
+        else
+          exec ${xclip}/bin/xclip -selection clipboard "$@"
+        fi
+      ''
+    ))
+  ] ++ lib.optionals stdenv.isLinux [
+    wl-clipboard
+    xclip
   ];
 
   home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
@@ -60,23 +63,26 @@
       git_protocol = "ssh";
     };
   };
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      side-by-side = true;
+    };
+  };
   programs.git = {
     enable = true;
-    delta = {
-      enable = true;
-      options = {
-        side-by-side = true;
-      };
-    };
-    extraConfig = {
+    settings = {
       init.defaultBranch = "main";
+      user = {
+        name = "Heng-Yi Wu";
+        email = "2316687+henry40408@users.noreply.github.com";
+      };
     };
     signing = {
       key = "2316687+henry40408@users.noreply.github.com";
       signByDefault = true;
     };
-    userName = "Heng-Yi Wu";
-    userEmail = "2316687+henry40408@users.noreply.github.com";
   };
   programs.gpg.enable = true;
   programs.lazygit.enable = true;
@@ -92,18 +98,20 @@
     autosuggestion = {
       enable = true;
     };
-    initExtraFirst = ''
-      source $HOME/.p10k.zsh
-      ${builtins.readFile ./zsh/instant-prompt.zsh}
-    '';
-    initExtra = ''
-      source ${pkgs.zsh-autopair}/share/zsh/zsh-autopair/autopair.zsh
-      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.zsh
-      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
-      source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
-      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      ${builtins.readFile ./zsh/extra.zsh}
-    '';
+    initContent = lib.mkMerge [
+      (lib.mkBefore ''
+        source $HOME/.p10k.zsh
+        ${builtins.readFile ./zsh/instant-prompt.zsh}
+      '')
+      ''
+        source ${pkgs.zsh-autopair}/share/zsh/zsh-autopair/autopair.zsh
+        source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.zsh
+        source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+        source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
+        source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+        ${builtins.readFile ./zsh/extra.zsh}
+      ''
+    ];
     oh-my-zsh = {
       enable = true;
       plugins = [
@@ -130,7 +138,6 @@
     };
     shellAliases = {
       cat = "bat";
-      ls = "lsd";
       ping = "gping";
       ps = "procs";
     };
