@@ -16,7 +16,6 @@
   };
   home.packages = with pkgs; [
     automake
-    aria
     mas
     pkg-config
   ];
