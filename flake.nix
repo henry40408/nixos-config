@@ -3,22 +3,16 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11-small";
-
-    # Nixpkgs (next)
-    # nixpkgs-next.url = "github:nixos/nixpkgs/nixos-25.05-small";
-
-    # Nixpkgs (unstable)
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11-small";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
 
     # NixOS WSL
     nixos-wsl.url = "github:nix-community/nixos-wsl";
 
     # nixvim
-    nixvim.url = "github:nix-community/nixvim/nixos-24.11";
+    nixvim.url = "github:nix-community/nixvim/nixos-25.11";
   };
 
   outputs =
@@ -39,7 +33,7 @@
     in
     {
       # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit inputs; };
+      overlays = import ./overlays { };
 
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'

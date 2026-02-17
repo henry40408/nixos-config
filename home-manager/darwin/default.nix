@@ -5,7 +5,7 @@
 }:
 {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
     ../common
     ../common/nixpkgs.nix
   ];
@@ -16,7 +16,6 @@
   };
   home.packages = with pkgs; [
     automake
-    aria
     mas
     pkg-config
   ];

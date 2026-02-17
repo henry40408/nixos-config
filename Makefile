@@ -37,17 +37,17 @@ endif
 dry-run:
 ifeq ($(_UNAME),Darwin)
 ifeq ($(_ARCH),arm64)
-	home-manager build --dry-run --flake '.#henry@darwin'
+	home-manager build --dry-run --flake '.#henry@darwin' $(HM_FLAGS)
 else ifeq ($(_ARCH),x86_64)
-	home-manager build --dry-run --flake '.#henry@darwin-legacy'
+	home-manager build --dry-run --flake '.#henry@darwin-legacy' $(HM_FLAGS)
 else
 	$(error Unsupported architecture)
 endif
 else
 ifeq ($(_ARCH),aarch64)
-	home-manager build --dry-run --flake '.#nixos@linux-aarch64'
+	home-manager build --dry-run --flake '.#nixos@linux-aarch64' $(HM_FLAGS)
 else ifeq ($(_ARCH),x86_64)
-	home-manager build --dry-run --flake '.#nixos@linux-x86_64'
+	home-manager build --dry-run --flake '.#nixos@linux-x86_64' $(HM_FLAGS)
 else
 	$(error Unsupported architecture)
 endif
@@ -56,17 +56,17 @@ endif
 switch:
 ifeq ($(_UNAME),Darwin)
 ifeq ($(_ARCH),arm64)
-	home-manager switch --flake '.#henry@darwin'
+	home-manager switch --flake '.#henry@darwin' $(HM_FLAGS)
 else ifeq ($(_ARCH),x86_64)
-	home-manager switch --flake '.#henry@darwin-legacy'
+	home-manager switch --flake '.#henry@darwin-legacy' $(HM_FLAGS)
 else
 	$(error Unsupported architecture)
 endif
 else
 ifeq ($(_ARCH),aarch64)
-	home-manager switch --flake '.#nixos@linux-aarch64'
+	home-manager switch --flake '.#nixos@linux-aarch64' $(HM_FLAGS)
 else ifeq ($(_ARCH),x86_64)
-	home-manager switch --flake '.#nixos@linux-x86_64'
+	home-manager switch --flake '.#nixos@linux-x86_64' $(HM_FLAGS)
 else
 	$(error Unsupported architecture)
 endif
