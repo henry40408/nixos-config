@@ -2,37 +2,43 @@
 {
   imports = [ ./nixvim ];
 
-  home.packages = with pkgs; [
-    fd
-    fnm
-    git-extras
-    gnumake
-    gping
-    nixfmt-rfc-style
-    procs
-    spacer
-    xh
-    zsh-autopair
-    zsh-completions
-    zsh-fzf-tab
-    zsh-powerlevel10k
-    zsh-you-should-use
+  home.packages =
+    with pkgs;
+    [
+      fd
+      fnm
+      git-extras
+      gnumake
+      gping
+      nixfmt-rfc-style
+      procs
+      spacer
+      xh
+      zsh-autopair
+      zsh-completions
+      zsh-fzf-tab
+      zsh-powerlevel10k
+      zsh-you-should-use
 
-    (writeShellScriptBin "clipboard-copy" (
-      if stdenv.isDarwin then ''
-        exec pbcopy "$@"
-      '' else ''
-        if [ -n "$WAYLAND_DISPLAY" ]; then
-          exec ${wl-clipboard}/bin/wl-copy "$@"
+      (writeShellScriptBin "clipboard-copy" (
+        if stdenv.isDarwin then
+          ''
+            exec pbcopy "$@"
+          ''
         else
-          exec ${xclip}/bin/xclip -selection clipboard "$@"
-        fi
-      ''
-    ))
-  ] ++ lib.optionals stdenv.isLinux [
-    wl-clipboard
-    xclip
-  ];
+          ''
+            if [ -n "$WAYLAND_DISPLAY" ]; then
+              exec ${wl-clipboard}/bin/wl-copy "$@"
+            else
+              exec ${xclip}/bin/xclip -selection clipboard "$@"
+            fi
+          ''
+      ))
+    ]
+    ++ lib.optionals stdenv.isLinux [
+      wl-clipboard
+      xclip
+    ];
 
   home.file.".p10k.zsh".text = (builtins.readFile ./zsh/p10k.zsh);
   home.file."Develop/.envrc".text = (builtins.readFile ./envrc);
