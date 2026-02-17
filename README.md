@@ -10,7 +10,9 @@ This repository, maintained by henry40408, features configurations managed with 
 
 ## Installation
 
-Install Nix via the [Determinate Nix Installer](https://github.com/DeterminateSystems/nix-installer) (v3.12.2):
+### First-Time Setup
+
+Install Nix via the [Determinate Nix Installer](https://github.com/DeterminateSystems/nix-installer):
 
 ```bash
 sh nix-installer.sh install
@@ -23,18 +25,33 @@ git clone https://github.com/henry40408/nixos-config.git
 cd nixos-config
 ```
 
-To ensure that the NixOS configuration is evaluable, also known as a dry run:
+Bootstrap home-manager (no prior installation required):
 
 ```bash
-make os/dry-run
+make bootstrap
 ```
 
-To deploy the NixOS configuration:
+### Subsequent Updates
 
-(Recommended) Automatically apply the configuration based on the detected environment:
+After the initial bootstrap, use home-manager directly:
 
 ```bash
-make os/switch
+make switch
+```
+
+To validate the configuration before applying (dry run):
+
+```bash
+make dry-run
+```
+
+### NixOS System Configuration
+
+To validate and apply the NixOS system configuration:
+
+```bash
+make os/dry-run   # validate
+make os/switch    # apply
 ```
 
 For WSL:
@@ -61,20 +78,6 @@ This builds and starts a VM with half of host CPU and memory, SSH forwarded to p
 
 ```bash
 ssh -p 2222 nixos@localhost
-```
-
-To ensure that the Home Manager configuration is evaluable, also known as a dry run:
-
-```bash
-make dry-run
-```
-
-To apply the home-manager configuration:
-
-```bash
-home-manager switch --flake .#nixos@all
-# or
-make switch
 ```
 
 ## Usage

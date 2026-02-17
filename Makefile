@@ -5,7 +5,7 @@ _WSL_DISTRO := $(WSL_DISTRO_NAME)
 _HALF_CPUS = $(shell echo $$(( $$(nproc) / 2 )))
 _HALF_MEM = $(shell free -m | awk '/^Mem:/{print int($$2/2)}')
 
-.PHONY: all fmt update dry-run switch os/dry-run os/switch vm/run
+.PHONY: all fmt update bootstrap dry-run switch os/dry-run os/switch vm/run
 
 all: fmt
 
@@ -14,6 +14,25 @@ fmt:
 
 update:
 	nix flake update
+
+bootstrap:
+ifeq ($(_UNAME),Darwin)
+ifeq ($(_ARCH),arm64)
+	nix run '.#home-manager' -- switch --flake '.#henry@darwin'
+else ifeq ($(_ARCH),x86_64)
+	nix run '.#home-manager' -- switch --flake '.#henry@darwin-legacy'
+else
+	$(error Unsupported architecture)
+endif
+else
+ifeq ($(_ARCH),aarch64)
+	nix run '.#home-manager' -- switch --flake '.#nixos@linux-aarch64'
+else ifeq ($(_ARCH),x86_64)
+	nix run '.#home-manager' -- switch --flake '.#nixos@linux-x86_64'
+else
+	$(error Unsupported architecture)
+endif
+endif
 
 dry-run:
 ifeq ($(_UNAME),Darwin)
