@@ -101,7 +101,7 @@
           };
         };
       };
-      servers.volar.enable = true;
+      servers.vue_ls.enable = true;
     };
     plugins.luasnip.enable = true;
     plugins.none-ls.enable = true;
