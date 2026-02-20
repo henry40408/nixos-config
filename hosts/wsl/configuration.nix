@@ -43,9 +43,9 @@
   environment.systemPackages = with pkgs; [ gnumake ];
 
   programs.git.enable = true;
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
 
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.fish;
   users.users.nixos = {
     extraGroups = [ "docker" ];
   };
