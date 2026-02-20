@@ -102,6 +102,15 @@
       { name = "autopair"; src = pkgs.fishPlugins.autopair.src; }
       { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish.src; }
       { name = "done"; src = pkgs.fishPlugins.done.src; }
+      {
+        name = "plugin-git";
+        src = pkgs.fetchFromGitHub {
+          owner = "jhillyerd";
+          repo = "plugin-git";
+          rev = "09db2a91510ca8b6abc2ad23c6484f56b3cd72be";
+          hash = "sha256-2+CX9ZGNkois7h3m30VG19Cf4ykRdoiPpEVxJMk75I4=";
+        };
+      }
     ];
     shellAliases = {
       cat = "bat";
