@@ -38,7 +38,7 @@ Common configuration shared between Darwin and Linux.
 
 ### Core packages and tools
 
-- **Shell**: Zsh with Powerlevel10k theme, Oh-my-zsh plugins, zsh-autopair, zsh-fzf-tab, zsh-you-should-use
+- **Shell**: Fish with Starship prompt, fish plugins (autopair, fzf-fish, done, plugin-git)
 - **Development**: Git (with GPG signing, delta for diffs), GitHub CLI, direnv, FZF, ripgrep, fd, git-extras, gnumake, fnm
 - **Terminal tools**: Atuin (shell history), bat, lsd, lazygit, zoxide, gping, procs, spacer, xh
 - **Security**: GPG, password-store
@@ -64,14 +64,6 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 - A terminal workspace with batteries included.
 - The default keybindings of zellij dramatically conflict with NixVim keybindings, so I changed the prefix to change mode from "Ctrl" to "Alt".
 
-## home-manager/common/zsh
-
-The configuration includes:
-
-- `instant-prompt.zsh`: Powerlevel10k instant prompt for faster startup.
-- `p10k.zsh`: Powerlevel10k theme configuration.
-- `extra.zsh`: Additional commands appended to `.zshrc`.
-
 ## home-manager/common/envrc
 
 - Credentials are stored in the [pass](https://www.passwordstore.org) store, synchronized with [syncthing](https://syncthing.net).
@@ -93,7 +85,7 @@ The configuration includes:
 
 - SSH: Inject public keys, disable root login, and disable password authentication.
 - Hardware virtualization: QEMU Guest support.
-- Set zsh as the default shell.
+- Set fish as the default shell.
 - Enable Avahi so the virtual machine is accessible via the \*.local domain.
 - Set Asia/Taipei as the timezone.
 - Home-manager is integrated as a NixOS module, so user configuration is applied on boot.
@@ -104,7 +96,7 @@ The configuration includes:
 - Use [NixOS-WSL](https://github.com/nix-community/NixOS-WSL).
 - Set Asia/Taipei as the timezone.
 - Install Git and GNU Make for the Makefile of this configuration.
-- Set zsh as the default shell.
+- Set fish as the default shell.
 - Install Docker and allow the normal user to use it for virtualization.
 
 ## Makefile
