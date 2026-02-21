@@ -141,7 +141,7 @@
     settings = {
       add_newline = true;
 
-      # Two-line prompt format
+      # Two-line prompt with ANSI colors (terminal theme decides)
       format = builtins.concatStringsSep "" [
         "$os"
         "$directory"
@@ -158,6 +158,8 @@
         "$nodejs"
         "$golang"
         "$rust"
+        "$docker_context"
+        "$container"
         "$kubernetes"
         "$terraform"
         "$aws"
@@ -171,33 +173,35 @@
       ];
 
       fill = {
-        symbol = "-";
+        symbol = "─";
         style = "bright-black";
       };
 
       os = {
         disabled = false;
-        style = "bold";
+        format = "[$symbol ](bold)";
       };
 
       directory = {
         truncation_length = 5;
         truncate_to_repo = false;
-        style = "bold blue";
+        format = "[$path$read_only ](bold blue)";
         read_only = " ro";
       };
 
       git_branch = {
-        format = "[$symbol$branch(:$remote_branch)]($style) ";
+        format = "[$symbol$branch(:$remote_branch)](green) ";
         truncation_length = 32;
-        style = "green";
       };
 
       git_commit = {
         only_detached = true;
         tag_disabled = false;
-        format = "[$hash$tag]($style) ";
-        style = "green";
+        format = "[$hash$tag](green) ";
+      };
+
+      git_state = {
+        format = "[$state( $progress_current/$progress_total)](red) ";
       };
 
       git_status = {
@@ -213,52 +217,13 @@
         deleted = "[-$count](red)";
       };
 
-      git_state = {
-        format = "[$state( $progress_current/$progress_total)]($style) ";
-        style = "red";
-      };
-
-      status = {
-        disabled = false;
-        format = "[$symbol$signal_name]($style) ";
-        symbol = "";
-        map_symbol = true;
-        pipestatus = true;
-        style = "red";
-      };
-
-      cmd_duration = {
-        min_time = 3000;
-        format = "[$duration]($style) ";
-        style = "fg:101";
-        show_milliseconds = false;
-      };
-
-      jobs = {
-        symbol = "bg:";
-        style = "fg:70";
-        number_threshold = 0;
-        format = "[$symbol]($style) ";
-      };
-
-      direnv = {
-        disabled = false;
-        format = "[$symbol$loaded]($style) ";
-        style = "fg:178";
-        symbol = "direnv ";
-      };
-
-      python = {
-        format = "[$virtualenv]($style) ";
-        style = "fg:37";
-        detect_files = [ ];
-        detect_folders = [ ];
-        detect_extensions = [ ];
+      rust = {
+        format = "[$symbol($version)](red) ";
+        detect_files = [ "Cargo.toml" ];
       };
 
       nodejs = {
-        format = "[$symbol($version)]($style) ";
-        style = "fg:70";
+        format = "[$symbol($version)](green) ";
         detect_files = [
           "package.json"
           ".node-version"
@@ -267,68 +232,95 @@
       };
 
       golang = {
-        format = "[$symbol($version)]($style) ";
-        style = "fg:37";
+        format = "[$symbol($version)](cyan) ";
         detect_files = [ "go.mod" ];
       };
 
-      rust = {
-        format = "[$symbol($version)]($style) ";
-        style = "fg:37";
-        detect_files = [ "Cargo.toml" ];
+      python = {
+        format = "[$virtualenv](blue) ";
+        detect_files = [ ];
+        detect_folders = [ ];
+        detect_extensions = [ ];
+      };
+
+      docker_context = {
+        format = "[$symbol$context](blue) ";
+      };
+
+      container = {
+        format = "[$symbol$name](bright-red) ";
       };
 
       kubernetes = {
         disabled = false;
-        format = "[$symbol$context(/$namespace)]($style) ";
-        style = "fg:134";
+        format = "[$symbol$context(/$namespace)](purple) ";
       };
 
       terraform = {
-        format = "[$symbol$workspace]($style) ";
-        style = "fg:38";
+        format = "[$symbol$workspace](blue) ";
       };
 
       aws = {
-        format = "[$symbol($profile)( $region)]($style) ";
-        style = "fg:208";
+        format = "[$symbol($profile)( $region)](yellow) ";
       };
 
       gcloud = {
-        format = "[$symbol($project)]($style) ";
-        style = "fg:32";
+        format = "[$symbol($project)](blue) ";
+      };
+
+      status = {
+        disabled = false;
+        format = "[$symbol$signal_name](red) ";
+        symbol = "";
+        map_symbol = true;
+        pipestatus = true;
+      };
+
+      cmd_duration = {
+        min_time = 3000;
+        format = "[$duration](yellow) ";
+        show_milliseconds = false;
+      };
+
+      jobs = {
+        symbol = "bg:";
+        number_threshold = 0;
+        format = "[$symbol](green) ";
+      };
+
+      direnv = {
+        disabled = false;
+        format = "[$symbol$loaded](yellow) ";
+        symbol = "direnv ";
+      };
+
+      nix_shell = {
+        format = "[$symbol$state](blue) ";
+        symbol = "nix ";
       };
 
       username = {
         show_always = false;
         format = "[$user]($style)";
-        style_root = "bold fg:178";
-        style_user = "fg:180";
+        style_root = "bold red";
+        style_user = "bright-white";
       };
 
       hostname = {
         ssh_only = true;
-        format = "[@$hostname]($style) ";
-        style = "fg:180";
-      };
-
-      nix_shell = {
-        format = "[$symbol$state]($style) ";
-        style = "fg:74";
-        symbol = "nix ";
+        format = "[@$hostname](bright-white) ";
       };
 
       time = {
         disabled = false;
-        format = "[$time]($style)";
+        format = "[$time](bright-black)";
         time_format = "%H:%M:%S";
-        style = "fg:66";
       };
 
       character = {
-        success_symbol = "[>](bold green)";
-        error_symbol = "[>](bold red)";
-        vimcmd_symbol = "[<](bold green)";
+        success_symbol = "[❯](bold green)";
+        error_symbol = "[❯](bold red)";
+        vimcmd_symbol = "[❮](bold green)";
       };
     };
   };
