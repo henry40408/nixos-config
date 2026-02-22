@@ -60,12 +60,7 @@
     nix-direnv.enable = true;
   };
   programs.fzf.enable = true;
-  programs.gh = {
-    enable = true;
-    settings = {
-      git_protocol = "ssh";
-    };
-  };
+  programs.gh.enable = true;
   programs.delta = {
     enable = true;
     enableGitIntegration = true;
