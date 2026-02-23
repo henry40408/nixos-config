@@ -1,11 +1,11 @@
 { inputs, ... }:
 let
-  inherit (inputs) nixpkgs-master;
+  inherit (inputs) nixpkgs-unstable;
 in
 {
-  # Overlay to use packages from nixpkgs master branch
+  # Overlay to use packages from nixpkgs unstable channel
   unstable-packages = final: _prev: {
-    unstable = import nixpkgs-master {
+    unstable = import nixpkgs-unstable {
       system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
