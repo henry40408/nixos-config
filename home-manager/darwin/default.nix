@@ -29,8 +29,8 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
 
-  home.file."Brewfile".text = (builtins.readFile ./Brewfile);
-  home.file."Brewfile.lock.json".text = (builtins.readFile ./Brewfile.lock.json);
+  home.file."Brewfile".source = ./Brewfile;
+  home.file."Brewfile.lock.json".source = ./Brewfile.lock.json;
   news.display = "silent";
 }
 

@@ -36,7 +36,7 @@
       xclip
     ];
 
-  home.file."Develop/.envrc".text = (builtins.readFile ./envrc);
+  home.file."Develop/.envrc".source = ./envrc;
 
   programs.atuin = {
     enable = true;
@@ -123,6 +123,13 @@
       ps = "procs";
     };
     interactiveShellInit = ''
+      # Homebrew initialization
+      if test -f /opt/homebrew/bin/brew
+        eval (/opt/homebrew/bin/brew shellenv)
+      else if test -f /usr/local/bin/brew
+        eval (/usr/local/bin/brew shellenv)
+      end
+
       # Cargo PATH
       fish_add_path $HOME/.cargo/bin
 
