@@ -5,7 +5,6 @@
   home.packages =
     with pkgs;
     [
-      unstable.claude-code
       fd
       fnm
       git-extras
