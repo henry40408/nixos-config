@@ -29,6 +29,13 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
 
+  programs.fish.interactiveShellInit = ''
+    # GPG agent
+    set -gx GPG_TTY (tty)
+    set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+    gpgconf --launch gpg-agent
+  '';
+
   home.file."Brewfile".source = ./Brewfile;
   home.file."Brewfile.lock.json".source = ./Brewfile.lock.json;
   news.display = "silent";
