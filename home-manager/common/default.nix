@@ -1,6 +1,9 @@
 { pkgs, lib, ... }:
 {
-  imports = [ ./nixvim ];
+  imports = [
+    ./ghostty
+    ./nixvim
+  ];
 
   home.packages =
     with pkgs;

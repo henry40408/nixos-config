@@ -19,10 +19,7 @@
   };
   programs.nixvim = {
     enable = true;
-    colorschemes.base16 = {
-      enable = true;
-      colorscheme = "irblack";
-    };
+    colorschemes.dracula-nvim.enable = true;
     defaultEditor = true;
     plugins.which-key = {
       enable = true;

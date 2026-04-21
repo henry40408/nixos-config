@@ -52,12 +52,19 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 
 | Module | Purpose |
 |--------|---------|
-| `default.nix` | Base settings, colorscheme (irblack), which-key |
+| `default.nix` | Base settings, colorscheme (dracula-nvim), which-key |
 | `lsp.nix` | LSP servers (nixd, eslint, emmet_language_server, pyright, ruff, taplo, ts_ls, vue_ls, rust_analyzer), completion (nvim-cmp), formatting (conform-nvim), treesitter |
 | `ui.nix` | Diagnostics display (Trouble plugin) |
 | `mini.nix` | Mini.nvim collection (ai, basics, bracketed, comment, cursorword, diff, extra, files, icons, indentscope, notify, operators, pairs, pick, statusline, surround, tabline, trailspace) |
 | `flash.nix` | Quick navigation plugin |
 | `toggleterm.nix` | Floating terminal configuration |
+
+## home-manager/common/ghostty
+
+- Declarative [Ghostty](https://ghostty.org) terminal configuration via the `programs.ghostty` home-manager module.
+- Theme `Dracula`, font `FiraCode Nerd Font` @ 13pt, fish shell integration.
+- On Darwin the Nix package is skipped (`package = null`) and Ghostty.app is installed via Homebrew cask; Nix manages only `~/.config/ghostty/config`.
+- On Linux the `ghostty` package plus `pkgs.nerd-fonts.fira-code` are installed.
 
 ## home-manager/common/zellij
 
