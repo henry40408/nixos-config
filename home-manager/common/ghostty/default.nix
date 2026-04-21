@@ -3,11 +3,19 @@
   programs.ghostty = {
     enable = true;
 
-    # On Darwin the nixpkgs ghostty build is frequently marked broken; the
-    # upstream recommendation is to install Ghostty.app via Homebrew cask and
-    # let Nix manage only the config file. See home-manager/darwin/Brewfile.
-    package = if pkgs.stdenv.isDarwin then null else pkgs.ghostty;
+    # Nix only manages ~/.config/ghostty/config; the Ghostty binary itself is
+    # installed via the system's native channel (Homebrew cask on macOS,
+    # Flatpak / AppImage / distro package on Linux). The nixpkgs build is
+    # known to fail to launch on this setup.
+    package = null;
 
+    # systemd.enable defaults to true on Linux but the module asserts
+    # systemd.enable -> package != null, so it must be disabled explicitly.
+    systemd.enable = false;
+
+    # Fish integration sources a script from $GHOSTTY_RESOURCES_DIR, which is
+    # injected at runtime by Ghostty itself — it does not depend on the Nix
+    # package and works with any externally installed Ghostty.
     enableFishIntegration = true;
 
     settings = {

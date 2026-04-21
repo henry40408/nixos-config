@@ -63,8 +63,9 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 
 - Declarative [Ghostty](https://ghostty.org) terminal configuration via the `programs.ghostty` home-manager module.
 - Theme `Dracula`, font `FiraCode Nerd Font` @ 13pt, fish shell integration.
-- On Darwin the Nix package is skipped (`package = null`) and Ghostty.app is installed via Homebrew cask; Nix manages only `~/.config/ghostty/config`.
-- On Linux the `ghostty` package plus `pkgs.nerd-fonts.fira-code` are installed.
+- Nix only manages `~/.config/ghostty/config` (`package = null`); the Ghostty binary must be installed via the system's native channel (Homebrew cask on macOS, Flatpak / AppImage / distro package on Linux), because the nixpkgs build is known to fail to launch on this setup.
+- On Linux `pkgs.nerd-fonts.fira-code` is still installed so the terminal has the correct glyphs.
+- `systemd.enable` is explicitly disabled because the module requires `package != null` when the systemd user service is active.
 
 ## home-manager/common/zellij
 
