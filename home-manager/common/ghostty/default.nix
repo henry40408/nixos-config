@@ -22,12 +22,16 @@
       command = "${pkgs.fish}/bin/fish -l";
       theme = "Dracula";
       font-family = "FiraCode Nerd Font";
-      font-size = 13;
+      font-size = 12;
       copy-on-select = "clipboard";
       mouse-hide-while-typing = true;
       window-padding-x = 8;
       window-padding-y = 8;
       confirm-close-surface = false;
+      keybind = [
+        "cmd+shift+,=reload_config"
+        "ctrl+shift+,=reload_config"
+      ];
     };
   };
 
