@@ -19,6 +19,7 @@
     enableFishIntegration = true;
 
     settings = {
+      command = "${pkgs.fish}/bin/fish -l";
       theme = "Dracula";
       font-family = "FiraCode Nerd Font";
       font-size = 13;
