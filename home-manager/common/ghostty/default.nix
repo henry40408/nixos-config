@@ -28,6 +28,10 @@
       window-padding-x = 8;
       window-padding-y = 8;
       confirm-close-surface = false;
+      # Keep Ghostty's defaults (cursor, sudo, title) and add SSH helpers:
+      # ssh-env forwards COLORTERM/TERM_PROGRAM* and sets TERM=xterm-256color;
+      # ssh-terminfo installs Ghostty's terminfo on the remote on first connect.
+      shell-integration-features = "cursor,sudo,title,ssh-env,ssh-terminfo";
       keybind = [
         "cmd+shift+,=reload_config"
         "ctrl+shift+,=reload_config"
