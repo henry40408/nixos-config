@@ -36,7 +36,7 @@
     defaultCacheTtl = 86400; # 1 day
     enableSshSupport = true;
     maxCacheTtl = 604800; # 1 week
-    pinentry.package = pkgs.pinentry-curses;
+    pinentry.package = pkgs.pinentry-gnome3;
   };
   services.syncthing.enable = true;
 }
