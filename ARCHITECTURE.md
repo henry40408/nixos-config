@@ -15,6 +15,7 @@ The central configuration file that defines all inputs and outputs.
 | `home-manager` | nix-community (25.11) | User environment management |
 | `nixos-wsl` | nix-community | WSL support |
 | `nixvim` | nix-community (25.11) | Neovim configuration framework |
+| `nix-index-database` | nix-community | Weekly pre-built nix-index database for `nix-locate` and `command-not-found` |
 
 ### Outputs
 

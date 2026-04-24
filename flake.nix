@@ -14,6 +14,10 @@
 
     # nixvim
     nixvim.url = "github:nix-community/nixvim/nixos-25.11";
+
+    # nix-index database (pre-built nix-index database for command-not-found / nix-locate)
+    nix-index-database.url = "github:nix-community/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
