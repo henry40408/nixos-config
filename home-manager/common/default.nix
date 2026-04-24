@@ -1,6 +1,12 @@
-{ pkgs, lib, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 {
   imports = [
+    inputs.nix-index-database.homeModules.nix-index
     ./ghostty
     ./nixvim
   ];
