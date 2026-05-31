@@ -1,7 +1,6 @@
 _NIX_FILES := $(shell find . -name '*.nix')
 _UNAME := $(shell uname)
 _ARCH := $(shell uname -m)
-_WSL_DISTRO := $(WSL_DISTRO_NAME)
 _HALF_CPUS = $(shell echo $$(( $$(nproc) / 2 )))
 _HALF_MEM = $(shell free -m | awk '/^Mem:/{print int($$2/2)}')
 
@@ -73,18 +72,14 @@ endif
 endif
 
 os/dry-run:
-ifneq ($(_WSL_DISTRO),)
-	sudo nixos-rebuild dry-build --flake ".#wsl"
-else ifeq ($(_UNAME),Darwin)
+ifeq ($(_UNAME),Darwin)
 	$(error Darwin is not supported)
 else ifeq ($(_UNAME),Linux)
 	sudo nixos-rebuild dry-build --flake ".#vm"
 endif
 
 os/switch:
-ifneq ($(_WSL_DISTRO),)
-	sudo nixos-rebuild switch --flake ".#wsl"
-else ifeq ($(_UNAME),Darwin)
+ifeq ($(_UNAME),Darwin)
 	$(error Darwin is not supported)
 else ifeq ($(_UNAME),Linux)
 	sudo nixos-rebuild switch --flake ".#vm"

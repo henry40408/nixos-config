@@ -1,6 +1,6 @@
 # Architecture
 
-- Hardware: Supports macOS (both Intel and Apple Silicon) and Linux (x86_64 and aarch64), including WSL (Windows Subsystem for Linux) environments.
+- Hardware: Supports macOS (both Intel and Apple Silicon) and Linux (x86_64 and aarch64).
 - This configuration is derived from the standard version of [Misterio77/nix-starter-configs](https://github.com/Misterio77/nix-starter-configs/tree/972935c1b35d8b92476e26b0e63a044d191d49c3/standard).
 
 ## flake.nix
@@ -13,13 +13,12 @@ The central configuration file that defines all inputs and outputs.
 |-------|--------|---------|
 | `nixpkgs` | nixos/nixpkgs (25.11-small) | Main package source |
 | `home-manager` | nix-community (25.11) | User environment management |
-| `nixos-wsl` | nix-community | WSL support |
 | `nixvim` | nix-community (25.11) | Neovim configuration framework |
 | `nix-index-database` | nix-community | Weekly pre-built nix-index database for `nix-locate` and `command-not-found` |
 
 ### Outputs
 
-- **nixosConfigurations**: `vm`, `wsl`
+- **nixosConfigurations**: `vm`
 - **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin-legacy` (x86_64), `henry@darwin` (aarch64)
 - **packages**: `home-manager` — Exposes the home-manager CLI from flake inputs, enabling `nix run '.#home-manager'` for bootstrapping without a prior installation.
 - **overlays**: `fix-inetutils`
@@ -99,14 +98,6 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 - Set Asia/Taipei as the timezone.
 - Home-manager is integrated as a NixOS module, so user configuration is applied on boot.
 - Default password `nixos` for testing (change immediately with `passwd`).
-
-## hosts/wsl
-
-- Use [NixOS-WSL](https://github.com/nix-community/NixOS-WSL).
-- Set Asia/Taipei as the timezone.
-- Install Git and GNU Make for the Makefile of this configuration.
-- Set fish as the default shell.
-- Install Docker and allow the normal user to use it for virtualization.
 
 ## Makefile
 

@@ -9,9 +9,6 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-25.11";
 
-    # NixOS WSL
-    nixos-wsl.url = "github:nix-community/nixos-wsl";
-
     # nixvim
     nixvim.url = "github:nix-community/nixvim/nixos-25.11";
 
@@ -49,12 +46,6 @@
             inherit inputs outputs;
           };
           modules = [ ./hosts/vm/configuration.nix ];
-        };
-        wsl = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [ ./hosts/wsl/configuration.nix ];
         };
       };
 
