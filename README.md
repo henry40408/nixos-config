@@ -12,12 +12,6 @@ This repository, maintained by henry40408, features configurations managed with 
 
 ### First-Time Setup
 
-Install Nix via the [Determinate Nix Installer](https://github.com/DeterminateSystems/nix-installer):
-
-```bash
-sh nix-installer.sh install
-```
-
 Clone this repository:
 
 ```bash
@@ -25,7 +19,13 @@ git clone https://github.com/henry40408/nixos-config.git
 cd nixos-config
 ```
 
-Bootstrap home-manager (no prior installation required):
+Install Nix via the [Determinate Nix Installer](https://github.com/DeterminateSystems/nix-installer):
+
+```bash
+sh nix-installer.sh install
+```
+
+Bootstrap home-manager (`nix run` fetches Home Manager on demand, so no separate Home Manager installation is required):
 
 ```bash
 make bootstrap
