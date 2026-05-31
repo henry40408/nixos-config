@@ -6,7 +6,7 @@
 
 ## Description
 
-This repository, maintained by henry40408, features configurations managed with Nix Flakes. It is organized into "home-manager" and "hosts" directories for home-manager and NixOS configurations, respectively. The project is based on the template provided by [Misterio77's nix-starter-configs](https://github.com/Misterio77/nix-starter-configs) and is designed for both WSL and VM environments.
+This repository, maintained by henry40408, features configurations managed with Nix Flakes. It is organized into "home-manager" and "hosts" directories for home-manager and NixOS configurations, respectively. The project is based on the template provided by [Misterio77's nix-starter-configs](https://github.com/Misterio77/nix-starter-configs) and is designed for VM environments.
 
 ## Installation
 
@@ -52,12 +52,6 @@ To validate and apply the NixOS system configuration:
 ```bash
 make os/dry-run   # validate
 make os/switch    # apply
-```
-
-For WSL:
-
-```bash
-sudo nixos-rebuild switch --flake .#wsl
 ```
 
 For VM:
