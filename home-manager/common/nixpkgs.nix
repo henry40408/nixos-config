@@ -2,7 +2,6 @@
 {
   nixpkgs = {
     overlays = [
-      outputs.overlays.unstable-packages
       outputs.overlays.fix-inetutils
     ];
     config = {
