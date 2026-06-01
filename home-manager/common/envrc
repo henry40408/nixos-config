@@ -1,17 +1,7 @@
 dotenv_if_exists
 
-# AWS
-export AWS_ACCESS_KEY_ID="$(pass Env/AWS_ACCESS_KEY_ID)"
-export AWS_SECRET_ACCESS_KEY="$(pass Env/AWS_SECRET_ACCESS_KEY)"
-
-# DigitalOcean
-export DIGITALOCEAN_ACCESS_TOKEN="$(pass Env/DIGITALOCEAN_ACCESS_TOKEN)"
-
-# GitHub
-export ASDF_GITHUB_TOKEN="$(pass Env/GITHUB_TOKEN)"
-export GITHUB_API_TOKEN="$(pass Env/GITHUB_TOKEN)"
-export GITHUB_TOKEN="$(pass Env/GITHUB_TOKEN)"
-export OAUTH_TOKEN="$(pass Env/GITHUB_TOKEN)"
-
-# Terraform
-export TF_VAR_ssh_key_fingerprint="$(pass Env/TF_VAR_ssh_key_fingerprint)"
+export AWS_ACCESS_KEY_ID="$(pass aws/access-key-id | head -n1)"
+export AWS_SECRET_ACCESS_KEY="$(pass aws/secret-access-key | head -n1)"
+export DIGITALOCEAN_ACCESS_TOKEN="$(pass digitalocean/access-token)"
+export GITHUB_TOKEN="$(pass github/access-token)"
+export TF_VAR_ssh_key_fingerprint="$(pass terraform/TF_VAR_ssh_key_fingerprint)"
