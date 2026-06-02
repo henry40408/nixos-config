@@ -12,6 +12,7 @@ The central configuration file that defines all inputs and outputs.
 | Input | Source | Purpose |
 |-------|--------|---------|
 | `nixpkgs` | nixos/nixpkgs (25.11-small) | Main package source |
+| `nixpkgs-unstable` | nixos/nixpkgs (nixos-unstable) | Newer packages via the `unstable-packages` overlay (e.g. `mise`) |
 | `home-manager` | nix-community (25.11) | User environment management |
 | `nixvim` | nix-community (25.11) | Neovim configuration framework |
 | `nix-index-database` | nix-community | Weekly pre-built nix-index database for `nix-locate` and `command-not-found` |
@@ -21,12 +22,15 @@ The central configuration file that defines all inputs and outputs.
 - **nixosConfigurations**: `vm`
 - **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin-legacy` (x86_64), `henry@darwin` (aarch64)
 - **packages**: `home-manager` — Exposes the home-manager CLI from flake inputs, enabling `nix run '.#home-manager'` for bootstrapping without a prior installation.
-- **overlays**: `fix-inetutils`
+- **overlays**: `unstable-packages`, `fix-inetutils`
 - **devShells**: Provides `nixfmt-rfc-style` for all systems
 
 ## overlays
 
-Contains `default.nix` which provides the `fix-inetutils` overlay, a workaround for inetutils build failure on Darwin (nixpkgs#488689).
+Contains `default.nix` which provides:
+
+- `unstable-packages`: exposes the `nixpkgs-unstable` package set as `pkgs.unstable` (used for `mise`).
+- `fix-inetutils`: a workaround for inetutils build failure on Darwin (nixpkgs#488689).
 
 ## home-manager
 
