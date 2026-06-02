@@ -335,7 +335,6 @@
       };
     };
   };
-  programs.mise.enable = true;
   programs.ripgrep.enable = true;
   programs.zellij.enable = true;
   programs.zoxide.enable = true;
