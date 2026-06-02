@@ -335,6 +335,10 @@
       };
     };
   };
+  programs.mise = {
+    enable = true;
+    package = pkgs.unstable.mise;
+  };
   programs.ripgrep.enable = true;
   programs.zellij.enable = true;
   programs.zoxide.enable = true;

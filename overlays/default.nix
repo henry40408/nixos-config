@@ -1,5 +1,16 @@
-{ ... }:
+{ inputs, ... }:
+let
+  inherit (inputs) nixpkgs-unstable;
+in
 {
+  # Overlay to use packages from nixpkgs unstable channel
+  unstable-packages = final: _prev: {
+    unstable = import nixpkgs-unstable {
+      system = final.stdenv.hostPlatform.system;
+      config.allowUnfree = true;
+    };
+  };
+
   # Workaround for https://github.com/NixOS/nixpkgs/issues/488689
   # gnulib's error() macro passes dgettext() results as format strings,
   # triggering -Werror,-Wformat-security in openat-die.c
