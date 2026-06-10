@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   programs.ghostty = {
     enable = true;
@@ -21,7 +21,7 @@
     settings = {
       command = "${pkgs.fish}/bin/fish -l";
       theme = "Dracula";
-      font-family = "FiraCode Nerd Font";
+      font-family = "Maple Mono NF CN";
       font-size = 12;
       copy-on-select = "clipboard";
       mouse-hide-while-typing = true;
@@ -39,9 +39,10 @@
     };
   };
 
-  # macOS installs the Nerd Font via the `font-fira-code-nerd-font` Homebrew
-  # cask already, so only register the Nix package on Linux.
-  home.packages = lib.optionals pkgs.stdenv.isLinux [
-    pkgs.nerd-fonts.fira-code
+  # Maple Mono NF CN bundles Nerd Font icons and CJK glyphs. Register it on all
+  # platforms so the font-family above resolves; on macOS fontconfig is not used
+  # for app rendering, but the package still installs the TTFs for Ghostty.
+  home.packages = [
+    pkgs.maple-mono.NF-CN
   ];
 }
