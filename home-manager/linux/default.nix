@@ -21,6 +21,11 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
 
+  # Let fontconfig discover fonts installed via home.packages (e.g. Maple Mono
+  # NF CN). Without this it defaults to false, so Ghostty's fontconfig+freetype
+  # engine cannot find the family and falls back to a font without ligatures.
+  fonts.fontconfig.enable = true;
+
   # Enable home-manager and git
   programs.home-manager.enable = true;
 
