@@ -22,7 +22,8 @@
       command = "${pkgs.fish}/bin/fish -l";
       theme = "Dracula";
       font-family = "Maple Mono NF CN";
-      font-size = 12;
+      # macOS renders at a larger physical size, so bump the font there.
+      font-size = if pkgs.stdenv.isDarwin then 16 else 12;
       copy-on-select = "clipboard";
       mouse-hide-while-typing = true;
       window-padding-x = 8;
