@@ -111,10 +111,6 @@
         src = pkgs.fishPlugins.fzf-fish.src;
       }
       {
-        name = "done";
-        src = pkgs.fishPlugins.done.src;
-      }
-      {
         name = "plugin-git";
         src = pkgs.fetchFromGitHub {
           owner = "jhillyerd";
