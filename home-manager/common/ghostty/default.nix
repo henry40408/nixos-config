@@ -33,6 +33,12 @@
       # ssh-env forwards COLORTERM/TERM_PROGRAM* and sets TERM=xterm-256color;
       # ssh-terminfo installs Ghostty's terminfo on the remote on first connect.
       shell-integration-features = "cursor,sudo,title,ssh-env,ssh-terminfo";
+      # Replaces the `done` fish plugin: notify when a >5s command finishes while
+      # the window is unfocused. Detected via OSC 133 (native in fish 4.1+), so
+      # there is no shell subprocess / lsappinfo focus probe — which is what made
+      # the plugin intermittently hang in fish_postexec on macOS.
+      notify-on-command-finish = "unfocused";
+      notify-on-command-finish-action = "no-bell,notify";
       keybind = [
         "cmd+shift+,=reload_config"
         "ctrl+shift+,=reload_config"
