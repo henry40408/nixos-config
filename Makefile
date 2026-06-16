@@ -1,94 +1,72 @@
+# ── Environment detection ───────────────────────────────────────────
 _NIX_FILES := $(shell find . -name '*.nix')
-_UNAME := $(shell uname)
-_ARCH := $(shell uname -m)
-_HALF_CPUS = $(shell echo $$(( $$(nproc) / 2 )))
-_HALF_MEM = $(shell free -m | awk '/^Mem:/{print int($$2/2)}')
+_UNAME     := $(shell uname)
+_ARCH      := $(shell uname -m)
+_HALF_CPUS  = $(shell echo $$(( $$(nproc) / 2 )))
+_HALF_MEM   = $(shell free -m | awk '/^Mem:/{print int($$2/2)}')
 
-.PHONY: all fmt update bootstrap dry-run switch os/dry-run os/switch vm/run
+# ── Resolve the Home Manager flake target for this machine ──────────
+ifeq ($(_UNAME),Darwin)
+  ifeq ($(_ARCH),arm64)
+    _HM_TARGET := henry@darwin
+  else ifeq ($(_ARCH),x86_64)
+    _HM_TARGET := henry@darwin-legacy
+  endif
+else ifeq ($(_UNAME),Linux)
+  ifeq ($(_ARCH),aarch64)
+    _HM_TARGET := nixos@linux-aarch64
+  else ifeq ($(_ARCH),x86_64)
+    _HM_TARGET := nixos@linux-x86_64
+  endif
+endif
+
+# Guard used by recipes that need a resolved Home Manager target.
+define _require_hm
+	@test -n "$(_HM_TARGET)" || { echo "Unsupported platform: $(_UNAME)/$(_ARCH)"; exit 1; }
+endef
+
+# Guard used by recipes that only run on Linux.
+define _require_linux
+	@test "$(_UNAME)" = Linux || { echo "$@ is Linux-only"; exit 1; }
+endef
+
+.DEFAULT_GOAL := all
+.PHONY: all help fmt update bootstrap dry-run switch os/dry-run os/switch vm/run
 
 all: fmt
 
-fmt:
+help: ## Show this help
+	@grep -E '^[a-zA-Z/_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+		| awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
+
+fmt: ## Format all Nix files
 	nixfmt $(_NIX_FILES)
 
-update:
+update: ## Update flake inputs
 	nix flake update
 
-bootstrap:
-ifeq ($(_UNAME),Darwin)
-ifeq ($(_ARCH),arm64)
-	nix run '.#home-manager' -- switch --flake '.#henry@darwin'
-else ifeq ($(_ARCH),x86_64)
-	nix run '.#home-manager' -- switch --flake '.#henry@darwin-legacy'
-else
-	$(error Unsupported architecture)
-endif
-else
-ifeq ($(_ARCH),aarch64)
-	nix run '.#home-manager' -- switch --flake '.#nixos@linux-aarch64'
-else ifeq ($(_ARCH),x86_64)
-	nix run '.#home-manager' -- switch --flake '.#nixos@linux-x86_64'
-else
-	$(error Unsupported architecture)
-endif
-endif
+bootstrap: ## First-time Home Manager activation (before hm is installed)
+	$(_require_hm)
+	nix run '.#home-manager' -- switch --flake '.#$(_HM_TARGET)'
 
-dry-run:
-ifeq ($(_UNAME),Darwin)
-ifeq ($(_ARCH),arm64)
-	home-manager build --dry-run --flake '.#henry@darwin' $(HM_FLAGS)
-else ifeq ($(_ARCH),x86_64)
-	home-manager build --dry-run --flake '.#henry@darwin-legacy' $(HM_FLAGS)
-else
-	$(error Unsupported architecture)
-endif
-else
-ifeq ($(_ARCH),aarch64)
-	home-manager build --dry-run --flake '.#nixos@linux-aarch64' $(HM_FLAGS)
-else ifeq ($(_ARCH),x86_64)
-	home-manager build --dry-run --flake '.#nixos@linux-x86_64' $(HM_FLAGS)
-else
-	$(error Unsupported architecture)
-endif
-endif
+dry-run: ## Dry-build the Home Manager configuration
+	$(_require_hm)
+	home-manager build --dry-run --flake '.#$(_HM_TARGET)' $(HM_FLAGS)
 
-switch:
-ifeq ($(_UNAME),Darwin)
-ifeq ($(_ARCH),arm64)
-	home-manager switch --flake '.#henry@darwin' $(HM_FLAGS)
-else ifeq ($(_ARCH),x86_64)
-	home-manager switch --flake '.#henry@darwin-legacy' $(HM_FLAGS)
-else
-	$(error Unsupported architecture)
-endif
-else
-ifeq ($(_ARCH),aarch64)
-	home-manager switch --flake '.#nixos@linux-aarch64' $(HM_FLAGS)
-else ifeq ($(_ARCH),x86_64)
-	home-manager switch --flake '.#nixos@linux-x86_64' $(HM_FLAGS)
-else
-	$(error Unsupported architecture)
-endif
-endif
+switch: ## Activate the Home Manager configuration
+	$(_require_hm)
+	home-manager switch --flake '.#$(_HM_TARGET)' $(HM_FLAGS)
 
-os/dry-run:
-ifeq ($(_UNAME),Darwin)
-	$(error Darwin is not supported)
-else ifeq ($(_UNAME),Linux)
+# ── NixOS (Linux only) ──────────────────────────────────────────────
+os/dry-run: ## Dry-build the NixOS 'vm' configuration
+	$(_require_linux)
 	sudo nixos-rebuild dry-build --flake ".#vm"
-endif
 
-os/switch:
-ifeq ($(_UNAME),Darwin)
-	$(error Darwin is not supported)
-else ifeq ($(_UNAME),Linux)
+os/switch: ## Activate the NixOS 'vm' configuration
+	$(_require_linux)
 	sudo nixos-rebuild switch --flake ".#vm"
-endif
 
-vm/run:
-ifeq ($(_UNAME),Linux)
+vm/run: ## Build and boot the NixOS 'vm' in QEMU
+	$(_require_linux)
 	nix build ".#nixosConfigurations.vm.config.system.build.vm"
 	QEMU_OPTS="-m $(_HALF_MEM) -smp $(_HALF_CPUS)" QEMU_NET_OPTS="hostfwd=tcp::2222-:22" ./result/bin/run-nixos-vm
-else
-	$(error vm/run is only supported on Linux)
-endif
