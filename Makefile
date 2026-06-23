@@ -9,8 +9,6 @@ _HALF_MEM   = $(shell free -m | awk '/^Mem:/{print int($$2/2)}')
 ifeq ($(_UNAME),Darwin)
   ifeq ($(_ARCH),arm64)
     _HM_TARGET := henry@darwin
-  else ifeq ($(_ARCH),x86_64)
-    _HM_TARGET := henry@darwin-legacy
   endif
 else ifeq ($(_UNAME),Linux)
   ifeq ($(_ARCH),aarch64)
