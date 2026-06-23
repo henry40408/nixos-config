@@ -1,6 +1,6 @@
 # Architecture
 
-- Hardware: Supports macOS (both Intel and Apple Silicon) and Linux (x86_64 and aarch64).
+- Hardware: Supports macOS (Apple Silicon) and Linux (x86_64 and aarch64).
 - This configuration is derived from the standard version of [Misterio77/nix-starter-configs](https://github.com/Misterio77/nix-starter-configs/tree/972935c1b35d8b92476e26b0e63a044d191d49c3/standard).
 
 ## flake.nix
@@ -20,7 +20,7 @@ The central configuration file that defines all inputs and outputs.
 ### Outputs
 
 - **nixosConfigurations**: `vm`
-- **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin-legacy` (x86_64), `henry@darwin` (aarch64)
+- **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin` (aarch64)
 - **packages**: `home-manager` — Exposes the home-manager CLI from flake inputs, enabling `nix run '.#home-manager'` for bootstrapping without a prior installation.
 - **overlays**: `unstable-packages`, `fix-inetutils`
 - **devShells**: Provides `nixfmt-rfc-style` for all systems
