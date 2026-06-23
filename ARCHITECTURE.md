@@ -84,7 +84,7 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 ## home-manager/darwin
 
 - Darwin-specific configurations for user `henry`.
-- Includes lock files for [homebrew](https://brew.sh) (`Brewfile`, `Brewfile.lock.json`).
+- Includes a [homebrew](https://brew.sh) `Brewfile` listing GUI app casks.
 - Additional packages: automake, mas, pkg-config.
 
 ## home-manager/linux

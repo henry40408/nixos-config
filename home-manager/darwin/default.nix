@@ -48,7 +48,6 @@
   '';
 
   home.file."Brewfile".source = ./Brewfile;
-  home.file."Brewfile.lock.json".source = ./Brewfile.lock.json;
   news.display = "silent";
 }
 
