@@ -25,6 +25,7 @@
       gnumake
       gping
       nixfmt-rfc-style
+      ntfy-sh
       procs
       spacer
       watchexec

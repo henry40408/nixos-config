@@ -44,7 +44,7 @@ Common configuration shared between Darwin and Linux.
 
 - **Shell**: Fish with Starship prompt, fish plugins (autopair, fzf-fish, done, plugin-git)
 - **Development**: Git (with GPG signing, delta for diffs), GitHub CLI, direnv, FZF, ripgrep, fd, git-extras, gnumake, fnm
-- **Terminal tools**: Atuin (shell history), bat, lsd, lazygit, zoxide, gping, procs, spacer, xh
+- **Terminal tools**: Atuin (shell history), bat, lsd, lazygit, zoxide, gping, procs, spacer, xh, ntfy-sh (push notifications)
 - **Security**: GPG, password-store
 - **Services**: GPG Agent, Syncthing
 
