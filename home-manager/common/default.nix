@@ -14,12 +14,9 @@
   home.packages =
     with pkgs;
     [
-      # cargo dev tools: pulled from the unstable overlay to track crates.io
-      # releases more closely than the stable channel (also avoids stable's
-      # cargo-llvm-cov being marked broken)
-      unstable.cargo-hack
-      unstable.cargo-llvm-cov
-      unstable.cargo-msrv
+      cargo-hack
+      cargo-llvm-cov
+      cargo-msrv
       fd
       git-extras
       gnumake
