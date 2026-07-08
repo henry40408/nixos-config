@@ -24,7 +24,7 @@
       git-extras
       gnumake
       gping
-      nixfmt-rfc-style
+      nixfmt
       ntfy-sh
       procs
       spacer

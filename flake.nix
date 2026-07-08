@@ -61,7 +61,7 @@
         in
         {
           default = pkgs.mkShellNoCC {
-            packages = [ pkgs.nixfmt-rfc-style ];
+            packages = [ pkgs.nixfmt ];
           };
         }
       );
