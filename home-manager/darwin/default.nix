@@ -44,7 +44,9 @@
     # GPG agent
     set -gx GPG_TTY (tty)
     set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-    gpgconf --launch gpg-agent
+    # `gpgconf --launch` costs ~310ms on macOS even when the agent is already
+    # running, so guard it with a cheap pgrep check to keep shell startup fast.
+    pgrep -x gpg-agent >/dev/null; or gpgconf --launch gpg-agent
   '';
 
   home.file."Brewfile".source = ./Brewfile;
