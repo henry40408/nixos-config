@@ -14,18 +14,17 @@
   home.packages =
     with pkgs;
     [
-      # cargo dev tools: pulled from the unstable overlay to track crates.io
-      # releases more closely than the stable channel (also avoids stable's
-      # cargo-llvm-cov being marked broken)
-      unstable.cargo-hack
-      unstable.cargo-llvm-cov
-      unstable.cargo-msrv
+      cargo-hack
+      cargo-llvm-cov
+      cargo-msrv
       fd
       git-extras
       gnumake
       gping
-      nixfmt-rfc-style
-      ntfy-sh
+      nixfmt
+      # stable's ntfy-sh 2.23.0 fails to build on darwin
+      # (undefined maybeRunAsService/sigHandlerConfigReload); 2.25.0 builds fine
+      unstable.ntfy-sh
       procs
       spacer
       watchexec

@@ -11,10 +11,10 @@ The central configuration file that defines all inputs and outputs.
 
 | Input | Source | Purpose |
 |-------|--------|---------|
-| `nixpkgs` | nixos/nixpkgs (25.11-small) | Main package source |
+| `nixpkgs` | nixos/nixpkgs (26.05-small) | Main package source |
 | `nixpkgs-unstable` | nixos/nixpkgs (nixos-unstable) | Newer packages via the `unstable-packages` overlay (e.g. `mise`) |
-| `home-manager` | nix-community (25.11) | User environment management |
-| `nixvim` | nix-community (25.11) | Neovim configuration framework |
+| `home-manager` | nix-community (26.05) | User environment management |
+| `nixvim` | nix-community (26.05) | Neovim configuration framework |
 | `nix-index-database` | nix-community | Weekly pre-built nix-index database for `nix-locate` and `command-not-found` |
 
 ### Outputs

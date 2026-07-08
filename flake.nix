@@ -3,14 +3,14 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05-small";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
 
     # nixvim
-    nixvim.url = "github:nix-community/nixvim/nixos-25.11";
+    nixvim.url = "github:nix-community/nixvim/nixos-26.05";
 
     # nix-index database (pre-built nix-index database for command-not-found / nix-locate)
     nix-index-database.url = "github:nix-community/nix-index-database";
@@ -61,7 +61,7 @@
         in
         {
           default = pkgs.mkShellNoCC {
-            packages = [ pkgs.nixfmt-rfc-style ];
+            packages = [ pkgs.nixfmt ];
           };
         }
       );
