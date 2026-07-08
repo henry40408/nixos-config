@@ -3,7 +3,7 @@
   programs.nixvim = {
     extraPackages = with pkgs; [
       nodejs
-      nodePackages.prettier
+      prettier
       stylua
     ];
     plugins.cmp = {
