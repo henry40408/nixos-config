@@ -25,7 +25,9 @@
       gnumake
       gping
       nixfmt
-      ntfy-sh
+      # stable's ntfy-sh 2.23.0 fails to build on darwin
+      # (undefined maybeRunAsService/sigHandlerConfigReload); 2.25.0 builds fine
+      unstable.ntfy-sh
       procs
       spacer
       watchexec
