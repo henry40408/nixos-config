@@ -79,12 +79,12 @@ ssh -p 2222 nixos@localhost
 The first activation must bootstrap the configuration, since `darwin-rebuild` does not exist on the system yet:
 
 ```bash
-sudo nix run github:nix-darwin/nix-darwin/nix-darwin-26.05 -- switch --flake .#darwin
+make darwin/bootstrap
 ```
 
-`sudo` is required because nix-darwin activation must run as root, and the branch is pinned explicitly because the bare `nix-darwin` flake registry alias resolves to master, not the `nix-darwin-26.05` release this configuration is written against.
+This runs `darwin-rebuild` straight out of the pinned `nix-darwin` flake input, so no separate installation step is needed. It requires `sudo` because nix-darwin activation must run as root. Note that the bare `nix-darwin` flake registry alias resolves to master rather than the pinned release, which is why the target goes through this flake's own `darwin-rebuild` package instead.
 
-Afterwards, `darwin-rebuild` is on `PATH` and the Makefile targets can be used instead:
+Afterwards, `darwin-rebuild` is on `PATH` and the remaining Makefile targets can be used:
 
 ```bash
 make darwin/dry-run   # validate

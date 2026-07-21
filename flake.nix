@@ -68,9 +68,17 @@
       };
 
       # Packages exposed from flake inputs
-      packages = forAllSystems (system: {
-        home-manager = home-manager.packages.${system}.home-manager;
-      });
+      packages = forAllSystems (
+        system:
+        {
+          home-manager = home-manager.packages.${system}.home-manager;
+        }
+        # nix-darwin only builds darwin-rebuild on Darwin; on Linux its packages
+        # output carries documentation only.
+        // nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasSuffix "darwin" system) {
+          inherit (nix-darwin.packages.${system}) darwin-rebuild;
+        }
+      );
 
       # Development shells
       devShells = forAllSystems (

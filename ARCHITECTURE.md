@@ -24,7 +24,7 @@ The central configuration file that defines all inputs and outputs.
 - **nixosConfigurations**: `vm`
 - **darwinConfigurations**: `darwin`
 - **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin` (aarch64)
-- **packages**: `home-manager` — Exposes the home-manager CLI from flake inputs, enabling `nix run '.#home-manager'` for bootstrapping without a prior installation.
+- **packages**: `home-manager` (all systems) and `darwin-rebuild` (Darwin only) — Exposes both CLIs from flake inputs, enabling `nix run '.#home-manager'` and `nix run '.#darwin-rebuild'` for bootstrapping without a prior installation, and keeping the pinned input as the single source of the version.
 - **overlays**: `unstable-packages`, `fix-inetutils`
 - **devShells**: Provides `nixfmt-rfc-style` for all systems
 
@@ -123,5 +123,6 @@ Automation commands for building and deployment:
 - `make os/dry-run`: Validate NixOS system configuration.
 - `make os/switch`: Apply NixOS system configuration.
 - `make vm/run`: Build and start a QEMU VM for testing (Linux only). Allocates half of host CPU and memory, forwards SSH to port 2222.
+- `make darwin/bootstrap`: First-time nix-darwin activation via `nix run '.#darwin-rebuild'` (macOS only, no prior installation required).
 - `make darwin/dry-run`: Validate the nix-darwin system configuration (macOS only).
 - `make darwin/switch`: Apply the nix-darwin system configuration (macOS only).

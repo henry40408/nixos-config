@@ -34,13 +34,13 @@ define _require_darwin
 endef
 
 .DEFAULT_GOAL := all
-.PHONY: all help fmt update bootstrap dry-run switch os/dry-run os/switch vm/run darwin/dry-run darwin/switch
+.PHONY: all help fmt update bootstrap dry-run switch os/dry-run os/switch vm/run darwin/bootstrap darwin/dry-run darwin/switch
 
 all: fmt
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z/_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-		| awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
+		| awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-17s\033[0m %s\n", $$1, $$2}'
 
 fmt: ## Format all Nix files
 	nixfmt $(_NIX_FILES)
@@ -75,6 +75,10 @@ vm/run: ## Build and boot the NixOS 'vm' in QEMU
 	QEMU_OPTS="-m $(_HALF_MEM) -smp $(_HALF_CPUS)" QEMU_NET_OPTS="hostfwd=tcp::2222-:22" ./result/bin/run-nixos-vm
 
 # ── nix-darwin (macOS only) ──────────────────────────────────────────
+darwin/bootstrap: ## First-time nix-darwin activation (before darwin-rebuild is installed)
+	$(_require_darwin)
+	sudo nix run '.#darwin-rebuild' -- switch --flake '.#darwin'
+
 darwin/dry-run: ## Dry-build the nix-darwin configuration
 	$(_require_darwin)
 	darwin-rebuild build --flake ".#darwin"
