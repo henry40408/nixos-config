@@ -74,9 +74,30 @@ This builds and starts a VM with half of host CPU and memory, SSH forwarded to p
 ssh -p 2222 nixos@localhost
 ```
 
+### macOS System Configuration
+
+The first activation must bootstrap the configuration, since `darwin-rebuild` does not exist on the system yet:
+
+```bash
+sudo nix run github:nix-darwin/nix-darwin/nix-darwin-26.05 -- switch --flake .#darwin
+```
+
+`sudo` is required because nix-darwin activation must run as root, and the branch is pinned explicitly because the bare `nix-darwin` flake registry alias resolves to master, not the `nix-darwin-26.05` release this configuration is written against.
+
+Afterwards, `darwin-rebuild` is on `PATH` and the Makefile targets can be used instead:
+
+```bash
+make darwin/dry-run   # validate
+make darwin/switch    # apply
+```
+
+Note that nix-darwin takes over `/etc/zshrc` and similar system files, saving the previous versions with a `.before-nix-darwin` suffix.
+
+On macOS, home-manager runs standalone rather than being integrated into nix-darwin: `make switch` applies the user-level configuration and `make darwin/switch` applies the system-level one. The two are independent and neither triggers the other, so both must be run to fully update the machine.
+
 ## Usage
 
-The "home-manager" directory contains user-level settings, and the "hosts" directory includes system-level configurations for different NixOS hosts. Customize by editing these files. The Flake.nix file orchestrates their integration and management. For more details, please refer to [ARCHITECTURE.md](ARCHITECTURE.md)
+The "home-manager" directory contains user-level settings, and the "hosts" directory includes system-level configurations for different NixOS and nix-darwin hosts. Customize by editing these files. The Flake.nix file orchestrates their integration and management. For more details, please refer to [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Contributing
 

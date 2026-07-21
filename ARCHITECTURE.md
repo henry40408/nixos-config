@@ -16,10 +16,13 @@ The central configuration file that defines all inputs and outputs.
 | `home-manager` | nix-community (26.05) | User environment management |
 | `nixvim` | nix-community (26.05) | Neovim configuration framework |
 | `nix-index-database` | nix-community | Weekly pre-built nix-index database for `nix-locate` and `command-not-found` |
+| `nix-darwin` | nix-darwin (26.05) | macOS system-level configuration |
+| `determinate` | DeterminateSystems/determinate (pinned `=3.21.5`) | Determinate Nix integration for nix-darwin |
 
 ### Outputs
 
 - **nixosConfigurations**: `vm`
+- **darwinConfigurations**: `darwin`
 - **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin` (aarch64)
 - **packages**: `home-manager` — Exposes the home-manager CLI from flake inputs, enabling `nix run '.#home-manager'` for bootstrapping without a prior installation.
 - **overlays**: `unstable-packages`, `fix-inetutils`
@@ -84,7 +87,6 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 ## home-manager/darwin
 
 - Darwin-specific configurations for user `henry`.
-- Includes a [homebrew](https://brew.sh) `Brewfile` listing GUI app casks.
 - Additional packages: automake, mas, pkg-config.
 
 ## home-manager/linux
@@ -103,6 +105,14 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 - Home-manager is integrated as a NixOS module, so user configuration is applied on boot.
 - Default password `nixos` for testing (change immediately with `passwd`).
 
+## hosts/darwin
+
+- Nix itself is managed by Determinate, not nix-darwin: `determinateNix.enable = true` is set, and the Determinate module force-disables nix-darwin's own `nix.*` management internally, so `nix.enable = false` does not need to be written here.
+- The `homebrew` module replaces the old Brewfile, which was never applied by anything and had drifted from what was actually installed.
+- `homebrew.onActivation.cleanup` is currently `"none"`, so the first activation only installs what is declared and removes nothing. The next step is `"check"`, which aborts activation listing every Homebrew package not declared in the configuration; `"zap"` is only safe once that list is empty.
+- Unlike `hosts/vm`, home-manager is not integrated as a nix-darwin module here — it stays standalone, so `darwin-rebuild` applies only the system layer and `home-manager switch` must be run separately.
+- `system.stateVersion = 7`.
+
 ## Makefile
 
 Automation commands for building and deployment:
@@ -113,3 +123,5 @@ Automation commands for building and deployment:
 - `make os/dry-run`: Validate NixOS system configuration.
 - `make os/switch`: Apply NixOS system configuration.
 - `make vm/run`: Build and start a QEMU VM for testing (Linux only). Allocates half of host CPU and memory, forwards SSH to port 2222.
+- `make darwin/dry-run`: Validate the nix-darwin system configuration (macOS only).
+- `make darwin/switch`: Apply the nix-darwin system configuration (macOS only).

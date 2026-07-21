@@ -49,7 +49,6 @@
     pgrep -x gpg-agent >/dev/null; or gpgconf --launch gpg-agent
   '';
 
-  home.file."Brewfile".source = ./Brewfile;
   news.display = "silent";
 }
 
