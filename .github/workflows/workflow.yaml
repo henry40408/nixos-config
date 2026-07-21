@@ -5,7 +5,16 @@ on:
     branches: [main]
   pull_request:
 
+# Superseded runs on the same ref are pointless once a newer commit is pushed;
+# main is exempt so every merged commit keeps a complete run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
+  # check, build-nixos and build-home-manager are intentionally independent:
+  # formatting/eval failures and build failures are separate signals, so gating
+  # the builds behind check only delayed the whole run by check's duration.
   check:
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +32,6 @@ jobs:
 
   build-nixos:
     runs-on: ubuntu-latest
-    needs: check
     strategy:
       matrix:
         config: [vm]
@@ -36,7 +44,6 @@ jobs:
 
   build-home-manager:
     runs-on: ubuntu-latest
-    needs: check
     strategy:
       matrix:
         config:
