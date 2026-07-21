@@ -57,6 +57,24 @@ jobs:
         run: nix build .#darwinConfigurations.darwin.system
       - name: Build henry@darwin
         run: nix build .#homeConfigurations."henry@darwin".activationPackage
+      # Building the system only writes the Brewfile; `brew bundle` runs during
+      # activation, which CI never performs. Cask and formula names are plain
+      # strings until then, so a typo or an upstream rename would survive every
+      # other check here and only surface on a `darwin-rebuild switch`.
+      - name: Validate declared Homebrew names
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: |
+          declared() {
+            nix eval --json ".#darwinConfigurations.darwin.config.homebrew.$1" | jq -r '.[].name'
+          }
+          brews=$(declared brews)
+          casks=$(declared casks)
+          # Piped through xargs rather than relying on word splitting, so each
+          # name becomes its own argument regardless of IFS. One `brew info` per
+          # kind resolves the whole list and fails if any name is unknown.
+          [ -z "$brews" ] || echo "$brews" | xargs brew info --formula > /dev/null
+          [ -z "$casks" ] || echo "$casks" | xargs brew info --cask > /dev/null
 
   build-home-manager:
     runs-on: ubuntu-latest
