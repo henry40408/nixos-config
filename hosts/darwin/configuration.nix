@@ -1,4 +1,8 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
+let
+  username = "henry";
+  homeDirectory = "/Users/${username}";
+in
 {
   imports = [ inputs.determinate.darwinModules.default ];
 
@@ -8,9 +12,28 @@
 
   nixpkgs.hostPlatform = "aarch64-darwin";
 
-  system.primaryUser = "henry";
+  system.primaryUser = username;
   # https://github.com/nix-darwin/nix-darwin -- set once at install time, then never changed.
   system.stateVersion = 7;
+
+  # fish is the interactive shell, so it needs to be a real login shell rather
+  # than something launched out of zsh. programs.fish.enable is what puts fish
+  # in environment.systemPackages and writes /etc/fish, where the nix profile
+  # paths get exported; without it, a fish login shell would start with none of
+  # them (the assertion in nix-darwin's users module says as much).
+  programs.fish.enable = true;
+  environment.shells = [ pkgs.fish ];
+
+  # uid/gid must match the account as it already exists: the activation script
+  # skips a user whose uid differs, and unconditionally applies gid, so a wrong
+  # value here would silently move the account to another group.
+  users.knownUsers = [ username ];
+  users.users.${username} = {
+    uid = 501;
+    gid = 20;
+    home = homeDirectory;
+    shell = pkgs.fish;
+  };
 
   # Replaces the Brewfile that home-manager used to symlink into $HOME: that
   # file was only a list, nothing ever applied it, so it drifted from reality.
