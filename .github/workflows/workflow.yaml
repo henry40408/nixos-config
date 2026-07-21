@@ -12,9 +12,10 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  # check, build-nixos and build-home-manager are intentionally independent:
-  # formatting/eval failures and build failures are separate signals, so gating
-  # the builds behind check only delayed the whole run by check's duration.
+  # check, build-nixos, build-darwin and build-home-manager are intentionally
+  # independent: formatting/eval failures and build failures are separate
+  # signals, so gating the builds behind check only delayed the whole run by
+  # check's duration.
   check:
     runs-on: ubuntu-latest
     steps:
@@ -41,6 +42,39 @@ jobs:
       - uses: DeterminateSystems/magic-nix-cache-action@908b263ff629f4cc17666315b7fd3ec127c6244d # v14
       - name: Build ${{ matrix.config }}
         run: nix build .#nixosConfigurations.${{ matrix.config }}.config.system.build.toplevel
+
+  # Both macOS outputs are built in one job: GitHub bills macOS runners at a 10x
+  # multiplier, and the two closures are disjoint (home-manager is standalone on
+  # darwin, not a nix-darwin module), so a second runner would only duplicate the
+  # fixed setup cost.
+  build-darwin:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: cachix/install-nix-action@a49548c11d9846ad46ecc0115273879b045f001c # v31.10.7
+      - uses: DeterminateSystems/magic-nix-cache-action@908b263ff629f4cc17666315b7fd3ec127c6244d # v14
+      - name: Build darwinConfigurations.darwin
+        run: nix build .#darwinConfigurations.darwin.system
+      - name: Build henry@darwin
+        run: nix build .#homeConfigurations."henry@darwin".activationPackage
+      # Building the system only writes the Brewfile; `brew bundle` runs during
+      # activation, which CI never performs. Cask and formula names are plain
+      # strings until then, so a typo or an upstream rename would survive every
+      # other check here and only surface on a `darwin-rebuild switch`.
+      - name: Validate declared Homebrew names
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: |
+          declared() {
+            nix eval --json ".#darwinConfigurations.darwin.config.homebrew.$1" | jq -r '.[].name'
+          }
+          brews=$(declared brews)
+          casks=$(declared casks)
+          # Piped through xargs rather than relying on word splitting, so each
+          # name becomes its own argument regardless of IFS. One `brew info` per
+          # kind resolves the whole list and fails if any name is unknown.
+          [ -z "$brews" ] || echo "$brews" | xargs brew info --formula > /dev/null
+          [ -z "$casks" ] || echo "$casks" | xargs brew info --cask > /dev/null
 
   build-home-manager:
     runs-on: ubuntu-latest

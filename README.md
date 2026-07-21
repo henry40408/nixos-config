@@ -74,9 +74,48 @@ This builds and starts a VM with half of host CPU and memory, SSH forwarded to p
 ssh -p 2222 nixos@localhost
 ```
 
+### macOS System Configuration
+
+The first activation must bootstrap the configuration, since `darwin-rebuild` does not exist on the system yet:
+
+```bash
+make darwin/bootstrap
+```
+
+This runs `darwin-rebuild` straight out of the pinned `nix-darwin` flake input, so no separate installation step is needed. It requires `sudo` because nix-darwin activation must run as root. Note that the bare `nix-darwin` flake registry alias resolves to master rather than the pinned release, which is why the target goes through this flake's own `darwin-rebuild` package instead.
+
+On a machine where Nix was installed by the Determinate installer, that first bootstrap aborts with:
+
+```
+error: Unexpected files in /etc, aborting activation
+The following files have unrecognized content and would be overwritten:
+
+  /etc/nix/nix.custom.conf
+```
+
+The installer leaves a placeholder at that path containing nothing but comments, while the Determinate nix-darwin module declares the same file without registering any known hashes for it, so the two always collide on a fresh install. Rename the placeholder out of the way and run the bootstrap again:
+
+```bash
+sudo mv /etc/nix/nix.custom.conf /etc/nix/nix.custom.conf.before-nix-darwin
+make darwin/bootstrap
+```
+
+Removing it is safe: `/etc/nix/nix.conf` pulls it in with `!include`, which tolerates a missing file, and from then on the path is a symlink managed through `determinateNix.customSettings`. Do check the placeholder for real settings first if this machine's Nix was configured by hand.
+
+Afterwards, `darwin-rebuild` is on `PATH` and the remaining Makefile targets can be used:
+
+```bash
+make darwin/dry-run   # validate
+make darwin/switch    # apply
+```
+
+Note that nix-darwin takes over `/etc/zshrc` and similar system files, saving the previous versions with a `.before-nix-darwin` suffix.
+
+On macOS, home-manager runs standalone rather than being integrated into nix-darwin: `make switch` applies the user-level configuration and `make darwin/switch` applies the system-level one. The two are independent and neither triggers the other, so both must be run to fully update the machine.
+
 ## Usage
 
-The "home-manager" directory contains user-level settings, and the "hosts" directory includes system-level configurations for different NixOS hosts. Customize by editing these files. The Flake.nix file orchestrates their integration and management. For more details, please refer to [ARCHITECTURE.md](ARCHITECTURE.md)
+The "home-manager" directory contains user-level settings, and the "hosts" directory includes system-level configurations for different NixOS and nix-darwin hosts. Customize by editing these files. The Flake.nix file orchestrates their integration and management. For more details, please refer to [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Contributing
 

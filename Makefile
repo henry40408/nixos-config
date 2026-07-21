@@ -28,14 +28,19 @@ define _require_linux
 	@test "$(_UNAME)" = Linux || { echo "$@ is Linux-only"; exit 1; }
 endef
 
+# Guard used by recipes that only run on macOS.
+define _require_darwin
+	@test "$(_UNAME)" = Darwin || { echo "$@ is macOS-only"; exit 1; }
+endef
+
 .DEFAULT_GOAL := all
-.PHONY: all help fmt update bootstrap dry-run switch os/dry-run os/switch vm/run
+.PHONY: all help fmt update bootstrap dry-run switch os/dry-run os/switch vm/run darwin/bootstrap darwin/dry-run darwin/switch
 
 all: fmt
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z/_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-		| awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
+		| awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-17s\033[0m %s\n", $$1, $$2}'
 
 fmt: ## Format all Nix files
 	nixfmt $(_NIX_FILES)
@@ -68,3 +73,16 @@ vm/run: ## Build and boot the NixOS 'vm' in QEMU
 	$(_require_linux)
 	nix build ".#nixosConfigurations.vm.config.system.build.vm"
 	QEMU_OPTS="-m $(_HALF_MEM) -smp $(_HALF_CPUS)" QEMU_NET_OPTS="hostfwd=tcp::2222-:22" ./result/bin/run-nixos-vm
+
+# ── nix-darwin (macOS only) ──────────────────────────────────────────
+darwin/bootstrap: ## First-time nix-darwin activation (before darwin-rebuild is installed)
+	$(_require_darwin)
+	sudo nix run '.#darwin-rebuild' -- switch --flake '.#darwin'
+
+darwin/dry-run: ## Dry-build the nix-darwin configuration
+	$(_require_darwin)
+	darwin-rebuild build --flake ".#darwin"
+
+darwin/switch: ## Activate the nix-darwin configuration
+	$(_require_darwin)
+	sudo darwin-rebuild switch --flake ".#darwin"

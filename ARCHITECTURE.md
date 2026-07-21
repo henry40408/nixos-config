@@ -16,12 +16,15 @@ The central configuration file that defines all inputs and outputs.
 | `home-manager` | nix-community (26.05) | User environment management |
 | `nixvim` | nix-community (26.05) | Neovim configuration framework |
 | `nix-index-database` | nix-community | Weekly pre-built nix-index database for `nix-locate` and `command-not-found` |
+| `nix-darwin` | nix-darwin (26.05) | macOS system-level configuration |
+| `determinate` | DeterminateSystems/determinate (pinned `=3.21.5`) | Determinate Nix integration for nix-darwin |
 
 ### Outputs
 
 - **nixosConfigurations**: `vm`
+- **darwinConfigurations**: `darwin`
 - **homeConfigurations**: `nixos@linux-x86_64`, `nixos@linux-aarch64`, `henry@darwin` (aarch64)
-- **packages**: `home-manager` — Exposes the home-manager CLI from flake inputs, enabling `nix run '.#home-manager'` for bootstrapping without a prior installation.
+- **packages**: `home-manager` (all systems) and `darwin-rebuild` (Darwin only) — Exposes both CLIs from flake inputs, enabling `nix run '.#home-manager'` and `nix run '.#darwin-rebuild'` for bootstrapping without a prior installation, and keeping the pinned input as the single source of the version.
 - **overlays**: `unstable-packages`, `fix-inetutils`
 - **devShells**: Provides `nixfmt-rfc-style` for all systems
 
@@ -84,8 +87,7 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 ## home-manager/darwin
 
 - Darwin-specific configurations for user `henry`.
-- Includes a [homebrew](https://brew.sh) `Brewfile` listing GUI app casks.
-- Additional packages: automake, mas, pkg-config.
+- Additional packages: automake, mas, mkcert, pkg-config, wrk.
 
 ## home-manager/linux
 
@@ -103,6 +105,16 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 - Home-manager is integrated as a NixOS module, so user configuration is applied on boot.
 - Default password `nixos` for testing (change immediately with `passwd`).
 
+## hosts/darwin
+
+- Nix itself is managed by Determinate, not nix-darwin: `determinateNix.enable = true` is set, and the Determinate module force-disables nix-darwin's own `nix.*` management internally, so `nix.enable = false` does not need to be written here.
+- The `homebrew` module replaces the old Brewfile, which was never applied by anything and had drifted from what was actually installed.
+- `homebrew.onActivation.cleanup` is `"check"`: activation aborts if a Homebrew package was installed on request but is not declared here, which is what keeps the list from drifting the way the old Brewfile did. It never uninstalls anything — that would be `"zap"`, which stays off deliberately. Orphaned dependencies are invisible to this check and are handled by `brew autoremove`.
+- Unlike `hosts/vm`, home-manager is not integrated as a nix-darwin module here — it stays standalone, so `darwin-rebuild` applies only the system layer and `home-manager switch` must be run separately.
+- `programs.fish.enable` plus `users.users.henry.shell` make fish the account's login shell. The module is what installs fish into the system profile and writes `/etc/fish`, where the nix profile paths are exported — which is why home-manager no longer needs its own `fish_add_path` workaround. `uid`/`gid` are pinned to the account's existing values because the activation script applies `gid` unconditionally.
+- `launchd.user.agents.ollama` replaces the plist `brew services` used to leave in `~/Library/LaunchAgents`. The binary itself stays on Homebrew, so the agent points into the Homebrew tree and has to be removed alongside the `ollama` entry in `homebrew.brews`.
+- `system.stateVersion = 7`.
+
 ## Makefile
 
 Automation commands for building and deployment:
@@ -113,3 +125,6 @@ Automation commands for building and deployment:
 - `make os/dry-run`: Validate NixOS system configuration.
 - `make os/switch`: Apply NixOS system configuration.
 - `make vm/run`: Build and start a QEMU VM for testing (Linux only). Allocates half of host CPU and memory, forwards SSH to port 2222.
+- `make darwin/bootstrap`: First-time nix-darwin activation via `nix run '.#darwin-rebuild'` (macOS only, no prior installation required).
+- `make darwin/dry-run`: Validate the nix-darwin system configuration (macOS only).
+- `make darwin/switch`: Apply the nix-darwin system configuration (macOS only).

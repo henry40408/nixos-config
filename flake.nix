@@ -15,6 +15,13 @@
     # nix-index database (pre-built nix-index database for command-not-found / nix-locate)
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
+    # nix-darwin
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Determinate Nix (pinned exactly; a bare "3.21.5" is a semver range on FlakeHub)
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/=3.21.5";
   };
 
   outputs =
@@ -23,6 +30,7 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
+      nix-darwin,
       ...
     }@inputs:
     let
@@ -48,10 +56,29 @@
         };
       };
 
+      # nix-darwin configuration entrypoint
+      # Available through 'darwin-rebuild switch --flake .#darwin'
+      darwinConfigurations = {
+        darwin = nix-darwin.lib.darwinSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [ ./hosts/darwin/configuration.nix ];
+        };
+      };
+
       # Packages exposed from flake inputs
-      packages = forAllSystems (system: {
-        home-manager = home-manager.packages.${system}.home-manager;
-      });
+      packages = forAllSystems (
+        system:
+        {
+          home-manager = home-manager.packages.${system}.home-manager;
+        }
+        # nix-darwin only builds darwin-rebuild on Darwin; on Linux its packages
+        # output carries documentation only.
+        // nixpkgs.lib.optionalAttrs (nixpkgs.lib.hasSuffix "darwin" system) {
+          inherit (nix-darwin.packages.${system}) darwin-rebuild;
+        }
+      );
 
       # Development shells
       devShells = forAllSystems (
