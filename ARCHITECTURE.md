@@ -87,7 +87,7 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 ## home-manager/darwin
 
 - Darwin-specific configurations for user `henry`.
-- Additional packages: automake, mas, pkg-config.
+- Additional packages: automake, mas, mkcert, pkg-config, wrk.
 
 ## home-manager/linux
 

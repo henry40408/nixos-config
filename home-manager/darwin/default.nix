@@ -17,7 +17,12 @@
   home.packages = with pkgs; [
     automake
     mas
+    # Moved off Homebrew: nixpkgs ships both at the exact same version, and the
+    # nix mkcert bundles certutil, so the separate nss formula is no longer
+    # needed either.
+    mkcert
     pkg-config
+    wrk
   ];
 
   # Add stuff for your user as you see fit:
