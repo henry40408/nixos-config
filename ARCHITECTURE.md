@@ -109,7 +109,7 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 
 - Nix itself is managed by Determinate, not nix-darwin: `determinateNix.enable = true` is set, and the Determinate module force-disables nix-darwin's own `nix.*` management internally, so `nix.enable = false` does not need to be written here.
 - The `homebrew` module replaces the old Brewfile, which was never applied by anything and had drifted from what was actually installed.
-- `homebrew.onActivation.cleanup` is currently `"none"`, so the first activation only installs what is declared and removes nothing. The next step is `"check"`, which aborts activation listing every Homebrew package not declared in the configuration; `"zap"` is only safe once that list is empty.
+- `homebrew.onActivation.cleanup` is `"check"`: activation aborts if a Homebrew package was installed on request but is not declared here, which is what keeps the list from drifting the way the old Brewfile did. It never uninstalls anything — that would be `"zap"`, which stays off deliberately. Orphaned dependencies are invisible to this check and are handled by `brew autoremove`.
 - Unlike `hosts/vm`, home-manager is not integrated as a nix-darwin module here — it stays standalone, so `darwin-rebuild` applies only the system layer and `home-manager switch` must be run separately.
 - `system.stateVersion = 7`.
 

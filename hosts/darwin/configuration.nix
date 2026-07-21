@@ -17,11 +17,14 @@
   homebrew = {
     enable = true;
     onActivation = {
-      # Start at "none": the first activation only installs what is declared
-      # below and removes nothing. Move to "check" next -- it aborts activation
-      # listing every Homebrew package not declared here -- and only once that
-      # list is empty is "zap" safe.
-      cleanup = "none";
+      # Aborts activation listing any Homebrew package installed on request but
+      # not declared below, which is what stops this list drifting the way the
+      # old Brewfile did. It never uninstalls anything -- that is "zap", and it
+      # stays off deliberately, since a stray `brew install` should be a prompt
+      # to decide, not something silently destroyed on the next switch.
+      #
+      # Orphaned dependencies are invisible here; `brew autoremove` owns those.
+      cleanup = "check";
     };
     # Kept on Homebrew because nixpkgs either lags or lacks them: `container`
     # (1.1.0 vs 0.12.3), `ollama` (0.32.1 vs 0.31.1), `pi-coding-agent` (0.80.6
