@@ -24,6 +24,9 @@
       font-family = "Maple Mono NF CN";
       # macOS renders at a larger physical size, so bump the font there.
       font-size = if pkgs.stdenv.isDarwin then 16 else 12;
+      # Loosen line spacing by 10% of the font's default cell height for
+      # readability; relative so it tracks each platform's font-size.
+      adjust-cell-height = "10%";
       copy-on-select = "clipboard";
       mouse-hide-while-typing = true;
       window-padding-x = 8;
