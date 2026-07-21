@@ -35,6 +35,27 @@ in
     shell = pkgs.fish;
   };
 
+  # `brew services` left an unmanaged plist in ~/Library/LaunchAgents. The
+  # binary stays on Homebrew because nixpkgs lags, so this agent points into the
+  # Homebrew tree on purpose -- if ollama ever leaves homebrew.brews below, this
+  # block has to go with it, or KeepAlive will respawn against a missing binary.
+  launchd.user.agents.ollama = {
+    serviceConfig = {
+      ProgramArguments = [
+        "/opt/homebrew/opt/ollama/bin/ollama"
+        "serve"
+      ];
+      RunAtLoad = true;
+      KeepAlive = true;
+      StandardOutPath = "${homeDirectory}/Library/Logs/ollama.log";
+      StandardErrorPath = "${homeDirectory}/Library/Logs/ollama.log";
+      EnvironmentVariables = {
+        OLLAMA_FLASH_ATTENTION = "1";
+        OLLAMA_KV_CACHE_TYPE = "q8_0";
+      };
+    };
+  };
+
   # Replaces the Brewfile that home-manager used to symlink into $HOME: that
   # file was only a list, nothing ever applied it, so it drifted from reality.
   homebrew = {
