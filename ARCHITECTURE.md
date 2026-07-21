@@ -111,6 +111,8 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 - The `homebrew` module replaces the old Brewfile, which was never applied by anything and had drifted from what was actually installed.
 - `homebrew.onActivation.cleanup` is `"check"`: activation aborts if a Homebrew package was installed on request but is not declared here, which is what keeps the list from drifting the way the old Brewfile did. It never uninstalls anything — that would be `"zap"`, which stays off deliberately. Orphaned dependencies are invisible to this check and are handled by `brew autoremove`.
 - Unlike `hosts/vm`, home-manager is not integrated as a nix-darwin module here — it stays standalone, so `darwin-rebuild` applies only the system layer and `home-manager switch` must be run separately.
+- `programs.fish.enable` plus `users.users.henry.shell` make fish the account's login shell. The module is what installs fish into the system profile and writes `/etc/fish`, where the nix profile paths are exported — which is why home-manager no longer needs its own `fish_add_path` workaround. `uid`/`gid` are pinned to the account's existing values because the activation script applies `gid` unconditionally.
+- `launchd.user.agents.ollama` replaces the plist `brew services` used to leave in `~/Library/LaunchAgents`. The binary itself stays on Homebrew, so the agent points into the Homebrew tree and has to be removed alongside the `ollama` entry in `homebrew.brews`.
 - `system.stateVersion = 7`.
 
 ## Makefile
