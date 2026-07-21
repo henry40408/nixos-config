@@ -84,6 +84,24 @@ make darwin/bootstrap
 
 This runs `darwin-rebuild` straight out of the pinned `nix-darwin` flake input, so no separate installation step is needed. It requires `sudo` because nix-darwin activation must run as root. Note that the bare `nix-darwin` flake registry alias resolves to master rather than the pinned release, which is why the target goes through this flake's own `darwin-rebuild` package instead.
 
+On a machine where Nix was installed by the Determinate installer, that first bootstrap aborts with:
+
+```
+error: Unexpected files in /etc, aborting activation
+The following files have unrecognized content and would be overwritten:
+
+  /etc/nix/nix.custom.conf
+```
+
+The installer leaves a placeholder at that path containing nothing but comments, while the Determinate nix-darwin module declares the same file without registering any known hashes for it, so the two always collide on a fresh install. Rename the placeholder out of the way and run the bootstrap again:
+
+```bash
+sudo mv /etc/nix/nix.custom.conf /etc/nix/nix.custom.conf.before-nix-darwin
+make darwin/bootstrap
+```
+
+Removing it is safe: `/etc/nix/nix.conf` pulls it in with `!include`, which tolerates a missing file, and from then on the path is a symlink managed through `determinateNix.customSettings`. Do check the placeholder for real settings first if this machine's Nix was configured by hand.
+
 Afterwards, `darwin-rebuild` is on `PATH` and the remaining Makefile targets can be used:
 
 ```bash
