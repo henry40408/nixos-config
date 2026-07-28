@@ -70,12 +70,11 @@ in
       # Orphaned dependencies are invisible here; `brew autoremove` owns those.
       cleanup = "check";
     };
-    # Kept on Homebrew because nixpkgs either lags or lacks them: `container`
-    # (1.1.0 vs 0.12.3), `ollama` (0.32.1 vs 0.31.1), `pi-coding-agent` (0.80.6
-    # vs 0.80.3), `knot` (3.5.6 vs 3.5.5), and `dnspyre`, which is not packaged
-    # in nixpkgs at all. Anything nixpkgs ships at parity lives in home-manager.
+    # Kept on Homebrew because nixpkgs either lags or lacks them: `ollama`
+    # (0.32.1 vs 0.31.1), `pi-coding-agent` (0.80.6 vs 0.80.3), `knot` (3.5.6 vs
+    # 3.5.5), and `dnspyre`, which is not packaged in nixpkgs at all. Anything
+    # nixpkgs ships at parity lives in home-manager.
     brews = [
-      "container"
       "dnspyre"
       "knot"
       "ollama"
@@ -87,6 +86,7 @@ in
       "firefox"
       "ghostty"
       "netnewswire"
+      "orbstack"
       "raycast"
       "signal"
       "steam"
