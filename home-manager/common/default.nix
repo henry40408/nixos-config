@@ -52,17 +52,6 @@
 
   home.file."Develop/.envrc".source = ./envrc;
 
-  # Keep intermediate build artifacts (the bulk of a target/ directory) out of
-  # each project and under $CARGO_HOME instead, so they sit next to the registry
-  # cache and can be purged or excluded from backups in one place.
-  # {workspace-path-hash} gives every workspace its own subdirectory, which
-  # avoids cross-project clobbering and build-dir lock contention.
-  # Final artifacts still land in the project's own target/.
-  home.file.".cargo/config.toml".text = ''
-    [build]
-    build-dir = "{cargo-cache-home}/build/{workspace-path-hash}"
-  '';
-
   programs.atuin = {
     enable = true;
     settings = {
