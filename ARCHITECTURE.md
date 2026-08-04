@@ -51,13 +51,6 @@ Common configuration shared between Darwin and Linux.
 - **Security**: GPG, password-store
 - **Services**: GPG Agent, Syncthing
 
-### Cargo build directory
-
-- `~/.cargo/config.toml` sets `build.build-dir` so Cargo's intermediate artifacts — dependency objects, incremental state, build script output, i.e. nearly all of a `target/` directory's bulk — are written under `$CARGO_HOME/build` instead of into each project.
-- The `{workspace-path-hash}` template variable gives every workspace its own subdirectory, so projects neither clobber each other nor contend for the same build directory lock.
-- Final artifacts (binaries, libraries) still land in the project's own `target/`, keeping `./target/debug/<bin>` and `cargo clean` per-project.
-- `build.build-dir` is stable as of Cargo 1.91.
-
 ## home-manager/common/nixvim
 
 NixVim is a configuration system that uses Nix for plugin management. It leverages `vimPlugins` from the nixpkgs distribution, ensuring that plugin versions are locked.
