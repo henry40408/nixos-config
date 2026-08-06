@@ -88,7 +88,7 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 
 - Darwin-specific configurations for user `henry`.
 - Additional packages: automake, mas, mkcert, pkg-config, wrk.
-- GPG agent is installed by home-manager, which runs it as a launchd agent with `pinentry-mac`.
+- GPG agent is configured by home-manager with `pinentry-mac`. Its launchd agent is disabled because `gpg-agent --supervised` requires systemd socket activation, so fish starts the agent on demand instead.
 
 ## home-manager/linux
 
