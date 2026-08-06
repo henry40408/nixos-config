@@ -34,16 +34,20 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
 
-  programs.fish.interactiveShellInit = ''
-    # GPG agent
-    set -gx GPG_TTY (tty)
-    set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-    # `gpgconf --launch` costs ~310ms on macOS even when the agent is already
-    # running, so guard it with a cheap pgrep check to keep shell startup fast.
-    pgrep -x gpg-agent >/dev/null; or gpgconf --launch gpg-agent
-  '';
-
   news.display = "silent";
+  # The module registers a launchd agent with socket activation and injects the
+  # GPG_TTY/SSH_AUTH_SOCK setup into fish, so no shell has to launch the agent
+  # itself.
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 86400; # 1 day
+    enableSshSupport = true;
+    maxCacheTtl = 604800; # 1 week
+    pinentry.package = pkgs.pinentry_mac;
+    # Let libgcrypt grow its secure memory pool. Without this, decrypting
+    # several secrets concurrently fails with out-of-secure-memory errors.
+    extraConfig = "auto-expand-secmem";
+  };
 }
 
 # vim: ts=2 sw=2 expandtab:

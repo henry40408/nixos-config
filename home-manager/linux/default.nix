@@ -42,6 +42,9 @@
     enableSshSupport = true;
     maxCacheTtl = 604800; # 1 week
     pinentry.package = pkgs.pinentry-gnome3;
+    # Let libgcrypt grow its secure memory pool. Without this, decrypting
+    # several secrets concurrently fails with out-of-secure-memory errors.
+    extraConfig = "auto-expand-secmem";
   };
   services.syncthing.enable = true;
 }
