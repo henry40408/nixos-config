@@ -4,7 +4,9 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05-small";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixos-unstable mirror with a 7-day cooldown: refuses upstream commits that
+    # have been public for less than a week, so supply-chain issues get caught first.
+    nixpkgs-unstable.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/0.1";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-26.05";

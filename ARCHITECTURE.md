@@ -12,7 +12,7 @@ The central configuration file that defines all inputs and outputs.
 | Input | Source | Purpose |
 |-------|--------|---------|
 | `nixpkgs` | nixos/nixpkgs (26.05-small) | Main package source |
-| `nixpkgs-unstable` | nixos/nixpkgs (nixos-unstable) | Newer packages via the `unstable-packages` overlay (e.g. `mise`) |
+| `nixpkgs-unstable` | DeterminateSystems/nixpkgs-weekly (`0.1`) | Newer packages via the `unstable-packages` overlay (e.g. `mise`); a nixos-unstable mirror held back by a 7-day cooldown |
 | `home-manager` | nix-community (26.05) | User environment management |
 | `nixvim` | nix-community (26.05) | Neovim configuration framework |
 | `nix-index-database` | nix-community | Weekly pre-built nix-index database for `nix-locate` and `command-not-found` |
