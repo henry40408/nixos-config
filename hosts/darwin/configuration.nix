@@ -67,21 +67,22 @@ in
       # stays off deliberately, since a stray `brew install` should be a prompt
       # to decide, not something silently destroyed on the next switch.
       #
-      # Orphaned dependencies are invisible here; `brew autoremove` owns those.
+      # Orphaned dependencies count too: drop a brew from the list above and the
+      # next activation aborts on the deps it leaves behind, until `brew
+      # autoremove` clears them.
       cleanup = "check";
     };
     # Kept on Homebrew because nixpkgs either lags or lacks them: `ollama`
-    # (0.32.1 vs 0.31.1), `pi-coding-agent` (0.80.6 vs 0.80.3), `knot` (3.5.6 vs
-    # 3.5.5), and `dnspyre`, which is not packaged in nixpkgs at all. Anything
-    # nixpkgs ships at parity lives in home-manager.
+    # (0.32.1 vs 0.31.1), `knot` (3.5.6 vs 3.5.5), `lima` (2.2.0 vs 2.1.3), and
+    # `dnspyre`, which is not packaged in nixpkgs at all. Anything nixpkgs ships
+    # at parity lives in home-manager.
     brews = [
       "dnspyre"
       "knot"
+      "lima"
       "ollama"
-      "pi-coding-agent"
     ];
     casks = [
-      "block-goose"
       "codex"
       "firefox"
       "ghostty"
