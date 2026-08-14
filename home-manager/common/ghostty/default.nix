@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   programs.ghostty = {
     enable = true;
@@ -46,6 +46,15 @@
         "cmd+shift+,=reload_config"
         "ctrl+shift+,=reload_config"
       ];
+    }
+    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      # macOS has no distinct Alt key, and Option+<char> emits a Unicode
+      # character instead (option-b -> "∫"), which swallows the Alt sequences
+      # readline/fish and TUI programs expect. Ghostty only defaults this to
+      # true for U.S. Standard / U.S. International layouts, so set it
+      # explicitly to stay layout-independent. Key is macOS-only, hence the
+      # guard.
+      macos-option-as-alt = true;
     };
   };
 
