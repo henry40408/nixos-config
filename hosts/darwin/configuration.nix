@@ -87,6 +87,7 @@ in
       "codex"
       "firefox"
       "ghostty"
+      "iina"
       "netnewswire"
       "orbstack"
       "raycast"

@@ -17,6 +17,10 @@
   };
   home.packages = with pkgs; [
     automake
+    # The -nox variant on purpose: this is the terminal Emacs, so it drops the
+    # NS/GUI toolkit and the .app bundle that the plain `emacs` derivation
+    # builds on darwin.
+    emacs-nox
     mas
     # Moved off Homebrew: nixpkgs ships both at the exact same version, and the
     # nix mkcert bundles certutil, so the separate nss formula is no longer
