@@ -95,6 +95,7 @@ in
       "steam"
       "syncthing-app"
       "tailscale-app"
+      "ungoogled-chromium"
       "zed"
     ];
   };
