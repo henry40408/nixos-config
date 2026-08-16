@@ -14,6 +14,7 @@
   home.packages =
     with pkgs;
     [
+      actionlint
       cargo-hack
       cargo-llvm-cov
       cargo-msrv
@@ -29,6 +30,10 @@
       spacer
       watchexec
       xh
+      # mikefarah's Go rewrite, not the python-yq jq wrapper that nixpkgs ships
+      # as plain `yq`. Both install a `yq` binary, but only this one speaks the
+      # `yq eval` / `.a.b |= ...` syntax.
+      yq-go
 
       (writeShellScriptBin "clipboard-copy" (
         if stdenv.isDarwin then
