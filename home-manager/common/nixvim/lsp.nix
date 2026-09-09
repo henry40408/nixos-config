@@ -5,6 +5,7 @@
       nodejs
       prettier
       stylua
+      typstyle
     ];
     plugins.cmp = {
       enable = true;
@@ -59,6 +60,7 @@
           toml = [ "taplo" ];
           typescript = [ "prettier" ];
           typescriptreact = [ "prettier" ];
+          typst = [ "typstyle" ];
           vue = [ "prettier" ];
           yaml = [ "prettier" ];
         };
@@ -89,6 +91,7 @@
       servers.ruff.enable = true;
       servers.pyright.enable = true;
       servers.taplo.enable = true;
+      servers.tinymist.enable = true;
       servers.ts_ls.enable = true;
       servers.rust_analyzer = {
         enable = true;
@@ -111,6 +114,7 @@
         ensure_installed = [
           "nix"
           "python"
+          "typst"
         ];
       };
     };
