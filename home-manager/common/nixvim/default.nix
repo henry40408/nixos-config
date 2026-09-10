@@ -5,6 +5,7 @@
     ./lsp.nix
     ./mini.nix
     ./toggleterm.nix
+    ./typst-preview.nix
     ./ui.nix
   ];
   # python3.11-uvloop doesn't compile on macOS
