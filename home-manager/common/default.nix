@@ -14,22 +14,13 @@
   home.packages =
     with pkgs;
     [
-      actionlint
-      cargo-hack
-      cargo-llvm-cov
-      cargo-msrv
       fd
       git-extras
       gnumake
       gping
       nixfmt
-      # stable's ntfy-sh 2.23.0 fails to build on darwin
-      # (undefined maybeRunAsService/sigHandlerConfigReload); 2.25.0 builds fine
-      unstable.ntfy-sh
+      ntfy-sh
       procs
-      spacer
-      watchexec
-      xh
       # mikefarah's Go rewrite, not the python-yq jq wrapper that nixpkgs ships
       # as plain `yq`. Both install a `yq` binary, but only this one speaks the
       # `yq eval` / `.a.b |= ...` syntax.
@@ -103,7 +94,6 @@
     };
   };
   programs.gpg.enable = true;
-  programs.lazygit.enable = true;
   programs.lsd.enable = true;
   programs.password-store = {
     enable = true;
@@ -348,10 +338,5 @@
     package = pkgs.unstable.mise;
   };
   programs.ripgrep.enable = true;
-  programs.zellij.enable = true;
   programs.zoxide.enable = true;
-
-  xdg.configFile."zellij/config.kdl" = {
-    source = ./zellij/config.kdl;
-  };
 }
