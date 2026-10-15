@@ -73,8 +73,8 @@ in
       cleanup = "check";
     };
     # Kept on Homebrew because nixpkgs either lags or lacks them: `ollama`
-    # (0.32.1 vs 0.31.1), `knot` (3.5.6 vs 3.5.5), `lima` (2.2.0 vs 2.1.3),
-    # `tea` (0.15.1 vs 0.14.0), and `dnspyre`, which is not packaged in nixpkgs
+    # (0.40.4 vs 0.32.3), `knot` (3.6.1 vs 3.5.8), `lima` (2.2.1 vs 2.1.3),
+    # `tea` (0.16.0 vs 0.14.0), and `dnspyre`, which is not packaged in nixpkgs
     # at all. Anything nixpkgs ships at parity lives in home-manager.
     brews = [
       "dnspyre"

@@ -47,7 +47,7 @@ Common configuration shared between Darwin and Linux.
 
 - **Shell**: Fish with Starship prompt, fish plugins (autopair, fzf-fish, done, plugin-git)
 - **Development**: Git (with GPG signing, delta for diffs), GitHub CLI, direnv, FZF, ripgrep, fd, git-extras, gnumake, fnm
-- **Terminal tools**: Atuin (shell history), bat, lsd, lazygit, zoxide, gping, procs, spacer, xh, ntfy-sh (push notifications)
+- **Terminal tools**: Atuin (shell history), bat, lsd, zoxide, gping, procs, ntfy-sh (push notifications)
 - **Security**: GPG, password-store
 - **Services**: GPG Agent, Syncthing
 
@@ -73,11 +73,6 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 - Nix only manages `~/.config/ghostty/config` (`package = null`); the Ghostty binary must be installed via the system's native channel (Homebrew cask on macOS, Flatpak / AppImage / distro package on Linux), because the nixpkgs build is known to fail to launch on this setup.
 - `pkgs.maple-mono.NF-CN` is installed on all platforms so the terminal has the correct Nerd Font icons and CJK glyphs.
 - `systemd.enable` is explicitly disabled because the module requires `package != null` when the systemd user service is active.
-
-## home-manager/common/zellij
-
-- A terminal workspace with batteries included.
-- The default keybindings of zellij dramatically conflict with NixVim keybindings, so I changed the prefix to change mode from "Ctrl" to "Alt".
 
 ## home-manager/common/envrc
 
