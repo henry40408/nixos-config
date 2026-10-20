@@ -74,6 +74,11 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 - `pkgs.maple-mono.NF-CN` is installed on all platforms so the terminal has the correct Nerd Font icons and CJK glyphs.
 - `systemd.enable` is explicitly disabled because the module requires `package != null` when the systemd user service is active.
 
+## home-manager/common/zellij
+
+- A terminal workspace with batteries included.
+- The default keybindings of zellij dramatically conflict with NixVim keybindings, so I changed the prefix to change mode from "Ctrl" to "Alt".
+
 ## home-manager/common/envrc
 
 - Credentials are stored in the [pass](https://www.passwordstore.org) store, synchronized with [syncthing](https://syncthing.net).

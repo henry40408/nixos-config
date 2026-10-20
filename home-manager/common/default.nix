@@ -338,5 +338,10 @@
     package = pkgs.unstable.mise;
   };
   programs.ripgrep.enable = true;
+  programs.zellij.enable = true;
   programs.zoxide.enable = true;
+
+  xdg.configFile."zellij/config.kdl" = {
+    source = ./zellij/config.kdl;
+  };
 }
