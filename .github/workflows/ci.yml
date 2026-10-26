@@ -43,6 +43,7 @@ jobs:
     name: build (${{ matrix.config }})
     runs-on: ${{ matrix.runs-on }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - config: vm
