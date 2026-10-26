@@ -12,11 +12,11 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  # check, build-nixos, build-darwin and build-home-manager are intentionally
-  # independent: formatting/eval failures and build failures are separate
-  # signals, so gating the builds behind check only delayed the whole run by
-  # check's duration.
-  check:
+  # lint, test and build are intentionally independent: formatting/eval
+  # failures and build failures are separate signals, so gating the builds behind
+  # lint only delayed the whole run by lint's duration.
+  lint:
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -28,40 +28,56 @@ jobs:
         run: |
           nix develop --command nixfmt --check .
 
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31.11.2
+      - uses: DeterminateSystems/magic-nix-cache-action@84c0677f58dcedf3b91f8223ce36a9ea5b3c84b7 # v15
+
       - name: Flake check
         run: nix flake check
 
-  build-nixos:
-    runs-on: ubuntu-latest
+  build:
+    name: build (${{ matrix.config }})
+    runs-on: ${{ matrix.runs-on }}
     strategy:
+      fail-fast: false
       matrix:
-        config: [vm]
+        include:
+          - config: vm
+            runs-on: ubuntu-latest
+            attr: nixosConfigurations.vm.config.system.build.toplevel
+          # Both macOS outputs are built in one entry: GitHub bills macOS runners
+          # at a 10x multiplier, and the two closures are disjoint (home-manager
+          # is standalone on darwin, not a nix-darwin module), so a second runner
+          # would only duplicate the fixed setup cost.
+          - config: darwin
+            runs-on: macos-latest
+          - config: nixos@linux-x86_64
+            runs-on: ubuntu-latest
+            attr: homeConfigurations."nixos@linux-x86_64".activationPackage
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31.11.2
       - uses: DeterminateSystems/magic-nix-cache-action@84c0677f58dcedf3b91f8223ce36a9ea5b3c84b7 # v15
       - name: Build ${{ matrix.config }}
-        run: nix build .#nixosConfigurations.${{ matrix.config }}.config.system.build.toplevel
+        if: matrix.config != 'darwin'
+        run: nix build .#${{ matrix.attr }}
 
-  # Both macOS outputs are built in one job: GitHub bills macOS runners at a 10x
-  # multiplier, and the two closures are disjoint (home-manager is standalone on
-  # darwin, not a nix-darwin module), so a second runner would only duplicate the
-  # fixed setup cost.
-  build-darwin:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31.11.2
-      - uses: DeterminateSystems/magic-nix-cache-action@84c0677f58dcedf3b91f8223ce36a9ea5b3c84b7 # v15
       - name: Build darwinConfigurations.darwin
+        if: matrix.config == 'darwin'
         run: nix build .#darwinConfigurations.darwin.system
       - name: Build henry@darwin
+        if: matrix.config == 'darwin'
         run: nix build .#homeConfigurations."henry@darwin".activationPackage
       # Building the system only writes the Brewfile; `brew bundle` runs during
       # activation, which CI never performs. Cask and formula names are plain
       # strings until then, so a typo or an upstream rename would survive every
       # other check here and only surface on a `darwin-rebuild switch`.
       - name: Validate declared Homebrew names
+        if: matrix.config == 'darwin'
         env:
           HOMEBREW_NO_AUTO_UPDATE: "1"
         run: |
@@ -76,15 +92,22 @@ jobs:
           [ -z "$brews" ] || echo "$brews" | xargs brew info --formula > /dev/null
           [ -z "$casks" ] || echo "$casks" | xargs brew info --cask > /dev/null
 
-  build-home-manager:
+  lint-workflow:
+    name: lint-workflow
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        config:
-          - nixos@linux-x86_64
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31.11.2
-      - uses: DeterminateSystems/magic-nix-cache-action@84c0677f58dcedf3b91f8223ce36a9ea5b3c84b7 # v15
-      - name: Build ${{ matrix.config }}
-        run: nix build .#homeConfigurations."${{ matrix.config }}".activationPackage
+        with:
+          persist-credentials: false
+      # install-action has no actionlint manifest, so download the release and
+      # verify its checksum.
+      - name: Install actionlint
+        env:
+          ACTIONLINT_VERSION: 1.7.12
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+        run: |
+          archive="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          curl -sSfL -o "$archive" "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${archive}"
+          echo "${ACTIONLINT_SHA256}  ${archive}" | sha256sum --check
+          tar -xzf "$archive" actionlint
+      - run: ./actionlint
