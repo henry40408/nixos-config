@@ -82,7 +82,8 @@ NixVim is a configuration system that uses Nix for plugin management. It leverag
 ## home-manager/darwin
 
 - Darwin-specific configurations for user `henry`.
-- Additional packages: automake, mas, mkcert, pkg-config, wrk.
+- Additional packages: automake, emacs-nox, mas, mkcert, pkg-config, sccache, wrk.
+- `~/.cargo/config.toml` is managed by home-manager and points `rustc-wrapper` at the nix-provided `sccache` (full store path, so GUI-launched tools do not depend on PATH). Incremental compilation is disabled globally because sccache cannot cache it. cargo itself still comes from rustup.
 - GPG agent is configured by home-manager with `pinentry-mac`. Its launchd agent is disabled because `gpg-agent --supervised` requires systemd socket activation, so fish starts the agent on demand instead.
 
 ## home-manager/linux

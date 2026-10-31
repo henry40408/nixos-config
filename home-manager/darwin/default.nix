@@ -27,8 +27,17 @@
     # needed either.
     mkcert
     pkg-config
+    sccache
     wrk
   ];
+
+  # cargo itself comes from rustup, so only the wrapper is configured here.
+  # sccache cannot cache incremental builds, hence incremental = false.
+  home.file.".cargo/config.toml".text = ''
+    [build]
+    rustc-wrapper = "${pkgs.sccache}/bin/sccache"
+    incremental = false
+  '';
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
