@@ -33,10 +33,18 @@
 
   # cargo itself comes from rustup, so only the wrapper is configured here.
   # sccache cannot cache incremental builds, hence incremental = false.
+  # Dependencies get no debuginfo to keep target/debug/deps small; only
+  # source-level debugging (line numbers, locals) inside them is lost. Cargo
+  # merges this per field with a repo's own [profile.dev.package."*"], so a
+  # repo's opt-level there is kept, but a repo setting `debug` there is
+  # overridden.
   home.file.".cargo/config.toml".text = ''
     [build]
     rustc-wrapper = "${pkgs.sccache}/bin/sccache"
     incremental = false
+
+    [profile.dev.package."*"]
+    debug = false
   '';
 
   # Add stuff for your user as you see fit:
