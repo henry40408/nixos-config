@@ -31,6 +31,9 @@
     wrk
   ];
 
+  # Apple-only: xcodes installs Xcode, so it has no place in the shared tool list.
+  programs.mise.globalConfig.tools.xcodes = "2.2";
+
   # cargo itself comes from rustup, so only the wrapper is configured here.
   # sccache cannot cache incremental builds, hence incremental = false.
   # Dependencies get no debuginfo to keep target/debug/deps small; only

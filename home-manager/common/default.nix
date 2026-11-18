@@ -336,6 +336,31 @@
   programs.mise = {
     enable = true;
     package = pkgs.unstable.mise;
+    globalConfig = {
+      settings.minimum_release_age = "7d";
+      tools = {
+        "go:github.com/go-gremlins/gremlins/cmd/gremlins" = "0.6.0";
+        "go:github.com/google/go-licenses" = "v1.6.0";
+        "go:github.com/google/go-licenses/v2" = "v2.0.1";
+        actionlint = "1.7";
+        awscli = {
+          version = "2.36";
+          symlink_bins = "true";
+        };
+        cloudflared = "2026.11";
+        ffmpeg = "9.0";
+        go = "1.26";
+        hugo = "0.164";
+        imagemagick = "7.1";
+        node = "24.22";
+        opentofu = "1.12";
+        python = "3.11";
+        tokei = "15.0";
+        typst = "0.15";
+        uv = "0.13";
+        zig = "0.14";
+      };
+    };
   };
   programs.ripgrep.enable = true;
   programs.zoxide.enable = true;
