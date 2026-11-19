@@ -349,7 +349,7 @@
         };
         cloudflared = "2026.11";
         ffmpeg = "9.0";
-        go = "1.26";
+        go = "1.27";
         hugo = "0.164";
         imagemagick = "7.1";
         node = "24.22";
