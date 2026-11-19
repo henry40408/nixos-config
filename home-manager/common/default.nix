@@ -339,9 +339,8 @@
     globalConfig = {
       settings.minimum_release_age = "7d";
       tools = {
-        "go:github.com/go-gremlins/gremlins/cmd/gremlins" = "0.6.0";
-        "go:github.com/google/go-licenses" = "v1.6.0";
-        "go:github.com/google/go-licenses/v2" = "v2.0.1";
+        "go:github.com/go-gremlins/gremlins/cmd/gremlins" = "0.6.0"; # ci
+        "go:github.com/google/go-licenses/v2" = "v2.0.1"; # ci
         actionlint = "1.7";
         awscli = {
           version = "2.36";
@@ -350,6 +349,7 @@
         cloudflared = "2026.11";
         ffmpeg = "9.0";
         go = "1.27";
+        golangci-lint = "2.15.0"; # ci
         hugo = "0.164";
         imagemagick = "7.1";
         node = "24.22";
