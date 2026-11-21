@@ -45,9 +45,18 @@
       keybind = [
         "cmd+shift+,=reload_config"
         "ctrl+shift+,=reload_config"
+      ]
+      ++ lib.optionals pkgs.stdenv.isDarwin [
+        # Matches iTerm2's "Use Transparency".
+        "cmd+u=toggle_background_opacity"
       ];
     }
     // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      # toggle_background_opacity flips between this value and fully opaque.
+      # It is only implemented on macOS, so on Linux a fixed opacity could not
+      # be switched back; changing it also needs a full Ghostty restart.
+      background-opacity = 0.5;
+
       # macOS has no distinct Alt key, and Option+<char> emits a Unicode
       # character instead (option-b -> "∫"), which swallows the Alt sequences
       # readline/fish and TUI programs expect. Ghostty only defaults this to
